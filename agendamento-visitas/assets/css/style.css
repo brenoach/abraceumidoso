@@ -1,0 +1,267 @@
+body {
+    margin: 0;
+    font-family: 'Open Sans', 'Lato', sans-serif; 
+    color: #f8f5ea; 
+    background-color: #f8f5ea;
+}
+
+/* 1. CABEÇALHO (Layout Geral e Fundo) */
+.cabecalho {
+    background-color: #f0ebdc;
+    padding: 15px 5%;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: flex-start; 
+    flex-wrap: wrap; 
+    height: 90px; 
+    position: relative; 
+}
+
+/* 2. LOGO */
+.cabecalho .logo {
+    display: block;
+    margin-right: auto;
+}
+
+.cabecalho .logo img {
+    height: 100px; 
+}
+
+/* 3. MENU DE NAVEGAÇÃO GERAL */
+.nav-menu {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-end; 
+}
+
+/* MENU DE AÇÕES */
+.nav-menu > ul:first-child {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu > ul:first-child a {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 30px;
+    font-weight: bold;
+    color: #3b2212; 
+    background-color: #ebb860; 
+    border: 1px solid #ebb860; 
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.nav-menu > ul:first-child a:hover {
+    border: 1px solid #eca0a2; 
+    background-color: #eca0a2;
+}
+
+/* MENU PRINCIPAL */
+.nav-menu > ul:last-child {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: 15px; 
+    left: 50%;
+    transform: translateX(-50%); 
+}
+
+.nav-menu > ul:last-child li {
+    padding: 0 30px;
+    position: relative;
+}
+
+.nav-menu > ul:last-child li:not(:last-child)::after {
+    content: "|";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3b2212;
+}
+
+.nav-menu > ul:last-child a {
+    text-decoration: none;
+    color: #3b2212;
+    font-weight: 500;
+    transition: color 0.3s;
+    font-weight: bold;
+    font-size: 18px;
+}
+.nav-menu > ul:last-child a:hover {
+    color: #eca0a2; 
+}
+
+.rodape {
+    background-color: #f0ebdc; 
+    color: #3b2212; 
+    padding: 30px 5%; 
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    flex-wrap: wrap; 
+    font-size: 14px;
+    line-height: 1.6; 
+}
+
+/* BUTTON */
+.banner button{
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px; 
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+.btn-marrom {
+    background-color: #5b3a26; 
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px; 
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+.btn-amarelo {
+    background-color: #ebb860; 
+    color: #3b2212; 
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px; 
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+.btn-marrom:hover, .btn-amarelo:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* --- 4. NOVO: ESTILOS DO FORMULÁRIO DE AGENDAMENTO --- */
+
+.container-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh; /* Altura mínima para centralizar na tela */
+    padding: 40px 20px;
+}
+
+.card-formulario {
+    background-color: #ffffff; /* Fundo branco para contraste com o site creme */
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(59, 34, 18, 0.1); /* Sombra suave marrom */
+    width: 100%;
+    max-width: 500px;
+    color: #3b2212; /* Cor de texto marrom (importante pois o body é creme claro) */
+}
+
+.card-formulario h2 {
+    margin-top: 0;
+    color: #5b3a26; /* Marrom escuro */
+}
+
+.grupo-input {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo-input label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.grupo-input input, 
+.grupo-input select {
+    padding: 12px;
+    border: 2px solid #f0ebdc;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 16px;
+    color: #3b2212;
+    background-color: #faf9f5;
+    transition: border-color 0.3s;
+}
+
+.grupo-input input:focus, 
+.grupo-input select:focus {
+    outline: none;
+    border-color: #ebb860; /* Fica dourado ao clicar */
+}
+
+.linha-dupla {
+    display: flex;
+    gap: 15px;
+}
+.linha-dupla .grupo-input {
+    flex: 1;
+}
+
+/* Mensagens de Sucesso/Erro */
+.sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #c3e6cb;
+}
+.erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+}
+.area-upload {
+    background-color: #faf9f5;
+    border: 2px dashed #ebb860; /* Dourado */
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-bottom: 20px;
+    color: #5b3a26;
+}
+
+.area-upload:hover {
+    background-color: #fcf6e9;
+    border-color: #5b3a26; /* Marrom ao passar o mouse */
+}
+
+.area-upload label {
+    display: block;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.area-upload span {
+    display: block;
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Esconde o input feio padrão do navegador */
+.area-upload input[type="file"] {
+    display: none;
+}
