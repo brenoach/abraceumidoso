@@ -49,8 +49,43 @@
                     <label>Sobre você (Por que quer ser voluntário?):</label>
                     <textarea name="sobre" rows="3" class="campo-texto"></textarea>
                 </div>
-
-                <h3>Contato e Login</h3>
+              
+                <h3>Endereço</h3>
+                <div class="linha-endereco">
+                    <div class="grupo-input">
+                        <label>CEP:</label>
+                        <input type="text" name="cep" onblur="buscarCep()" required>
+                    </div>
+                     <div class="grupo-input">
+                        <label>Estado:</label>
+                        <input type="text" name="estado" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>Cidade:</label>
+                        <input type="text" name="cidade" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>Tipo de Logradouro:</label>
+                        <input type="text" name="tpLogradouro" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>Logradouro:</label>
+                        <input type="text" name="nmlogradouro" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>Número:</label>
+                        <input type="text" name="numero" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>Complemento:</label>
+                        <input type="text" name="complemento" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>Bairro:</label>
+                        <input type="text" name="bairro" required>
+                    </div>
+                </div>
+                 <h3>Contato e Login</h3>
                 <div class="linha-dupla">
                     <div class="grupo-input">
                         <label>Email:</label>
@@ -67,24 +102,17 @@
                     <input type="password" name="senha" required>
                 </div>
 
-                <h3>Endereço</h3>
-                <div class="linha-dupla">
-                    <div class="grupo-input">
-                        <label>CEP:</label>
-                        <input type="text" name="cep" required>
-                    </div>
-                    <div class="grupo-input">
-                        <label>Cidade:</label>
-                        <input type="text" name="cidade" required>
-                    </div>
-                </div>
-
                 <div class="banner">
                     <button type="submit" class="btn-marrom">Finalizar Cadastro</button>
                 </div>
             </form>
         </div>
     </main>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js">
+         
+        
+            
+    </script>
 </body>
 </html>
+

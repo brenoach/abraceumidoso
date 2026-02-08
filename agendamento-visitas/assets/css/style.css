@@ -156,27 +156,30 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 60vh; /* Altura mínima para centralizar na tela */
+    min-height: 60vh;
     padding: 40px 20px;
 }
 
 .card-formulario {
-    background-color: #ffffff; /* Fundo branco para contraste com o site creme */
+    background-color: #ffffff;
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(59, 34, 18, 0.1); /* Sombra suave marrom */
+    box-shadow: 0 10px 25px rgba(59, 34, 18, 0.1);
     width: 100%;
-    max-width: 500px;
-    color: #3b2212; /* Cor de texto marrom (importante pois o body é creme claro) */
+    max-width: 600px; /* Aumentei um pouco para o grid respirar melhor */
+    color: #3b2212;
 }
 
 .card-formulario h2 {
     margin-top: 0;
-    color: #5b3a26; /* Marrom escuro */
+    color: #5b3a26;
+    margin-bottom: 25px; /* Espaço abaixo do título */
 }
 
+/* --- ESTILO DOS INPUTS --- */
 .grupo-input {
-    margin-bottom: 20px;
+    /* CORREÇÃO 1: Reativei esta margem para os campos normais não ficarem colados */
+    margin-bottom: 20px; 
     display: flex;
     flex-direction: column;
 }
@@ -185,10 +188,13 @@ body {
     font-weight: bold;
     margin-bottom: 8px;
     font-size: 14px;
+    display: block;
 }
 
 .grupo-input input, 
 .grupo-input select {
+    width: 100%;
+    box-sizing: border-box; /* Garante que o padding não estoure a largura */
     padding: 12px;
     border: 2px solid #f0ebdc;
     border-radius: 10px;
@@ -202,18 +208,33 @@ body {
 .grupo-input input:focus, 
 .grupo-input select:focus {
     outline: none;
-    border-color: #ebb860; /* Fica dourado ao clicar */
+    border-color: #ebb860;
 }
 
-.linha-dupla {
-    display: flex;
-    gap: 15px;
-}
-.linha-dupla .grupo-input {
-    flex: 1;
+/* --- GRID DO ENDEREÇO --- */
+.linha-endereco {
+    display: grid;
+    /* 4 colunas com tamanhos proporcionais */
+    grid-template-columns: 1fr 2fr 1fr 3fr; 
+    gap: 15px; /* Espaço entre as colunas */
+    width: 100%;
+    margin-bottom: 20px; /* Espaço abaixo de todo o bloco de endereço */
 }
 
-/* Mensagens de Sucesso/Erro */
+/* Opcional: Remove a margem inferior dos inputs DENTRO do grid para alinhar melhor */
+.linha-endereco .grupo-input {
+    margin-bottom: 0;
+}
+
+/* --- CORREÇÃO 2: RESPONSIVIDADE (Não esqueça disso!) --- */
+@media (max-width: 768px) {
+    .linha-endereco {
+        /* No celular, transforma em 1 coluna (um embaixo do outro) */
+        grid-template-columns: 1fr; 
+    }
+}
+
+/* --- MENSAGENS E UPLOAD --- */
 .sucesso {
     background-color: #d4edda;
     color: #155724;
@@ -222,6 +243,7 @@ body {
     margin-bottom: 15px;
     border: 1px solid #c3e6cb;
 }
+
 .erro {
     background-color: #f8d7da;
     color: #721c24;
@@ -230,9 +252,10 @@ body {
     margin-bottom: 15px;
     border: 1px solid #f5c6cb;
 }
+
 .area-upload {
     background-color: #faf9f5;
-    border: 2px dashed #ebb860; /* Dourado */
+    border: 2px dashed #ebb860;
     border-radius: 15px;
     padding: 30px;
     text-align: center;
@@ -244,7 +267,7 @@ body {
 
 .area-upload:hover {
     background-color: #fcf6e9;
-    border-color: #5b3a26; /* Marrom ao passar o mouse */
+    border-color: #5b3a26;
 }
 
 .area-upload label {
@@ -261,7 +284,6 @@ body {
     margin-top: 5px;
 }
 
-/* Esconde o input feio padrão do navegador */
 .area-upload input[type="file"] {
     display: none;
 }

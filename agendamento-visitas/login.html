@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Lar dos Idosos</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    
+    <header class="cabecalho">
+        <a href="#" class="logo"><img src="assets/img/logo.png" alt="Logo"></a>
+        <nav class="nav-menu">
+            <ul><li><a href="index.php">Voltar ao Início</a></li></ul>
+        </nav>
+    </header>
+
+    <main class="container-principal">
+        <div class="card-formulario" style="max-width: 400px;">
+            <h2>Acesse sua conta</h2>
+            <p>Bem-vindo de volta!</p>
+
+            <form method="POST" action="actions/autenticar.php">
+                
+                <div class="grupo-input">
+                    <label>Você é:</label>
+                    <div style="display: flex; gap: 15px; margin-top: 5px;">
+                        <label style="font-weight: normal; cursor: pointer;">
+                            <input type="radio" name="tipo_usuario" value="voluntario" checked> Voluntário
+                        </label>
+                        <label style="font-weight: normal; cursor: pointer;">
+                            <input type="radio" name="tipo_usuario" value="funcionario"> Funcionário
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grupo-input">
+                    <label>E-mail:</label>
+                    <input type="email" name="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="grupo-input">
+                    <label>Senha:</label>
+                    <input type="password" name="senha" required placeholder="Sua senha">
+                </div>
+
+                <div class="banner">
+                    <button type="submit" class="btn-marrom" style="width: 100%;">Entrar</button>
+                </div>
+                
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9em;">
+                    Não tem conta? <a href="cadastro_voluntario.php" style="color: #ebb860;">Cadastre-se</a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>

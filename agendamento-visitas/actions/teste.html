@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Voluntário</title>
+</head>
+<body>
+
+    <h2>Cadastro de Voluntário</h2>
+    
+    <form action="cadastro.php" method="POST">
+        <label>Nome:</label><br>
+        <input type="text" name="nome" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>CEP:</label><br>
+        <input type="text" name="cep" id="cep" maxlength="9" onblur="buscarCep()" required><br><br>
+
+        <label>Rua:</label><br>
+        <input type="text" name="rua" id="rua"><br><br>
+
+        <label>Bairro:</label><br>
+        <input type="text" name="bairro" id="bairro"><br><br>
+
+        <label>Cidade:</label><br>
+        <input type="text" name="cidade" id="cidade"><br><br>
+
+        <label>Estado:</label><br>
+        <input type="text" name="estado" id="uf"><br><br>
+
+        <button type="submit">Cadastrar Voluntário</button>
+    </form>
+
+    <script>
+        function buscarCep() {
+            // 1. Pega o valor digitado no campo CEP
+            let cep = document.getElementById('cep').value;
+
+            // 2. Remove caracteres que não sejam números (ex: traço, ponto)
+            cep = cep.replace(/\D/g, '');
+
+            // 3. Verifica se o CEP tem 8 dígitos antes de fazer a requisição
+            if (cep.length === 8) {
+                
+                // 4. Faz a busca na API ViaCEP
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json()) // Converte a resposta para JSON (objeto JS)
+                    .then(data => {
+                        if (!data.erro) {
+                            // 5. Se achou, preenche os campos com os IDs correspondentes
+                            document.getElementById('rua').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('cidade').value = data.localidade;
+                            document.getElementById('uf').value = data.uf;
+                        } else {
+                            alert("CEP não encontrado.");
+                        }
+                    })
+                    .catch(error => console.error("Erro na API:", error));
+            } else {
+                alert("Formato de CEP inválido.");
+            }
+        }
+    </script>
+
+</body>
+</html>
