@@ -54,15 +54,15 @@
                 <div class="linha-endereco">
                     <div class="grupo-input">
                         <label>CEP:</label>
-                        <input type="text" name="cep" onblur="buscarCep()" required>
+                        <input type="text" name="cep" id="cep" maxlength="9" onblur="buscarCep()" required>
                     </div>
                      <div class="grupo-input">
                         <label>Estado:</label>
-                        <input type="text" name="estado" required>
+                        <input type="text" name="estado" id="uf" readonly>
                     </div>
                     <div class="grupo-input">
                         <label>Cidade:</label>
-                        <input type="text" name="cidade" required>
+                        <input type="text" name="cidade" id="cidade"readonly>
                     </div>
                     <div class="grupo-input">
                         <label>Tipo de Logradouro:</label>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="grupo-input">
                         <label>Logradouro:</label>
-                        <input type="text" name="nmlogradouro" required>
+                        <input type="text" name="nmlogradouro" id="rua"readonly>
                     </div>
                     <div class="grupo-input">
                         <label>Número:</label>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="grupo-input">
                         <label>Bairro:</label>
-                        <input type="text" name="bairro" required>
+                        <input type="text" name="bairro" readonly>
                     </div>
                 </div>
                  <h3>Contato e Login</h3>
@@ -109,9 +109,36 @@
         </div>
     </main>
     <script src="assets/js/script.js">
-         
         
-            
+        function buscarCep() {
+            // 1. Pega o valor digitado no campo CEP
+            let cep = document.getElementById('cep').value;
+
+            // 2. Remove caracteres que não sejam números (ex: traço, ponto)
+            cep = cep.replace(/\D/g, '');
+
+            // 3. Verifica se o CEP tem 8 dígitos antes de fazer a requisição
+            if (cep.length === 8) {
+                
+                // 4. Faz a busca na API ViaCEP
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json()) // Converte a resposta para JSON (objeto JS)
+                    .then(data => {
+                        if (!data.erro) {
+                            // 5. Se achou, preenche os campos com os IDs correspondentes
+                            document.getElementById('rua').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('cidade').value = data.localidade;
+                            document.getElementById('uf').value = data.uf;
+                        } else {
+                            alert("CEP não encontrado.");
+                        }
+                    })
+                    .catch(error => console.error("Erro na API:", error));
+            } else {
+                alert("Formato de CEP inválido.");
+            }
+        }
     </script>
 </body>
 </html>
