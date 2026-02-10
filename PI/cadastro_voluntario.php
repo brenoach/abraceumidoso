@@ -108,7 +108,7 @@
             </form>
         </div>
     </main>
-    <script src="assets/js/script.js">
+    <script>
         
         function buscarCep() {
             // 1. Pega o valor digitado no campo CEP
