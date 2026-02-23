@@ -17,14 +17,17 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 4. Recebe os dados do formulário
-    $nome   = $_POST['nome'];
-    $email  = $_POST['email'];
-    $cep    = $_POST['cep'];
-    $rua    = $_POST['rua'];
-    $bairro = $_POST['bairro'];
+    $nome   = trim($_POST['nome']);
+    $email  = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $cep    = preg_replace('/\D/', '',$_POST['cep']);
+    $rua    = trim($_POST['rua']);
+    $bairro = trim ($_POST['bairro']);
     $cidade = $_POST['cidade'];
-    $estado = $_POST['estado'];
-
+    $estado = mb_strtoupper(trim($_POST['estado']));
+    
+    if (empty($nome) || empty($email)) {
+        die("Por favor, preencha nome e email.");
+    }
     // 5. Prepara o SQL (Prepared Statements aumentam a segurança contra invasões)
     // Os '?' são espaços reservados para os valores que virão a seguir
     $sql = "INSERT INTO voluntarios (nome, email, cep, rua, bairro, cidade, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";

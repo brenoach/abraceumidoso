@@ -7,12 +7,7 @@
 </head>
 <body>
     
-    <header class="cabecalho">
-        <a href="#" class="logo"><img src="assets/img/logo.jpg" alt="Logo"></a>
-        <nav class="nav-menu">
-            <ul><li><a href="index.php">Voltar ao Início</a></li></ul>
-        </nav>
-    </header>
+    <?php include 'includes/header.php';?>
 
     <main class="container-principal">
         <div class="card-formulario" style="max-width: 400px;">
@@ -55,6 +50,7 @@
     </main>
     <div id="root"></div>
     <script type="module" src="main.jsx"></script>
-
+    
+    <?php include 'includes/footer.php';?>
 </body>
 </html>

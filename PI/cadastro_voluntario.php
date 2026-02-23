@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <header class="cabecalho">
+    <!-- <header class="cabecalho">
         <a href="#" class="logo"><img src="assets\img\logo.jpg" alt="Logo"></a>
         <nav class="nav-menu">
             <ul><li><a href="index.php">Voltar</a></li></ul>
         </nav>
-    </header>
-
+    </header> -->
+    <?php include 'includes/header.php';?>
     <main class="container-principal">
         <div class="card-formulario">
             <h2>Cadastro de Voluntário</h2>

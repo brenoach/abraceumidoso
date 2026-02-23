@@ -5,6 +5,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario
     header("Location: login.php");
     exit;
 }
+
+
 ?>
 
 <!DOCTYPE html>
