@@ -130,17 +130,13 @@ V.contatos_idcontatos = c.idcontatos
 
 
 
-SELECT v.idVoluntario as id, v.senha, p.nmPessoa as nome 
-                    FROM voluntario v
-                    JOIN contatos c ON v.contatos_idcontatos = c.idcontatos
-                    JOIN pessoa p ON v.pessoa_idPessoa = p.idPessoa
-                    WHERE c.email = ?";
+$sqlVoluntario = "SELECT v.idVoluntario as id, v.senha, p.nmPessoa as nome 
+                  FROM voluntario v
+                  JOIN contatos c ON v.contatos_idcontatos = c.idcontatos
+                  JOIN pessoa p ON v.pessoa_idPessoa = p.idPessoa
+                  WHERE c.email = ?";
                     
-SELECT f.idFuncionario as id, f.senha, p.nmPessoa as nome, f.instituicao_idinstituicao 
-                    FROM funcionario f
-                    JOIN contatos c ON f.contatos_idcontatos = c.idcontatos
-                    JOIN pessoa p ON f.pessoa_idPessoa = p.idPessoa
-                    WHERE c.email = ?";
-        }
+
+        
         
         

@@ -1,15 +1,29 @@
+<?php
+// Conecta com o banco (ajuste o caminho se o db.php estiver em outra pasta)
+require_once 'includes/db.php';
+
+// Busca todas as instituições cadastradas
+$sqlInst = "SELECT idinstituicao, nmInstituicao FROM instituicao ORDER BY nmInstituicao ASC";
+$stmtInst = $pdo->query($sqlInst);
+$instituicoes = $stmtInst->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Funcionário</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
     <header class="cabecalho">
         <a href="#" class="logo"><img src="assets/img/logo.jpg" alt="Logo"></a>
         <nav class="nav-menu">
-            <ul><li><a href="index.php">Voltar</a></li></ul>
+            <ul>
+                <li><a href="index.php">Voltar</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -19,7 +33,7 @@
             <p>Cadastre os colaboradores da instituição.</p>
 
             <form method="POST" action="actions/salvar_funcionario.php" enctype="multipart/form-data">
-                
+
                 <div class="area-upload">
                     <label for="foto">
                         Foto do Crachá/Perfil
@@ -50,22 +64,27 @@
                         <label>Cargo / Função:</label>
                         <input type="text" name="cargo" placeholder="Ex: Enfermeiro, Cozinheira..." required>
                     </div>
-                    
+
                     <div class="grupo-input">
                         <label>Instituição:</label>
                         <select name="idInstituicao" required>
                             <option value="" disabled selected>Selecione o local de trabalho...</option>
-                            <option value="1">Lar dos Avós (Unidade 1)</option>
-                            <option value="2">Recanto Feliz (Unidade 2)</option>
+
+                            <?php foreach ($instituicoes as $inst): ?>
+                                <option value="<?= $inst['idinstituicao'] ?>">
+                                    <?= htmlspecialchars($inst['nmInstituicao']) ?>
+                                </option>
+                            <?php endforeach; ?>
+
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="grupo-input">
                     <label>Resumo Profissional (Sobre):</label>
                     <textarea name="sobre" rows="2" class="campo-texto"></textarea>
                 </div>
-              
+
                 <h3>Endereço</h3>
                 <div class="linha-endereco">
                     <div class="grupo-input">
@@ -73,7 +92,7 @@
                         <input type="text" name="cep" id="cep" maxlength="9" onblur="buscarCep()" required>
                         <span id="erro-cep" style="color:red; display:none; font-size:12px;">CEP não encontrado</span>
                     </div>
-                    
+
                     <div class="linha-dupla">
                         <div class="grupo-input">
                             <label>Estado:</label>
@@ -92,11 +111,11 @@
 
                     <div class="grupo-input">
                         <label>Rua (Logradouro):</label>
-                        <input type="text" name="nmlogradouro" id="rua" readonly>
+                        <input type="text" name="nmlogradouro" id="nmlogradouro" readonly>
                     </div>
 
                     <div class="linha-dupla">
-                         <div class="grupo-input">
+                        <div class="grupo-input">
                             <label>Número:</label>
                             <input type="text" name="numero" id="numero" required>
                         </div>
@@ -142,19 +161,19 @@
             // 2. Validação básica
             if (cep.length === 8) {
                 // Efeito visual de carregando
-                document.getElementById('rua').value = "...";
-                
+                document.getElementById('nmlogradouro').value = "...";
+
                 // 3. Busca na API
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
                     .then(data => {
                         if (!data.erro) {
                             // 4. Preenche os campos (IDs devem bater com o HTML acima)
-                            document.getElementById('rua').value = data.logradouro;
+                            document.getElementById('nmlogradouro').value = data.logradouro;
                             document.getElementById('bairro').value = data.bairro;
                             document.getElementById('cidade').value = data.localidade;
                             document.getElementById('uf').value = data.uf;
-                            
+
                             // Foca no número
                             document.getElementById('numero').focus();
                         } else {
@@ -172,11 +191,12 @@
         }
 
         function limparCampos() {
-            document.getElementById('rua').value = "";
+            document.getElementById('nmlogradouro').value = "";
             document.getElementById('bairro').value = "";
             document.getElementById('cidade').value = "";
             document.getElementById('uf').value = "";
         }
     </script>
 </body>
+
 </html>

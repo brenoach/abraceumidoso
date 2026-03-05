@@ -1,8 +1,18 @@
+<?php
+session_start(); 
+// Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
+if (isset($_SESSION['usuario_tipo'])) {
+    if ($_SESSION['usuario_tipo'] == 'voluntario') header("Location: painel_voluntario.php");
+    else header("Location: painel_funcionario.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Lar dos Idosos</title>
+    <title>Login - Abrace um Idoso</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -12,7 +22,7 @@
     <main class="container-principal">
         <div class="card-formulario" style="max-width: 400px;">
             <h2>Acesse sua conta</h2>
-            <p id="root">Bem-vindo de volta!</p>
+            <p>Bem-vindo de volta!</p>
 
             <form method="POST" action="actions/autenticar.php">
                 
@@ -43,14 +53,15 @@
                 </div>
                 
                 <p style="text-align: center; margin-top: 15px; font-size: 0.9em;">
-                    Não tem conta? <a href="cadastro_voluntario.php" style="color: #ebb860;">Cadastre-se</a>
+                    Não tem conta? <a href="cadastro_voluntario.php" style="color: #ebb860; font-weight: bold;">Cadastre-se</a>
+                </p>
+                <p style="text-align: center; margin-top: 5px; font-size: 0.85em;">
+                    <a href="esqueci_senha.php" style="color: #666; text-decoration: none;">Esqueci minha senha</a>
                 </p>
             </form>
         </div>
     </main>
-    <div id="root"></div>
-    <script type="module" src="main.jsx"></script>
-    
+
     <?php include 'includes/footer.php';?>
 </body>
 </html>

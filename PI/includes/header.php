@@ -14,7 +14,7 @@
 
 <body>
 <header class="cabecalho">
-    <a href="index.html" class="logo">
+    <a href="index.php" class="logo">
         <img src="assets/img/logo.jpg" alt="Logo Abrace Um Idoso">
     </a>
     <nav class="nav-menu">
@@ -23,10 +23,10 @@
             <li><a href="login.php">Login</a></li>
         </ul>
         <ul>
-            <li><a href="index.php">Início</a></li>
+            <!--<li><a href="index.php">Início</a></li>
             <li><a href="agendamento.php">Agendamento</a></li>
             <li><a href="cartas.html">Cartas</a></li>
-            <li><a href="contatos.html">Fale Conosco</a></li>
+            <li><a href="contatos.html">Fale Conosco</a></li>-->
         </ul>
     </nav>
 </header>

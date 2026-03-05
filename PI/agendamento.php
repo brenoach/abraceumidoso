@@ -36,24 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-    <header class="cabecalho">
-        <a href="index.html" class="logo">
-            <img src="assets/img/logo.jpg" alt="Logo Lar dos Idosos"> 
-        </a>
-
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="">Cadastrar</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-            <ul>
-                <li><a href="index.php">Início</a></li>
-                <li><a href="agendamento.php">Agendamento</a></li>
-                <li><a href="#">Cartas</a></li>
-                <li><a href="#">Fale Conosco</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'hearder.php';?>
 
     <main class="container-principal">
         <div class="card-formulario">
@@ -62,12 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <?php echo $mensagem; ?>
 
+            $query_idosos = Select * FROM idosos
+
+
             <form method="POST" action="">
                 <div class="grupo-input">
                     <label for="idIdoso">Idoso(a):</label>
                     <select name="idIdoso" id="idIdoso" required>
                         <option value="" disabled selected>Selecione o residente...</option>
-                        <option value="1">Sra. Maria (ID: 1)</option>
+                        <option value="1">Sr. Aparecido (ID: 1)</option>      // tentar fazer o select
                         <option value="2">Sr. João (ID: 2)</option>
                     </select>
                 </div>

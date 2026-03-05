@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <!-- <header class="cabecalho">
-        <a href="#" class="logo"><img src="assets\img\logo.jpg" alt="Logo"></a>
-        <nav class="nav-menu">
-            <ul><li><a href="index.php">Voltar</a></li></ul>
-        </nav>
-    </header> -->
     <?php include 'includes/header.php';?>
     <main class="container-principal">
         <div class="card-formulario">
@@ -62,15 +56,12 @@
                     </div>
                     <div class="grupo-input">
                         <label>Cidade:</label>
-                        <input type="text" name="cidade" id="cidade"readonly>
+                        <input type="text" name="cidade" id="cidade" readonly>
                     </div>
-                    <div class="grupo-input">
-                        <label>Tipo de Logradouro:</label>
-                        <input type="text" name="tpLogradouro" required>
-                    </div>
+                    
                     <div class="grupo-input">
                         <label>Logradouro:</label>
-                        <input type="text" name="nmlogradouro" id="rua"readonly>
+                        <input type="text" name="rua" id="rua" readonly>
                     </div>
                     <div class="grupo-input">
                         <label>Número:</label>
@@ -78,11 +69,11 @@
                     </div>
                     <div class="grupo-input">
                         <label>Complemento:</label>
-                        <input type="text" name="complemento" required>
+                        <input type="text" name="complemento">
                     </div>
                     <div class="grupo-input">
                         <label>Bairro:</label>
-                        <input type="text" name="bairro" readonly>
+                        <input type="text" name="bairro" id="bairro" readonly>
                     </div>
                 </div>
                  <h3>Contato e Login</h3>
@@ -109,23 +100,14 @@
         </div>
     </main>
     <script>
-        
         function buscarCep() {
-            // 1. Pega o valor digitado no campo CEP
             let cep = document.getElementById('cep').value;
-
-            // 2. Remove caracteres que não sejam números (ex: traço, ponto)
             cep = cep.replace(/\D/g, '');
-
-            // 3. Verifica se o CEP tem 8 dígitos antes de fazer a requisição
             if (cep.length === 8) {
-                
-                // 4. Faz a busca na API ViaCEP
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                    .then(res => res.json()) // Converte a resposta para JSON (objeto JS)
+                    .then(res => res.json())
                     .then(data => {
                         if (!data.erro) {
-                            // 5. Se achou, preenche os campos com os IDs correspondentes
                             document.getElementById('rua').value = data.logradouro;
                             document.getElementById('bairro').value = data.bairro;
                             document.getElementById('cidade').value = data.localidade;
@@ -142,4 +124,3 @@
     </script>
 </body>
 </html>
-
