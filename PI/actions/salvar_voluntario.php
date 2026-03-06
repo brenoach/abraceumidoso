@@ -6,14 +6,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 1. Recebendo e tratando dados de TEXTO
     $nome = mb_strtoupper(trim($_POST['nome']));
     
-    $cpf = preg_replace('/\D/', '', $_POST['cpf']); // Limpa pontuações do CPF
-    $quant_Cpf = strlen($cpf);
+ // Pega o CPF (usando ?? '' para evitar erro se vier vazio)
+$cpfBruto = $_POST['cpf'] ?? '';
+
+// Limpa tudo que não for número
+$cpfLimpo = preg_replace('/\D/', '', $cpfBruto); 
     
-    // Validação do CPF
-    if ($quant_Cpf !== 11) {
-        echo "<div class='erro'>Erro: O CPF precisa ter exatamente 11 números.</div>";
-        exit;
-    }
+// Validação de Tamanho do CPF
+if (strlen($cpfLimpo) !== 11) {
+    echo "<script>
+            alert('Erro: O CPF precisa ter exatamente 11 números.');
+            window.history.back(); // Faz o navegador dar um passo para trás
+          </script>";
+    exit;
+}
     
     $nasc = $_POST['dtNascimento'];
     $sobre = $_POST['sobre'];
@@ -79,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // C. Inserir Pessoa com Foto (5 interrogações, 5 dados)
         $sqlPessoa = "INSERT INTO pessoa (nmPessoa, cpf, dtNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
         $stmtPes = $pdo->prepare($sqlPessoa);
-        $stmtPes->execute([$nome, $cpf, $nasc, $sobre, $caminhoFoto]);
+        $stmtPes->execute([$nome, $cpfLimpo, $nasc, $sobre, $caminhoFoto]);
         $idPessoa = $pdo->lastInsertId();
 
         // D. Inserir Voluntário (4 interrogações, 4 dados)

@@ -1,4 +1,36 @@
-// Verifica se achou o usuário E se a senha bate
+<?php
+session_start();
+require_once '../includes/db.php';
+
+// Ativando a exibição de erros caso o banco reclame
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = trim($_POST['email']);
+    $senha = $_POST['senha'];
+    $tipo  = $_POST['tipo_usuario']; // 'voluntario' ou 'funcionario'
+
+    try {
+        if ($tipo == 'voluntario') {
+            $sql = "SELECT v.idVoluntario as id, v.senha, p.nmPessoa as nome 
+                    FROM voluntario v
+                    JOIN contatos c ON v.contatos_idcontatos = c.idcontatos
+                    JOIN pessoa p ON v.pessoa_idPessoa = p.idPessoa
+                    WHERE c.email = ?";
+        } else {
+            $sql = "SELECT f.idFuncionario as id, f.senha, p.nmPessoa as nome, f.instituicao_idinstituicao 
+                    FROM funcionario f
+                    JOIN contatos c ON f.contatos_idcontatos = c.idcontatos
+                    JOIN pessoa p ON f.pessoa_idPessoa = p.idPessoa
+                    WHERE c.email = ?";
+        }
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verifica se achou o usuário E se a senha bate com a criptografia
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             
             // Login Sucesso: Salva dados na Sessão
@@ -6,7 +38,7 @@
             $_SESSION['usuario_nome'] = $usuario['nome'];
             $_SESSION['usuario_tipo'] = $tipo;
 
-            // Agora o header() vai funcionar perfeitamente!
+            // Redireciona para a página correta usando o Header oficial do PHP
             if ($tipo == 'voluntario') {
                 header("Location: ../painel_voluntario.php");
             } else {
@@ -16,3 +48,17 @@
             exit;
 
         } else {
+            // Login Falhou
+            echo "<script>
+                    alert('E-mail ou senha incorretos! Lembre-se que as senhas precisam ser criadas pelo sistema para terem criptografia.'); 
+                    window.location.href='../login.php';
+                  </script>";
+        }
+
+    } catch (PDOException $e) {
+        echo "<div style='color:red; padding: 20px;'>Erro no sistema: " . $e->getMessage() . "</div>";
+    }
+} else {
+    echo "Acesso inválido.";
+}
+?>

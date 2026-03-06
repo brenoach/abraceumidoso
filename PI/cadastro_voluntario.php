@@ -31,7 +31,7 @@
                 <div class="linha-dupla">
                     <div class="grupo-input">
                         <label>CPF:</label>
-                        <input type="text" name="cpf" maxlength="11" required>
+                        <input type="text" name="cpf" maxlength="14" required>
                     </div>
                     <div class="grupo-input">
                         <label>Nascimento:</label>
