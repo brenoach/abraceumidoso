@@ -2,42 +2,42 @@
 session_start();
 require_once '../includes/db.php';
 
-// PROTEÇÃO: Só voluntário pode agendar visita
-if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'voluntario') {
-    die("Acesso negado.");
+if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'voluntario') {
+    header("Location: ../login.php");
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
-    // Pega os dados que vieram do formulário
-    $idIdoso = $_POST['idIdoso'];
-    $dataVisita = $_POST['data_visita'];
-    $horaInicio = $_POST['hora_inicio'];
-    
-    // Pega o ID do voluntário que está logado na sessão agora
-    $idVoluntario = $_SESSION['usuario_id'];
-    
-    // Status inicial padrão
-    $statusInicial = 'Pendente';
+$idVoluntario = $_SESSION['usuario_id'];
+$idIdoso = $_POST['idoso_id'];
+$dtAgendamento = $_POST['data_visita'];
+$hrAgendamento = $_POST['hora_visita'];
 
-    try {
-        // Grava na tabela agendamento
-        $sql = "INSERT INTO agendamento (data_visita, hora_inicio, status, idoso_idIdoso, voluntario_idVoluntario) 
-                VALUES (?, ?, ?, ?, ?)";
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$dataVisita, $horaInicio, $statusInicial, $idIdoso, $idVoluntario]);
+// === NOVA TRAVA DE HORÁRIO ===
+$horaInt = (int)substr($hrAgendamento, 0, 2); // Pega as primeiras duas letras (a hora)
 
-        // Redireciona o voluntário para a tela de acompanhamento das visitas dele
-        echo "<script>
-                alert('Sua visita foi agendada com sucesso! Aguarde a confirmação da instituição.');
-                window.location.href = '../painel_voluntario.php#minhas-visitas';
-              </script>";
-
-    } catch (Exception $e) {
-        echo "<div style='color:red; padding: 20px;'>Erro ao agendar visita: " . $e->getMessage() . "</div>";
-    }
-} else {
-    echo "Acesso inválido.";
+if ($horaInt < 7 || $horaInt >= 20) {
+    echo "<script>
+        alert('Erro: A instituição só aceita visitas entre 07:00 e 20:00.');
+        window.history.back();
+    </script>";
+    exit;
 }
+// =============================
+
+$status = 'Pendente';
+
+try {
+    $sql = "INSERT INTO agendamento (dtAgendamento, hrAgendamento, status, voluntario_idVoluntario, idoso_idIdoso) 
+            VALUES (?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$dtAgendamento, $hrAgendamento, $status, $idVoluntario, $idIdoso]);
+
+    echo "<script>
+        alert('Agendamento solicitado! Aguarde a aprovação da instituição.');
+        window.location.href = '../painel_voluntario.php';
+    </script>";
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
+
 ?>

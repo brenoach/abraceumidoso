@@ -524,3 +524,43 @@ button, .btn-marrom, .btn-amarelo, .btn-sair {
         margin-bottom: 30px;
     }
 }
+:root {
+    --primaria: #5b3a26;
+    --primaria-hover: #3e2618;
+    --bg-site: #f9f7f3;
+    --texto: #333;
+    --sucesso: #2e7d32;
+    --erro: #c62828;
+    --alerta: #e65100;
+}
+
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-site); color: var(--texto); margin: 0; }
+
+/* Cabeçalho */
+.cabecalho { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.btn-sair { background: var(--primaria); color: #fff !important; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+
+/* Layout Geral */
+.container { width: 90%; max-width: 1200px; margin: 40px auto; }
+.linha { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+
+/* Cards */
+.card { background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); flex: 1; text-align: center; min-width: 250px; }
+.btn-acao { background: var(--primaria); color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; display: inline-block; margin-top: 10px; border: none; cursor: pointer; }
+
+/* Tabelas */
+.tabela-container { background: #fff; border-radius: 12px; overflow-x: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+table { width: 100%; border-collapse: collapse; }
+th { background: #fdfaf5; color: var(--primaria); padding: 15px; text-align: left; border-bottom: 2px solid #f0e6d2; }
+td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
+
+/* Badges de Status */
+.badge { padding: 5px 12px; border-radius: 15px; font-size: 0.85em; font-weight: bold; display: inline-block; }
+.badge-Pendente { background: #fff3e0; color: var(--alerta); }
+.badge-Aprovado { background: #e8f5e9; color: var(--sucesso); }
+.badge-Cancelado, .badge-Recusado { background: #ffebee; color: var(--erro); }
+
+/* Links de Ação na Tabela */
+.link-aprovar { color: var(--sucesso); font-weight: bold; text-decoration: none; margin-right: 10px; }
+.link-cancelar { color: #888; text-decoration: none; font-size: 0.9em; border: 1px solid #ddd; padding: 3px 8px; border-radius: 4px; }
+.link-cancelar:hover { background: #f5f5f5; color: var(--erro); border-color: var(--erro); }

@@ -1,13 +1,32 @@
 <?php
-session_start(); 
+// O PHP verifica: "A sessão está desligada?" Se sim, ele liga! Se não, ele fica quieto.
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
+
+
+// PROTEÇÃO MELHORADA: Avisa o usuário antes de redirecionar
 if (isset($_SESSION['usuario_tipo'])) {
-    if ($_SESSION['usuario_tipo'] == 'voluntario') header("Location: painel_voluntario.php");
-    else header("Location: painel_funcionario.php");
+    
+    // Descobre para onde mandar e qual nome mostrar no alerta
+    if ($_SESSION['usuario_tipo'] == 'voluntario') {
+        $painel = "painel_voluntario.php";
+        $nomeTipo = "Voluntário";
+    } else {
+        $painel = "painel_funcionario.php";
+        $nomeTipo = "Funcionário";
+    }
+
+    // Exibe a mensagem amigável e depois joga para o painel
+    echo "<script>
+            alert('Você já está logado no sistema como $nomeTipo. Para entrar com outra conta, por favor, clique em Sair (Logout) primeiro.');
+            window.location.href = '$painel';
+          </script>";
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 

@@ -1,4 +1,13 @@
-fazer a página minha visita  - será que precisa de outra tela?
+terminar a integração entre as paginas para agendamento - ok
+
+falta o token do funcionario - ok
+
+e falta verificar se pessoa
+
+falta pagina de cadastro da instituição
+
+
+fazer a página minha visita  - será que precisa de outra tela? ok feita 
 
 testar a recuperação de senha  - feito com sucesso
 
@@ -8,3 +17,39 @@ mostrar a foto antes do envio durante o cadastro
 
 e melhorar o display da foto nas sessions
 
+Segurança e Controle de Acesso
+
+Correção do loop de redirecionamento no login.
+
+Criação do arquivo central de autenticação (auth.php).
+
+Implementação da função de verificação de nível de acesso por perfil.
+
+Padronização das variáveis de sessão do usuário.
+
+Painel do Funcionário
+Desenvolvimento da listagem de agendamentos por instituição.
+
+Implementação dos botões de aprovação e recusa de visitas.
+
+Criação da funcionalidade de cancelamento de visitas confirmadas.
+
+Estruturação do formulário de cadastro de idosos e histórico de vida.
+
+Painel do Voluntário
+Desenvolvimento da vitrine de idosos disponíveis para visitação.
+
+Implementação do formulário de solicitação de agendamento.
+
+Aplicação de travas de horário para visitas (07h às 20h).
+
+Exibição do status em tempo real das solicitações (Pendente/Aprovado/Cancelado).
+
+Banco de Dados e Interface
+Ajuste de nomes de colunas e tipos de dados nas tabelas SQL.
+
+Criação de scripts para geração de dados de teste (Idosos e Voluntários).
+
+Unificação do layout através de um arquivo CSS único (style.css).
+
+Correção de erros de variáveis indefinidas nas tabelas de visualização.

@@ -1,6 +1,7 @@
 <?php
+require_once 'includes/db.php';
 require_once 'includes/auth.php';
-verificarAcesso('funcionario'); // Bloqueia quem não for funcionário!
+verificarAcesso('funcionario');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
