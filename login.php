@@ -3,8 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-// Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
+    
 
 
 // PROTEÇÃO MELHORADA: Avisa o usuário antes de redirecionar

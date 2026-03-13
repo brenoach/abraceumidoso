@@ -1,9 +1,37 @@
+<?php
+
+    require_once __DIR__ . '../vendor/autoload.php';
+
+    
+    $clientID = '542179864570-vf7jgq7cqtq8snk5udevo5dubbkkshsr.apps.googleusercontent.com';
+    $clientSecret = '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';
+    $redirectUri = 'http://localhost/abraceUmIdoso/actions/callback_google.php';
+
+    // Gerar a URL para o botão de login
+        // echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+
+    // Criar o cliente do Google
+        $client = new Google_Client();
+        $client->setClientId($clientID);
+        $client->setClientSecret($clientSecret);
+        $client->setRedirectUri($redirectUri);
+        $client->addScope("email");
+        $client->addScope("profile");
+
+                // Gerar a URL para o botão de login
+        $loginUrl = $client->createAuthUrl();
+
+        echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+        // Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <body>
-<?php include 'includes/header.php'; ?>
-
+<?php include 'includes/header.php'; 
+echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+?>
 <section class="hero-container">
     
     <div class="hero-image">
