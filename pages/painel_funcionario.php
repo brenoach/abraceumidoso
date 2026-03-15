@@ -1,20 +1,24 @@
 <?php
-require_once 'includes/auth.php';
+session_start();
+require_once '../includes/auth.php';
 verificarAcesso('funcionario');
-require_once 'includes/db.php';
+require_once '../includes/db.php';
+require_once '../includes/helpers.php'; 
+include '../includes/header.php';
+
 
 $idInst = $_SESSION['instituicao_id'];
 
 // SQL robusto para buscar visitas
-$sql = "SELECT a.idAgendamento, a.dtAgendamento, a.hrAgendamento, a.status, 
-               p_idoso.nmPessoa AS nome_idoso, p_vol.nmPessoa AS nome_voluntario
+$sql = "SELECT a.idAgendamento, a.dataAgendamento, a.horaAgendamento, a.status, 
+               p_idoso.nomePessoa AS nome_idoso, p_vol.nomePessoa AS nome_voluntario
         FROM agendamento a
-        JOIN idoso i ON a.idoso_idIdoso = i.idIdoso
-        JOIN pessoa p_idoso ON i.pessoa_idPessoa = p_idoso.idPessoa
-        JOIN voluntario v ON a.voluntario_idVoluntario = v.idVoluntario
-        JOIN pessoa p_vol ON v.pessoa_idPessoa = p_vol.idPessoa
-        WHERE i.instituicao_idinstituicao = ?
-        ORDER BY a.dtAgendamento ASC";
+        JOIN idoso i ON a.idIdoso = i.idIdoso
+        JOIN pessoa p_idoso ON i.idPessoa = p_idoso.idPessoa
+        JOIN voluntario v ON a.idVoluntario = v.idVoluntario
+        JOIN pessoa p_vol ON v.idPessoa = p_vol.idPessoa
+        WHERE i.idInstituicao = ?
+        ORDER BY a.dataAgendamento ASC";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$idInst]);
@@ -26,37 +30,42 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Painel Administrativo</title>
-    <link rel="stylesheet" href="assets/css/style.css"> </head>
+    
 <body>
 
 <header class="cabecalho">
-    <div class="logo"><strong>ABRACE UM IDOSO</strong></div>
+   
+    <div class="logo"></div>
     <div>
         <span>Olá, <?= $_SESSION['usuario_nome'] ?></span>
-        <a href="actions/logout.php" class="btn-sair">Sair</a>
+        <a href="<?php echo BASE_URL; ?>actions/logout.php" class="btn-sair">Sair</a>
     </div>
 </header>
-
 <div class="container">
-    <div class="linha">
-        <div class="card">
-            <h3>👴 Cadastrar Idoso</h3>
-            <p>Adicione novos residentes à unidade.</p>
-            <a href="cadastrar_idoso.php" class="btn-acao">Novo Cadastro</a>
+    <h1 style="color: #5b3a26;">Painel Administrativo</h1>
+    
+    <div class="atalhos-grid">
+        <div class="card-atalho">
+            <span>👴👵</span>
+            <h3>Nossos Residentes</h3>
+            <p>Cadastre novos idosos na sua unidade.</p>
+            <a href="cadastrar_idoso.php" class="btn-principal">Cadastrar Novo</a>
         </div>
-        <div class="card">
-            <h3>📋 Lista de Idosos</h3>
+        
+        <div class="card-atalho">
+            <span>📋</span>
+            <h3>Lista de Residentes</h3>
             <p>Gerencie quem já está cadastrado.</p>
-            <a href="listar_idosos.php" class="btn-acao">Ver Lista</a>
+            <a href="listar_idosos.php" class="btn-principal">Ver Lista Completa</a>
         </div>
     </div>
 
-    <h2>📅 Agenda de Visitas</h2>
+    <h2 style="color: #5b3a26; margin-bottom: 20px;">📅 Agenda de Visitas</h2>
     <div class="tabela-container">
         <table>
             <thead>
                 <tr>
-                    <th>Data/Hora</th>
+                    <th>Data e Hora</th>
                     <th>Voluntário</th>
                     <th>Residente</th>
                     <th>Status</th>
@@ -66,21 +75,18 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php foreach ($visitas as $v): ?>
                 <tr>
-                    <td><?= date('d/m/Y', strtotime($v['dtAgendamento'])) ?><br><small><?= $v['hrAgendamento'] ?></small></td>
+                    <td><strong><?= date('d/m/Y', strtotime($v['dataAgendamento'])) ?></strong><br><small><?= $v['horaAgendamento'] ?></small></td>
                     <td><?= htmlspecialchars($v['nome_voluntario']) ?></td>
                     <td><?= htmlspecialchars($v['nome_idoso']) ?></td>
                     <td><span class="badge badge-<?= $v['status'] ?>"><?= $v['status'] ?></span></td>
                     <td>
                         <?php if ($v['status'] == 'Pendente'): ?>
-                            <a href="actions/processar_visita.php?id=<?= $v['idAgendamento'] ?>&acao=Aprovado" class="link-aprovar">Aprovar</a>
-                            <a href="actions/processar_visita.php?id=<?= $v['idAgendamento'] ?>&acao=Recusado" style="color:red; text-decoration:none;">Recusar</a>
-                        
+                            <a href="actions/processar_visita.php?id=<?= $v['idAgendamento'] ?>&acao=Aprovado" class="acao-link" style="color: var(--sucesso);">Aprovar</a>
+                            <a href="actions/processar_visita.php?id=<?= $v['idAgendamento'] ?>&acao=Recusado" class="acao-link" style="color: var(--cancelado);">Recusar</a>
                         <?php elseif ($v['status'] == 'Aprovado'): ?>
-                            <a href="actions/processar_visita.php?id=<?= $v['idAgendamento'] ?>&acao=Cancelado" 
-                               class="link-cancelar" onclick="return confirm('Confirmar cancelamento?')">⚠️ Cancelar</a>
-                        
+                            <a href="actions/processar_visita.php?id=<?= $v['idAgendamento'] ?>&acao=Cancelado" class="cancelar-btn" onclick="return confirm('Confirmar cancelamento?')">Cancelar Visita</a>
                         <?php else: ?>
-                            <span style="color:#bbb">Sem ações</span>
+                            <span style="color:#bbb">-</span>
                         <?php endif; ?>
                     </td>
                 </tr>

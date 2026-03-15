@@ -1,7 +1,10 @@
 <?php
 session_start();
-require_once 'includes/db.php';
-require_once 'includes/helpers.php'; 
+require_once '../includes/db.php';
+require_once '../includes/helpers.php'; 
+include '../includes/header.php';
+
+
 
 // PROTEÇÃO: Bloqueia quem não for voluntário
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'voluntario') {
@@ -12,30 +15,28 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'voluntario'
 $idVoluntario = $_SESSION['usuario_id'];
 
 try {
-    // === BUSCA 1: AGENDAMENTOS DO VOLUNTÁRIO ===
-    $sqlVisitas = "
-        SELECT a.dtAgendamento, a.hrAgendamento, a.status, p.nmPessoa AS nome_idoso
-        FROM agendamento a
-        JOIN idoso i ON a.idoso_idIdoso = i.idIdoso
-        JOIN pessoa p ON i.pessoa_idPessoa = p.idPessoa
-        WHERE a.voluntario_idVoluntario = ?
-        ORDER BY a.dtAgendamento DESC";
-    $stmtVisitas = $pdo->prepare($sqlVisitas);
-    $stmtVisitas->execute([$idVoluntario]);
-    $minhasVisitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
+    // Busca idosos que aceitam visita, juntando os dados da Pessoa e da Instituição
+    $sqlIdosos = "SELECT 
+                    i.idIdoso, 
+                    p.nomePessoa, 
+                    p.fotoPerfil, 
+                    p.sobre,
+                    p.dataNascimento,
+                    inst.nomeInstituicao 
+                  FROM idoso i
+                  JOIN pessoa p ON i.idPessoa = p.idPessoa
+                  JOIN instituicao inst ON i.idInstituicao = inst.idInstituicao
+                  WHERE i.aceitaVisita = 1";
+                  
+    $stmtIdosos = $pdo->query($sqlIdosos);
+    
+    // Salva o resultado na variável que o seu foreach está pedindo!
+    $idososDisponiveis = $stmtIdosos->fetchAll(PDO::FETCH_ASSOC);
 
-    // === BUSCA 2: VITRINE DE IDOSOS ===
-    $sqlIdosos = "
-        SELECT i.idIdoso, p.nmPessoa, p.dtNascimento, p.sobre, p.fotoPerfil, i.necessidades, inst.nmInstituicao 
-        FROM idoso i
-        JOIN pessoa p ON i.pessoa_idPessoa = p.idPessoa
-        JOIN instituicao inst ON i.instituicao_idinstituicao = inst.idinstituicao
-        WHERE i.aceita_visita = 1
-        ORDER BY p.nmPessoa ASC";
-    $idososDisponiveis = $pdo->query($sqlIdosos)->fetchAll(PDO::FETCH_ASSOC);
-
-} catch (Exception $e) {
-    $erro = "Erro: " . $e->getMessage();
+} catch (PDOException $e) {
+    // Se der algum erro no banco, cria um array vazio para o site não "quebrar" (o foreach não vai dar erro)
+    $idososDisponiveis = []; 
+    // echo "Erro ao buscar idosos: " . $e->getMessage(); // Descomente para debugar se precisar
 }
 
 function calcularIdade($dataNascimento) {
@@ -50,37 +51,21 @@ function calcularIdade($dataNascimento) {
 <head>
     <meta charset="UTF-8">
     <title>Painel do Voluntário</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        body { background-color: #f9f7f3; font-family: sans-serif; margin: 0; }
-        .cabecalho { display: flex; justify-content: space-between; padding: 15px 40px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); align-items: center; }
-        .boas-vindas { text-align: center; padding: 30px; background: linear-gradient(to right, #5b3a26, #8d5b3d); color: white; }
-        .secao { width: 95%; max-width: 1200px; margin: 30px auto; }
-        .tabela-status { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; }
-        .tabela-status th, .tabela-status td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
-        .badge-Pendente { background: #fff3e0; color: #e65100; }
-        .badge-Aprovado { background: #e8f5e9; color: #2e7d32; }
-        .badge-Recusado { background: #ffebee; color: #c62828; }
-        .vitrine-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card-idoso { background: #fff; border-radius: 10px; border: 1px solid #eee; overflow: hidden; display: flex; flex-direction: column; }
-        .card-header { padding: 20px; background: #fdfaf5; text-align: center; }
-        .card-body { padding: 15px; flex-grow: 1; }
-        .btn-agendar { display: block; text-align: center; background: #4caf50; color: white; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-    </style>
+   
+   
 </head>
 <body>
 
 <header class="cabecalho">
-    <div><strong>Abrace um Idoso</strong></div>
+    <div><strong>Painel do Voluntário</strong></div>
     <nav>
         <span style="margin-right: 20px;">Olá, <?= htmlspecialchars($_SESSION['usuario_nome']) ?></span>
-        <a href="actions/logout.php" style="color: #c62828; font-weight: bold;">Sair</a>
+        <a href="<?php echo BASE_URL; ?>actions/logout.php" style="color: #c62828; font-weight: bold;">Sair</a>
     </nav>
 </header>
 
 <div class="boas-vindas">
-    <h1>Minha Agenda de Amor ❤️</h1>
+    <h1>Minha Agenda de Visitas</h1>
     <p>Acompanhe suas visitas e escolha novos amigos para visitar.</p>
 </div>
 
@@ -100,7 +85,7 @@ function calcularIdade($dataNascimento) {
             <tbody>
                 <?php foreach ($minhasVisitas as $v): ?>
                 <tr>
-                    <td><?= date('d/m/Y', strtotime($v['dtAgendamento'])) ?> às <?= date('H:i', strtotime($v['hrAgendamento'])) ?></td>
+                    <td><?= date('d/m/Y', strtotime($v['dataAgendamento'])) ?> às <?= date('H:i', strtotime($v['horaAgendamento'])) ?></td>
                     <td><strong><?= htmlspecialchars($v['nome_idoso']) ?></strong></td>
                     <td>
                         <span class="badge badge-<?= $v['status'] ?>"><?= $v['status'] ?></span>
@@ -118,12 +103,12 @@ function calcularIdade($dataNascimento) {
         <?php foreach ($idososDisponiveis as $idoso): ?>
         <div class="card-idoso">
             <div class="card-header">
-                <?php if(function_exists('exibirFotoIdoso')) echo exibirFotoIdoso($idoso['fotoPerfil'], $idoso['nmPessoa']); ?>
-                <h3><?= htmlspecialchars($idoso['nmPessoa']) ?></h3>
-                <span><?= calcularIdade($idoso['dtNascimento']) ?> anos</span>
+                <?php if(function_exists('exibirFotoIdoso')) echo exibirFotoIdoso($idoso['fotoPerfil'], $idoso['nomePessoa']); ?>
+                <h3><?= htmlspecialchars($idoso['nomePessoa']) ?></h3>
+                <span><?= calcularIdade($idoso['dataNascimento']) ?> anos</span>
             </div>
             <div class="card-body">
-                <small>📍 <?= htmlspecialchars($idoso['nmInstituicao']) ?></small>
+                <small>📍 <?= htmlspecialchars($idoso['nomeInstituicao']) ?></small>
                 <p style="font-size: 0.9em; color: #555;"><?= htmlspecialchars(mb_strimwidth($idoso['sobre'], 0, 100, "...")) ?></p>
             </div>
             <div style="padding: 15px; border-top: 1px solid #eee;">
@@ -133,6 +118,6 @@ function calcularIdade($dataNascimento) {
         <?php endforeach; ?>
     </div>
 </section>
-
+<?include '../includes/footer.php';?>
 </body>
 </html>

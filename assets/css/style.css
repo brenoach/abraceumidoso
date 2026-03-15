@@ -1,22 +1,26 @@
-/* ==========================================================================
-   1. BASE & RESET
-   ========================================================================== */
-   body {
+:root {
+    --primaria: #5b3a26;
+    --primaria-hover: #3e2618;
+    --bg-site: #f9f7f3;
+    --texto: #333;
+    --sucesso: #2e7d32;
+    --erro: #c62828;
+    --alerta: #e65100;
+}
+
+body {
     margin: 0;
     font-family: 'Open Sans', 'Lato', sans-serif;
     background-color: #f9f7f3; /* Fundo bege claro padronizado */
     color: #333; /* Texto escuro para boa leitura */
 }
 
-/* ==========================================================================
-   2. CABEÇALHO E NAVEGAÇÃO
-   ========================================================================== */
 .cabecalho {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 5%;
-    background-color: #f0ebdc;
+    background-color: #f2eee5;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     flex-wrap: wrap;
     position: relative;
@@ -38,7 +42,6 @@
     height: 100px;
 }
 
-/* Menu Flexível e Moderno */
 .nav-menu ul {
     list-style: none;
     display: flex;
@@ -66,9 +69,6 @@
     border-color: #5b3a26;
 }
 
-/* ==========================================================================
-   3. BOTÕES GERAIS
-   ========================================================================== */
 button, .btn-marrom, .btn-amarelo, .btn-sair {
     cursor: pointer;
     font-weight: 600;
@@ -384,7 +384,7 @@ button, .btn-marrom, .btn-amarelo, .btn-sair {
 }
 
 .foto-avatar.usuario { width: 40px; height: 40px; border: 2px solid #fff; }
-.foto-avatar.idoso { width: 50px; height: 50px; border: 2px solid #f0e6d2; }
+.foto-avatar.idoso { width: 40px; height: 40px; border: 2px solid #f0e6d2; }
 
 .perfil-cabecalho {
     display: flex;
@@ -524,20 +524,11 @@ button, .btn-marrom, .btn-amarelo, .btn-sair {
         margin-bottom: 30px;
     }
 }
-:root {
-    --primaria: #5b3a26;
-    --primaria-hover: #3e2618;
-    --bg-site: #f9f7f3;
-    --texto: #333;
-    --sucesso: #2e7d32;
-    --erro: #c62828;
-    --alerta: #e65100;
-}
 
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-site); color: var(--texto); margin: 0; }
 
 /* Cabeçalho */
-.cabecalho { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
 .btn-sair { background: var(--primaria); color: #fff !important; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; }
 
 /* Layout Geral */
@@ -564,3 +555,4 @@ td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
 .link-aprovar { color: var(--sucesso); font-weight: bold; text-decoration: none; margin-right: 10px; }
 .link-cancelar { color: #888; text-decoration: none; font-size: 0.9em; border: 1px solid #ddd; padding: 3px 8px; border-radius: 4px; }
 .link-cancelar:hover { background: #f5f5f5; color: var(--erro); border-color: var(--erro); }
+

@@ -13,16 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($tipo == 'voluntario') {
-            $sql = "SELECT v.idVoluntario as id, v.senha, p.nmPessoa as nome 
+            $sql = "SELECT v.idVoluntario as id, v.senha, p.nomePessoa as nome 
                     FROM voluntario v
-                    JOIN contatos c ON v.contatos_idcontatos = c.idcontatos
-                    JOIN pessoa p ON v.pessoa_idPessoa = p.idPessoa
+                    JOIN contato c ON v.idContato = c.idcontato
+                    JOIN pessoa p ON v.idPessoa = p.idPessoa
                     WHERE c.email = ?";
         } else {
-            $sql = "SELECT f.idFuncionario as id, f.senha, p.nmPessoa as nome, f.instituicao_idinstituicao 
+            $sql = "SELECT f.idFuncionario as id, f.senha, p.nomePessoa as nome, f.idInstituicao 
                     FROM funcionario f
-                    JOIN contatos c ON f.contatos_idcontatos = c.idcontatos
-                    JOIN pessoa p ON f.pessoa_idPessoa = p.idPessoa
+                    JOIN contato c ON f.idContato = c.idcontato
+                    JOIN pessoa p ON f.idPessoa = p.idPessoa
                     WHERE c.email = ?";
         }
 
@@ -40,18 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redireciona para a página correta usando o Header oficial do PHP
             if ($tipo == 'voluntario') {
-                header("Location: ../painel_voluntario.php");
+                header("Location: ../pages/painel_voluntario.php");
             } else {
-                $_SESSION['instituicao_id'] = $usuario['instituicao_idinstituicao'];
-                header("Location: ../painel_funcionario.php");
+                $_SESSION['instituicao_id'] = $usuario['idInstituicao'];
+                header("Location: ../pages/painel_funcionario.php");
             }
             exit;
 
         } else {
             // Login Falhou
             echo "<script>
-                    alert('E-mail ou senha incorretos! Lembre-se que as senhas precisam ser criadas pelo sistema para terem criptografia.'); 
-                    window.location.href='../login.php';
+                    alert('E-mail ou senha incorretos! Ou você ainda não está cadastrado.'); 
+                    window.location.href='../pages/login.php';
                   </script>";
         }
 

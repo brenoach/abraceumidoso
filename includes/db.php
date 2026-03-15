@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'abraceUmIdoso';
+$db   = 'if0_41248576_bd_abraceumidoso';
 $user = 'root';
 $pass = '';
 

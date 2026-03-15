@@ -21,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         // --- PARTE 1: VERIFICA O BANCO E GERA O TOKEN ---
         if ($tipo == 'voluntario') {
-            $sqlBusca = "SELECT v.idVoluntario as id FROM voluntario v JOIN contatos c ON v.contatos_idcontatos = c.idcontatos WHERE c.email = ?";
+            $sqlBusca = "SELECT v.idVoluntario as id FROM voluntario v JOIN contato c ON v.idContato = c.idcontatos WHERE c.email = ?";
         } else {
-            $sqlBusca = "SELECT f.idFuncionario as id FROM funcionario f JOIN contatos c ON f.contatos_idcontatos = c.idcontatos WHERE c.email = ?";
+            $sqlBusca = "SELECT f.idFuncionario as id FROM funcionario f JOIN contato c ON f.idContato = c.idcontatos WHERE c.email = ?";
         }
 
         $stmtBusca = $pdo->prepare($sqlBusca);
@@ -37,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Salva o token no banco
             if ($tipo == 'voluntario') {
-                $sqlUpdate = "UPDATE voluntario SET reset_token = ?, token_expira = ? WHERE idVoluntario = ?";
+                $sqlUpdate = "UPDATE voluntario SET resetToken = ?, tokenExpira = ? WHERE idVoluntario = ?";
             } else {
-                $sqlUpdate = "UPDATE funcionario SET reset_token = ?, token_expira = ? WHERE idFuncionario = ?";
+                $sqlUpdate = "UPDATE funcionario SET resetToken = ?, tokenExpira = ? WHERE idFuncionario = ?";
             }
             $stmtUpdate = $pdo->prepare($sqlUpdate);
             $stmtUpdate->execute([$token, $expira, $idUsuario]);

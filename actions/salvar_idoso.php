@@ -14,25 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // 1. Descobrir qual é a instituição do funcionário logado
         $idFuncionarioLogado = $_SESSION['usuario_id'];
         
-        $sqlBuscaInst = "SELECT instituicao_idinstituicao FROM funcionario WHERE idFuncionario = ?";
+        $sqlBuscaInst = "SELECT idInstituicao FROM funcionario WHERE idFuncionario = ?";
         $stmtBuscaInst = $pdo->prepare($sqlBuscaInst);
         $stmtBuscaInst->execute([$idFuncionarioLogado]);
         $dadosFuncionario = $stmtBuscaInst->fetch(PDO::FETCH_ASSOC);
         
         // Guarda o ID da instituição na variável
-        $idInstituicao = $dadosFuncionario['instituicao_idinstituicao'];
+        $idInstituicao = $dadosFuncionario['idInstituicao'];
         // ===============================
 
         // 2. Recebendo os dados básicos
         $nome = mb_strtoupper(trim($_POST['nome']));
         $cpf = preg_replace('/\D/', '', $_POST['cpf']); 
-        $dtNascimento = $_POST['dtNascimento'];
+        $dataNascimento = $_POST['dataNascimento'];
         $sobre = trim($_POST['historia']); 
         
         // 3. Recebendo as opções de Visita/Carta e Necessidades
         $necessidades = trim($_POST['necessidades']);
-        $aceita_visita = $_POST['aceita_visita']; 
-        $aceita_carta = $_POST['aceita_carta'];   
+        $aceitaVisita = $_POST['aceitaVisita']; 
+        $aceitaCarta = $_POST['aceitaCarta'];   
 
         // 4. Upload da Foto
         $caminhoFoto = null; 
@@ -57,22 +57,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->beginTransaction();
 
         // A. Inserir na tabela PESSOA
-        $sqlPessoa = "INSERT INTO pessoa (nmPessoa, cpf, dtNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
+        $sqlPessoa = "INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
         $stmtPes = $pdo->prepare($sqlPessoa);
-        $stmtPes->execute([$nome, $cpf, $dtNascimento, $sobre, $caminhoFoto]);
+        $stmtPes->execute([$nome, $cpf, $dataNascimento, $sobre, $caminhoFoto]);
         
         $idPessoa = $pdo->lastInsertId();
 
         // B. Inserir na tabela IDOSO (Agora enviando o $idInstituicao!)
-        $sqlIdoso = "INSERT INTO idoso (pessoa_idPessoa, necessidades, aceita_visita, aceita_carta, instituicao_idinstituicao) VALUES (?, ?, ?, ?, ?)";
+        $sqlIdoso = "INSERT INTO idoso (idPessoa, necessidades, aceitaVisita, aceitaCarta, idInstituicao) VALUES (?, ?, ?, ?, ?)";
         $stmtIdoso = $pdo->prepare($sqlIdoso);
-        $stmtIdoso->execute([$idPessoa, $necessidades, $aceita_visita, $aceita_carta, $idInstituicao]);
+        $stmtIdoso->execute([$idPessoa, $necessidades, $aceitaVisita, $aceitaCarta, $idInstituicao]);
 
         $pdo->commit();
         
         echo "<script>
                 alert('Residente cadastrado com sucesso!');
-                window.location.href = '../painel_funcionario.php';
+                window.location.href = '../pages/painel_funcionario.php';
               </script>";
 
     } catch (Exception $e) {

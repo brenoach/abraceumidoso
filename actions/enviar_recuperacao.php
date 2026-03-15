@@ -26,9 +26,9 @@ $tokenValido = false;
 try {
     // Busca o usuário que tem esse token E verifica se o token não venceu
     if ($tipo == 'voluntario') {
-        $sql = "SELECT idVoluntario FROM voluntario WHERE reset_token = ? AND token_expira > NOW()";
+        $sql = "SELECT idVoluntario FROM voluntario WHERE resetToken = ? AND tokenExpira > NOW()";
     } else {
-        $sql = "SELECT idFuncionario FROM funcionario WHERE reset_token = ? AND token_expira > NOW()";
+        $sql = "SELECT idFuncionario FROM funcionario WHERE resetToken = ? AND tokenExpira > NOW()";
     }
 
     $stmt = $pdo->prepare($sql);

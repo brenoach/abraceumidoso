@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         // Atualiza a senha e ANULA o token para que o link não possa ser reusado
         if ($tipo == 'voluntario') {
-            $sql = "UPDATE voluntario SET senha = ?, reset_token = NULL, token_expira = NULL WHERE reset_token = ?";
+            $sql = "UPDATE voluntario SET senha = ?, resetToken = NULL, tokenExpira = NULL WHERE resetToken = ?";
         } else {
-            $sql = "UPDATE funcionario SET senha = ?, reset_token = NULL, token_expira = NULL WHERE reset_token = ?";
+            $sql = "UPDATE funcionario SET senha = ?, resetToken = NULL, tokenExpira = NULL WHERE resetToken = ?";
         }
 
         $stmt = $pdo->prepare($sql);

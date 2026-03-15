@@ -3,7 +3,7 @@
 require_once 'includes/db.php';
 
 // Busca todas as instituições cadastradas
-$sqlInst = "SELECT idinstituicao, nmInstituicao FROM instituicao ORDER BY nmInstituicao ASC";
+$sqlInst = "SELECT idinstituicao, nomeInstituicao FROM instituicao ORDER BY nomeInstituicao ASC";
 $stmtInst = $pdo->query($sqlInst);
 $instituicoes = $stmtInst->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -55,7 +55,7 @@ $instituicoes = $stmtInst->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="grupo-input">
                         <label>Nascimento:</label>
-                        <input type="date" name="dtNascimento" required>
+                        <input type="date" name="dataNascimento" required>
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@ $instituicoes = $stmtInst->fetchAll(PDO::FETCH_ASSOC);
 
                             <?php foreach ($instituicoes as $inst): ?>
                                 <option value="<?= $inst['idinstituicao'] ?>">
-                                    <?= htmlspecialchars($inst['nmInstituicao']) ?>
+                                    <?= htmlspecialchars($inst['nomeInstituicao']) ?>
                                 </option>
                             <?php endforeach; ?>
 
