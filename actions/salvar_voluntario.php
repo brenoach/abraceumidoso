@@ -21,7 +21,7 @@ if (strlen($cpfLimpo) !== 11) {
     exit;
 }
     
-    $nasc = $_POST['dtNascimento'];
+    $nasc = $_POST['dataNascimento'];
     $sobre = $_POST['sobre'];
     $email = trim($_POST['email']);
     
@@ -71,25 +71,25 @@ if (strlen($cpfLimpo) !== 11) {
         $pdo->beginTransaction();
 
         // A. Inserir Endereço (7 interrogações, 7 dados)
-        $sqlEnd = "INSERT INTO endereco (cep, cidade, estado, bairro, nmLogradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)"; 
+        $sqlEnd = "INSERT INTO endereco (cep, cidade, estado, bairro, nomeLogradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)"; 
         $stmtEnd = $pdo->prepare($sqlEnd);
         $stmtEnd->execute([$cep, $cidade, $estado, $bairro, $rua, $numero, $complemento]); 
         $idEndereco = $pdo->lastInsertId();
 
         // B. Inserir Contatos (2 interrogações, 2 dados)
-        $sqlCon = "INSERT INTO contatos (email, celular) VALUES (?, ?)";
+        $sqlCon = "INSERT INTO contato (email, celular,telefone) VALUES (?, ?, ?)";
         $stmtCon = $pdo->prepare($sqlCon);
-        $stmtCon->execute([$email, $celular]);
+        $stmtCon->execute([$email, $celular, $telefone]);
         $idContato = $pdo->lastInsertId();
 
         // C. Inserir Pessoa com Foto (5 interrogações, 5 dados)
-        $sqlPessoa = "INSERT INTO pessoa (nmPessoa, cpf, dtNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
+        $sqlPessoa = "INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre ) VALUES (?, ?, ?, ?, ?)";
         $stmtPes = $pdo->prepare($sqlPessoa);
-        $stmtPes->execute([$nome, $cpfLimpo, $nasc, $sobre, $caminhoFoto]);
+        $stmtPes->execute([$nome, $cpfLimpo, $nasc, $caminhoFoto, $sobre]);
         $idPessoa = $pdo->lastInsertId();
 
         // D. Inserir Voluntário (4 interrogações, 4 dados)
-        $sqlVol = "INSERT INTO voluntario (senha, pessoa_idPessoa, endereco_idEndereco, contatos_idcontatos) VALUES (?, ?, ?, ?)";
+        $sqlVol = "INSERT INTO voluntario (senha, idContato,  idEndereco, idPessoa, resetToken, tokenExpira) VALUES (?, ?, ?, ?, ?, ?)";
         $stmtVol = $pdo->prepare($sqlVol);
         $stmtVol->execute([$senha, $idPessoa, $idEndereco, $idContato]);
 

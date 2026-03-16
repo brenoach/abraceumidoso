@@ -16,12 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 2. Recebendo os novos textos digitados
     $nome = mb_strtoupper(trim($_POST['nome']));
     $cpf = preg_replace('/\D/', '', $_POST['cpf']); 
-    $dtNascimento = $_POST['dtNascimento'];
-    $sobre = trim($_POST['historia']); 
+    $dataNascimento = $_POST['dataNascimento'];
+    $sobre = trim($_POST['sobre']); 
     
-    $necessidades = trim($_POST['necessidades']);
-    $aceita_visita = $_POST['aceita_visita']; 
-    $aceita_carta = $_POST['aceita_carta'];   
+    $aceitaVisita = $_POST['aceitaVisita']; 
+    $aceitaCarta = $_POST['aceitaCarta'];   
 
     // 3. Lógica inteligente de UPLOAD DA FOTO
     $caminhoFoto = null; 
@@ -48,30 +47,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $pdo->beginTransaction();
 
-        // A. Atualizar tabela PESSOA
+        // A. Atualizar tabela PESSOA (Perfeito, não mexi em nada aqui)
         if ($atualizarFoto) {
-            // Se tem foto nova, atualiza a coluna fotoPerfil também
-            $sqlPessoa = "UPDATE pessoa SET nmPessoa = ?, cpf = ?, dtNascimento = ?, sobre = ?, fotoPerfil = ? WHERE idPessoa = ?";
+            $sqlPessoa = "UPDATE pessoa SET nomePessoa = ?, cpf = ?, dataNascimento = ?, sobre = ?, fotoPerfil = ? WHERE idPessoa = ?";
             $stmtPes = $pdo->prepare($sqlPessoa);
-            $stmtPes->execute([$nome, $cpf, $dtNascimento, $sobre, $caminhoFoto, $idPessoa]);
+            $stmtPes->execute([$nome, $cpf, $dataNascimento, $sobre, $caminhoFoto, $idPessoa]);
         } else {
-            // Se NÃO tem foto nova, ignora a fotoPerfil para não apagar a antiga
-            $sqlPessoa = "UPDATE pessoa SET nmPessoa = ?, cpf = ?, dtNascimento = ?, sobre = ? WHERE idPessoa = ?";
+            $sqlPessoa = "UPDATE pessoa SET nomePessoa = ?, cpf = ?, dataNascimento = ?, sobre = ? WHERE idPessoa = ?";
             $stmtPes = $pdo->prepare($sqlPessoa);
-            $stmtPes->execute([$nome, $cpf, $dtNascimento, $sobre, $idPessoa]);
+            $stmtPes->execute([$nome, $cpf, $dataNascimento, $sobre, $idPessoa]);
         }
 
-        // B. Atualizar tabela IDOSO
-        $sqlIdoso = "UPDATE idoso SET necessidades = ?, aceita_visita = ?, aceita_carta = ? WHERE idIdoso = ?";
+        // B. Atualizar tabela IDOSO (CORRIGIDO)
+        // 1. Mudamos de 'pessoa' para 'idoso'
+        // 2. Tiramos o 'sobre', pois ele já foi atualizado na query de cima
+        $sqlIdoso = "UPDATE idoso SET aceitaVisita = ?, aceitaCarta = ? WHERE idIdoso = ?";
         $stmtIdoso = $pdo->prepare($sqlIdoso);
-        $stmtIdoso->execute([$necessidades, $aceita_visita, $aceita_carta, $idIdoso]);
+        $stmtIdoso->execute([$aceitaVisita, $aceitaCarta, $idIdoso]);
 
         $pdo->commit();
         
         // Devolve o funcionário para a listagem com mensagem de sucesso
         echo "<script>
                 alert('Dados do residente atualizados com sucesso!');
-                window.location.href = '../listar_idosos.php';
+                window.location.href = '../pages/listar_idosos.php';
               </script>";
 
     } catch (Exception $e) {

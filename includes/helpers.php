@@ -1,19 +1,29 @@
 <?php
+// includes/helpers.php
+
 /**
  * Função inteligente para mostrar a foto do usuário (Funcionário ou Voluntário)
  */
 function exibirFotoUsuario($caminhoBanco, $nomeUsuario) {
-    // Verifica se o caminho não está vazio e se o arquivo realmente existe na pasta
+    // 1. O PHP verifica se o arquivo existe no servidor
+    // 'file_exists(__DIR__ . '/../' . $caminhoBanco)' -> Correto para o PHP achar no servidor
     if (!empty($caminhoBanco) && file_exists(__DIR__ . '/../' . $caminhoBanco)) {
         $urlFoto = $caminhoBanco;
     } else {
-        // Se não tem foto, cria um avatar verde com a inicial do nome usando uma API gratuita
+        // Se não tem foto, cria um avatar padrão usando a API do Google (Sempre Gratuita)
+        // Isso cria um círculo com as iniciais do nome com o fundo verde.
         $nomeLimpo = urlencode(trim($nomeUsuario));
+        // Nota: Esta URL é para o navegador, então não precisa de file_exists.
         $urlFoto = "https://ui-avatars.com/api/?name={$nomeLimpo}&background=4caf50&color=fff&size=150&rounded=true";
     }
     
-    // Retorna a tag de imagem pronta
-    return "<img src='{$urlFoto}' alt='Foto de {$nomeUsuario}' class='foto-avatar usuario'>";
+    // 2. O PHP monta o endereço completo para o navegador usando a BASE_URL!
+    // Se a foto é 'assets/img/fotoPerfil.png', o navegador receberá:
+    // 'http://localhost/abraceumidoso/assets/img/fotoPerfil.png', que é o endereço CORRETO.
+    // Se for o avatar do Google, usamos a URL direta deles.
+    $srcFinal = (strpos($urlFoto, 'http') === 0) ? $urlFoto : BASE_URL . $urlFoto;
+
+    return "<img src='{$srcFinal}' alt='Foto de {$nomeUsuario}' class='foto-avatar usuario'>";
 }
 
 /**
@@ -23,11 +33,14 @@ function exibirFotoIdoso($caminhoBanco, $nomeIdoso) {
     if (!empty($caminhoBanco) && file_exists(__DIR__ . '/../' . $caminhoBanco)) {
         $urlFoto = $caminhoBanco;
     } else {
-        // Se não tem foto, cria um avatar marrom elegante com a inicial do idoso
+        // Se não tem foto, cria um avatar padrão com o fundo marrom elegante do projeto.
         $nomeLimpo = urlencode(trim($nomeIdoso));
         $urlFoto = "https://ui-avatars.com/api/?name={$nomeLimpo}&background=5b3a26&color=fff&size=150&rounded=true";
     }
     
-    return "<img src='{$urlFoto}' alt='Foto do Residente {$nomeIdoso}' class='foto-avatar idoso'>";
+    // Monta o endereço completo para o navegador
+    $srcFinal = (strpos($urlFoto, 'http') === 0) ? $urlFoto : BASE_URL . $urlFoto;
+
+    return "<img src='{$srcFinal}' alt='Foto do Residente {$nomeIdoso}' class='foto-avatar idoso'>";
 }
 ?>

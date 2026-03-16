@@ -1,6 +1,8 @@
 <?php
 session_start();
-require_once 'includes/db.php'; 
+require_once '../includes/db.php'; 
+require_once '../includes/helpers.php';
+include '../includes/header.php';
 
 // PROTEÇÃO: Bloqueia quem não for funcionário
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
@@ -17,7 +19,7 @@ $idIdoso = $_GET['id'];
 try {
     // 2. Segurança: Descobrir a instituição do funcionário logado
     $idFuncionarioLogado = $_SESSION['usuario_id'];
-    $sqlInst = "SELECT instituicao_idinstituicao FROM funcionario WHERE idFuncionario = ?";
+    $sqlInst = "SELECT idInstituicao FROM funcionario WHERE idFuncionario = ?";
     $stmtInst = $pdo->prepare($sqlInst);
     $stmtInst->execute([$idFuncionarioLogado]);
     $idInstituicao = $stmtInst->fetchColumn();
@@ -25,11 +27,11 @@ try {
     // 3. Buscar os dados DESTE idoso específico, garantindo que ele é da mesma instituição
     $sqlIdoso = "
         SELECT 
-            i.idIdoso, i.necessidades, i.aceita_visita, i.aceita_carta, i.pessoa_idPessoa,
-            p.nmPessoa, p.cpf, p.dtNascimento, p.sobre, p.fotoPerfil
+            i.idIdoso, p.sobre, i.aceitaVisita, i.aceitaCarta, i.idPessoa,
+            p.nomePessoa, p.cpf, p.dataNascimento, p.sobre, p.fotoPerfil
         FROM idoso i
-        JOIN pessoa p ON i.pessoa_idPessoa = p.idPessoa
-        WHERE i.idIdoso = ? AND i.instituicao_idinstituicao = ?
+        JOIN pessoa p ON i.idPessoa = p.idPessoa
+        WHERE i.idIdoso = ? AND i.idInstituicao = ?
     ";
     $stmtIdoso = $pdo->prepare($sqlIdoso);
     $stmtIdoso->execute([$idIdoso, $idInstituicao]);
@@ -50,7 +52,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Editar Residente - Abrace um Idoso</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+
     <style>
         body { background-color: #f9f7f3; color: #333; margin: 0; font-family: sans-serif; }
         .cabecalho { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -75,18 +77,18 @@ try {
         <div class="logo">Edição de Residente</div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="listar_idosos.php">🔙 Cancelar e Voltar</a></li>
+                <li><a href="<?php echo BASE_URL; ?>pages/listar_idosos.php">🔙 Cancelar e Voltar</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="painel-container">
-        <h2 style="color: #5b3a26;">Editando: <?= htmlspecialchars($idoso['nmPessoa']) ?></h2>
+        <h2 style="color: #5b3a26;">Editando: <?= htmlspecialchars($idoso['nomePessoa']) ?></h2>
         
-        <form method="POST" action="actions/atualizar_idoso.php" enctype="multipart/form-data">
+        <form method="POST" action="<?php echo BASE_URL; ?>actions/atualizar_idoso.php" enctype="multipart/form-data">
             
             <input type="hidden" name="idIdoso" value="<?= $idoso['idIdoso'] ?>">
-            <input type="hidden" name="idPessoa" value="<?= $idoso['pessoa_idPessoa'] ?>">
+            <input type="hidden" name="idPessoa" value="<?= $idoso['idPessoa'] ?>">
 
             <div class="painel-grid">
                 <div class="coluna-cadastro">
@@ -102,7 +104,7 @@ try {
 
                     <div class="grupo-input">
                         <label>Nome Completo:</label>
-                        <input type="text" name="nome" value="<?= htmlspecialchars($idoso['nmPessoa']) ?>" required>
+                        <input type="text" name="nome" value="<?= htmlspecialchars($idoso['nomePessoa']) ?>" required>
                     </div>
 
                     <div class="linha-dupla">
@@ -112,19 +114,16 @@ try {
                         </div>
                         <div class="grupo-input">
                             <label>Data de Nascimento:</label>
-                            <input type="date" name="dtNascimento" value="<?= $idoso['dtNascimento'] ?>" required>
+                            <input type="date" name="dataNascimento" value="<?= $idoso['dataNascimento'] ?>" required>
                         </div>
                     </div>
 
                     <div class="grupo-input">
                         <label>Grau de Dependência / Condição Médica:</label>
-                        <input type="text" name="necessidades" value="<?= htmlspecialchars($idoso['necessidades']) ?>">
+                        <input type="text" name="sobre" value="<?= htmlspecialchars($idoso['sobre']) ?>">
                     </div>
 
-                    <div class="grupo-input">
-                        <label>História de Vida (Resumo):</label>
-                        <textarea name="historia" rows="3"><?= htmlspecialchars($idoso['sobre']) ?></textarea>
-                    </div>
+                    
                 </div>
 
                 <div class="coluna-preferencias">
@@ -133,20 +132,20 @@ try {
                     <div class="toggle-switch">
                         <span class="titulo-toggle">🤝 Aceita Receber Visitas?</span>
                         <label>
-                            <input type="radio" name="aceita_visita" value="1" <?= ($idoso['aceita_visita'] == 1) ? 'checked' : '' ?>> Sim, está apto
+                            <input type="radio" name="aceitaVisita" value="1" <?= ($idoso['aceitaVisita'] == 1) ? 'checked' : '' ?>> Sim, está apto
                         </label><br>
                         <label>
-                            <input type="radio" name="aceita_visita" value="0" <?= ($idoso['aceita_visita'] == 0) ? 'checked' : '' ?>> Não no momento
+                            <input type="radio" name="aceitaVisita" value="0" <?= ($idoso['aceitaVisita'] == 0) ? 'checked' : '' ?>> Não no momento
                         </label>
                     </div>
 
                     <div class="toggle-switch">
                         <span class="titulo-toggle">✉️ Aceita Receber Cartas?</span>
                         <label>
-                            <input type="radio" name="aceita_carta" value="1" <?= ($idoso['aceita_carta'] == 1) ? 'checked' : '' ?>> Sim, pode receber
+                            <input type="radio" name="aceitaCarta" value="1" <?= ($idoso['aceitaCarta'] == 1) ? 'checked' : '' ?>> Sim, pode receber
                         </label><br>
                         <label>
-                            <input type="radio" name="aceita_carta" value="0" <?= ($idoso['aceita_carta'] == 0) ? 'checked' : '' ?>> Não no momento
+                            <input type="radio" name="aceitaCarta" value="0" <?= ($idoso['aceitaCarta'] == 0) ? 'checked' : '' ?>> Não no momento
                         </label>
                     </div>
 

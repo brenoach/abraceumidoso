@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "INSERT INTO agendamento (idoso_idIdoso, voluntario_idVoluntario, dtAgendamento, voluntariohrAgendamento ) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO agendamento (idIdoso, idVoluntario, dataAgendamento, voluntariohoraAgendamento ) VALUES (?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         
         $stmt->execute([
@@ -86,9 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </main>
 
-    <footer class="rodape">
-        <p>&copy; 2025 Lar dos Idosos. Todos os direitos reservados.</p>
-    </footer>
+    <?php include 'footer.php'; ?>
+
     <script src="assets/js/script.js"></script>
 </body>
 </html>

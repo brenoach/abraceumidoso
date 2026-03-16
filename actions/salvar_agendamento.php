@@ -9,11 +9,11 @@ if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'voluntar
 
 $idVoluntario = $_SESSION['usuario_id'];
 $idIdoso = $_POST['idoso_id'];
-$dtAgendamento = $_POST['data_visita'];
-$hrAgendamento = $_POST['hora_visita'];
+$dataAgendamento = $_POST['data_visita'];
+$horaAgendamento = $_POST['hora_visita'];
 
 // === NOVA TRAVA DE HORÁRIO ===
-$horaInt = (int)substr($hrAgendamento, 0, 2); // Pega as primeiras duas letras (a hora)
+$horaInt = (int)substr($horaAgendamento, 0, 2); // Pega as primeiras duas letras (a hora)
 
 if ($horaInt < 7 || $horaInt >= 20) {
     echo "<script>
@@ -27,14 +27,14 @@ if ($horaInt < 7 || $horaInt >= 20) {
 $status = 'Pendente';
 
 try {
-    $sql = "INSERT INTO agendamento (dtAgendamento, hrAgendamento, status, voluntario_idVoluntario, idoso_idIdoso) 
+    $sql = "INSERT INTO agendamento (dataAgendamento, horaAgendamento, status, idVoluntario, idIdoso) 
             VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$dtAgendamento, $hrAgendamento, $status, $idVoluntario, $idIdoso]);
+    $stmt->execute([$dataAgendamento, $horaAgendamento, $status, $idVoluntario, $idIdoso]);
 
     echo "<script>
         alert('Agendamento solicitado! Aguarde a aprovação da instituição.');
-        window.location.href = '../painel_voluntario.php';
+        window.location.href = '../pages/painel_voluntario.php';
     </script>";
 } catch (PDOException $e) {
     echo "Erro: " . $e->getMessage();

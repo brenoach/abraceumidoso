@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Vamos supor que você receba isso do formulário HTML
     $nome          = $_POST['nome'];
     $cpf           = $_POST['cpf'];
-    $dtNascimento  = $_POST['data_nascimento'];
+    $dataNascimento  = $_POST['data_nascimento'];
     $sobre         = $_POST['sobre']; // Campo "sobre" da tabela pessoa
     $senha         = $_POST['senha']; 
     // Hash seguro para a senha (nunca salve senha pura!)
@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // ---------------------------------------------------------
         // PASSO 1: Inserir na tabela PESSOA
         // ---------------------------------------------------------
-        $sqlPessoa = "INSERT INTO pessoa (nmPessoa, cpf, dtNascimento, sobre) VALUES (?, ?, ?, ?)";
+        $sqlPessoa = "INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, sobre) VALUES (?, ?, ?, ?)";
         $stmt = $pdo->prepare($sqlPessoa);
-        $stmt->execute([$nome, $cpf, $dtNascimento, $sobre]);
+        $stmt->execute([$nome, $cpf, $dataNascimento, $sobre]);
 
         // *** O PULO DO GATO ***: Pegar o ID gerado agora
         $idNovaPessoa = $pdo->lastInsertId();
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            Para o código não ficar gigante, vou simular que você já inseriu 
            ou vai deixar nulo por enquanto, mas a lógica seria a mesma:
            INSERT INTO endereco -> lastInsertId -> $idNovoEndereco
-           INSERT INTO contatos -> lastInsertId -> $idNovoContato
+           INSERT INTO contato -> lastInsertId -> $idNovoContato
         */
         
         // Para exemplo, vamos supor que você tratou isso ou aceita NULL
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // PASSO 3: Inserir na tabela VOLUNTARIO
         // ---------------------------------------------------------
         // Aqui conectamos as tabelas usando o $idNovaPessoa
-        $sqlVoluntario = "INSERT INTO voluntario (senha, pessoa_idPessoa, endereco_idEndereco, contatos_idContatos) VALUES (?, ?, ?, ?)";
+        $sqlVoluntario = "INSERT INTO voluntario (senha, idPessoa, idEndereco, contatos_idContatos) VALUES (?, ?, ?, ?)";
         $stmtVol = $pdo->prepare($sqlVoluntario);
         $stmtVol->execute([$senhaHash, $idNovaPessoa, $idNovoEndereco, $idNovoContato]);
 

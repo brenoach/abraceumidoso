@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
     
-    $nasc = $_POST['dtNascimento'];
+    $nasc = $_POST['dataNascimento'];
     $sobre = $_POST['sobre'];
     
     // DADOS NOVOS: Cargo e Instituição
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $estado = $_POST['estado']; 
     $cidade = $_POST['cidade'];
     $bairro = $_POST['bairro'];
-    $nmLogradouro = $_POST['nmlogradouro']; // Corrigido para bater com o HTML     
+    $nomeLogradouro = $_POST['nmlogradouro']; // Corrigido para bater com o HTML     
     $numero = $_POST['numero']; 
     $complemento = $_POST['complemento']; 
 
@@ -61,26 +61,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->beginTransaction();
 
         // A. Inserir Endereço 
-        $sqlEnd = "INSERT INTO endereco (cep, cidade, estado, bairro, nmLogradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)"; 
+        $sqlEnd = "INSERT INTO endereco (cep, cidade, estado, bairro, nomeLogradouro, numero, complemento) VALUES (?, ?, ?, ?, ?, ?, ?)"; 
         $stmtEnd = $pdo->prepare($sqlEnd);
-        $stmtEnd->execute([$cep, $cidade, $estado, $bairro, $nmLogradouro, $numero, $complemento]); 
+        $stmtEnd->execute([$cep, $cidade, $estado, $bairro, $nomeLogradouro, $numero, $complemento]); 
         $idEndereco = $pdo->lastInsertId();
 
         // B. Inserir Contatos 
-        $sqlCon = "INSERT INTO contatos (email, celular) VALUES (?, ?)";
+        $sqlCon = "INSERT INTO contato (email, celular) VALUES (?, ?)";
         $stmtCon = $pdo->prepare($sqlCon);
         $stmtCon->execute([$email, $celular]);
         $idContato = $pdo->lastInsertId();
 
         // C. Inserir Pessoa com Foto 
-        $sqlPessoa = "INSERT INTO pessoa (nmPessoa, cpf, dtNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
+        $sqlPessoa = "INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
         $stmtPes = $pdo->prepare($sqlPessoa);
         $stmtPes->execute([$nome, $cpf, $nasc, $sobre, $caminhoFoto]);
         $idPessoa = $pdo->lastInsertId();
 
         // D. Inserir FUNCIONÁRIO (Agora com Instituição e Cargo)
         // Atenção aqui: o banco precisa ter a coluna 'cargo' na tabela funcionario
-        $sqlFunc = "INSERT INTO funcionario (senha, pessoa_idPessoa, endereco_idEndereco, contatos_idcontatos, instituicao_idinstituicao, cargo) VALUES (?, ?, ?, ?, ?, ?)";
+        $sqlFunc = "INSERT INTO funcionario (senha, idPessoa, idEndereco, idContato, idInstituicao, cargo) VALUES (?, ?, ?, ?, ?, ?)";
         $stmtFunc = $pdo->prepare($sqlFunc);
         $stmtFunc->execute([$senha, $idPessoa, $idEndereco, $idContato, $idInstituicao, $cargo]);
 

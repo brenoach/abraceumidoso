@@ -15,7 +15,7 @@ try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$novaAcao, $idAgendamento]);
 
-    header("Location: ../painel_funcionario.php?msg=sucesso");
+    header("Location: ../pages/painel_funcionario.php?msg=sucesso");
     exit;
 
 } catch (PDOException $e) {

@@ -32,19 +32,19 @@ if (isset($_SESSION['usuario_tipo'])) {
 <head>
     <meta charset="UTF-8">
     <title>Login - Abrace um Idoso</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    
 </head>
 
 <body>
 
-    <?php include 'includes/header.php';?>
+    <?php include '../includes/header.php';?>
 
     <main class="container-principal">
         <div class="card-formulario" style="max-width: 400px;">
             <h2>Acesse sua conta</h2>
             <p>Bem-vindo de volta!</p>
 
-            <form method="POST" action="actions/autenticar.php">
+            <form method="POST" action="<?php echo BASE_URL; ?>/actions/autenticar.php">
 
                 <div class="grupo-input">
                     <label>Você é:</label>
@@ -84,7 +84,7 @@ if (isset($_SESSION['usuario_tipo'])) {
         </div>
     </main>
 
-    <?php include 'includes/footer.php';?>
+    <?php include '../includes/footer.php';?>
 </body>
 
 </html>

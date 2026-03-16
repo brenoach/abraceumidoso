@@ -1,11 +1,16 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
     require_once __DIR__ . '../vendor/autoload.php';
+    require_once 'includes/helpers.php'; 
+    include 'includes/header.php';
 
     
     $clientID = '542179864570-vf7jgq7cqtq8snk5udevo5dubbkkshsr.apps.googleusercontent.com';
     $clientSecret = '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';
-    $redirectUri = 'http://localhost/abraceUmIdoso/actions/callback_google.php';
+    $redirectUri = 'http://localhost/abraceumidoso/actions/callback_google.php';
 
     // Gerar a URL para o botão de login
         // echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
@@ -30,7 +35,7 @@
 
 <body>
 <?php include 'includes/header.php'; 
-echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+
 ?>
 <section class="hero-container">
     

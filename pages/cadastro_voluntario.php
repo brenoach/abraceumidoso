@@ -1,18 +1,35 @@
+<?php
+session_start();
+// 1. Conecta no banco
+require_once '../includes/db.php'; 
+
+// 2. Carrega as funções de foto (A LINHA QUE FALTA!)
+require_once '../includes/helpers.php'; 
+
+// 3. Só agora carrega o cabeçalho
+include '../includes/header.php';
+
+// ... resto do seu código ...
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Seja um Voluntário</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    
 </head>
 <body>
-    <?php include 'includes/header.php';?>
+    
+    
+</header>
+
     <main class="container-principal">
         <div class="card-formulario">
             <h2>Cadastro de Voluntário</h2>
             <p>Junte-se a nós e faça a diferença.</p>
 
-            <form method="POST" action="actions/salvar_voluntario.php" enctype="multipart/form-data">
+            <form method="POST" action="<?php echo BASE_URL; ?>actions/salvar_voluntario.php" enctype="multipart/form-data">
                 
                 <div class="area-upload">
                     <label for="foto">
@@ -35,7 +52,7 @@
                     </div>
                     <div class="grupo-input">
                         <label>Nascimento:</label>
-                        <input type="date" name="dtNascimento" required>
+                        <input type="date" name="dataNascimento" required>
                     </div>
                 </div>
 
@@ -122,5 +139,6 @@
             }
         }
     </script>
+    <?php include '../includes/footer.php';?>
 </body>
 </html>

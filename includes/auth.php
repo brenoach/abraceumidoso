@@ -15,7 +15,7 @@ function verificarAcesso($tipoPermitido = null) {
     // VERIFICAÇÃO 1: O usuário está logado?
     if (!isset($_SESSION['usuario_id'])) {
         // Se não estiver, manda pro login
-        header("Location: /abraceumidoso/PI/login.php"); // Ajuste o caminho se necessário
+        header("Location: /abraceumidoso/pages/login.php"); // Ajuste o caminho se necessário
         exit;
     }
 

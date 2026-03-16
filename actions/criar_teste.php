@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once '../includes/db.php';
 
 echo "<h2>🔧 Criador de Dados de Teste</h2>";
 
@@ -7,28 +7,28 @@ try {
     $pdo->beginTransaction();
 
     // 1. Cria o Endereço
-    $pdo->exec("INSERT INTO endereco (nmLogradouro) VALUES ('Avenida da Praia, 100')");
+    $pdo->exec("INSERT INTO endereco (nomeLogradouro) VALUES ('Avenida da Praia, 100')");
     $idEndereco = $pdo->lastInsertId();
 
     // 2. Cria o Contato da Instituição (obrigatório pela sua tabela)
-    $stmtContatoInst = $pdo->prepare("INSERT INTO contatos (email) VALUES (?)");
+    $stmtContatoInst = $pdo->prepare("INSERT INTO contato (email) VALUES (?)");
     $stmtContatoInst->execute(['contato@laresperanca.com']);
     $idContatoInst = $pdo->lastInsertId();
 
     // 3. Cria a Instituição (Agora com TODOS os campos obrigatórios preenchidos)
     $senhaInstHash = password_hash('123456', PASSWORD_DEFAULT); // Senha da instituição
-    $stmtInst = $pdo->prepare("INSERT INTO instituicao (nmInstituicao, cnpj, senha, endereco_idEndereco, contatos_idcontatos) VALUES (?, ?, ?, ?, ?)");
+    $stmtInst = $pdo->prepare("INSERT INTO instituicao (nomeInstituicao, cnpj, senha, idEndereco, idContato) VALUES (?, ?, ?, ?, ?)");
     $stmtInst->execute(['Lar Esperança de Santos', '12345678000199', $senhaInstHash, $idEndereco, $idContatoInst]);
     $idInstituicao = $pdo->lastInsertId();
 
     // 4. Cria a Pessoa (O Funcionário)
-    $stmtPessoa = $pdo->prepare("INSERT INTO pessoa (nmPessoa) VALUES (?)");
+    $stmtPessoa = $pdo->prepare("INSERT INTO pessoa (nomePessoa) VALUES (?)");
     $stmtPessoa->execute(['Administrador Teste']);
     $idPessoa = $pdo->lastInsertId();
 
     // 5. Cria o Contato do Funcionário (Este é o e-mail do login!)
     $emailTeste = 'funcionario@teste.com';
-    $stmtContatoFunc = $pdo->prepare("INSERT INTO contatos (email) VALUES (?)");
+    $stmtContatoFunc = $pdo->prepare("INSERT INTO contato (email) VALUES (?)");
     $stmtContatoFunc->execute([$emailTeste]);
     $idContatoFunc = $pdo->lastInsertId();
 
@@ -36,7 +36,7 @@ try {
     $senhaLimpa = '123456';
     $senhaHash = password_hash($senhaLimpa, PASSWORD_DEFAULT);
     
-    $stmtFunc = $pdo->prepare("INSERT INTO funcionario (senha, pessoa_idPessoa, contatos_idcontatos, instituicao_idinstituicao) VALUES (?, ?, ?, ?)");
+    $stmtFunc = $pdo->prepare("INSERT INTO funcionario (senha, idPessoa, idContato, idInstituicao) VALUES (?, ?, ?, ?)");
     $stmtFunc->execute([$senhaHash, $idPessoa, $idContatoFunc, $idInstituicao]);
 
     // Confirma as inserções no banco
