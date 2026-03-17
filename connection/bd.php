@@ -1,13 +1,14 @@
 <?php
-$config = require __DIR__ . '/config.php';
- 
-$mysqli = new mysqli($config['host'], $config['user'], $config['pass'], $config['db']);
-if ($mysqli->connect_error) {
-  die('Erro de conexão: ' . $mysqli->connect_error);
+
+$host = 'localhost';
+$db   = 'u142555398_abraceumidoso';
+$user = 'u142555398_abraceumidoso';
+$pass = 'Abraceumidoso123';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erro na conexão: " . $e->getMessage());
 }
-$mysqli->set_charset($config['charset'] ?? 'utf8mb4');
- 
-function db(): mysqli {
-  global $mysqli;
-  return $mysqli;
-}
+?>

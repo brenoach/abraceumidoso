@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // 2. Definição da BASE_URL
 if (!defined('BASE_URL')) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
-    define('BASE_URL', $protocol . $_SERVER['HTTP_HOST'] . '/abraceumidoso/');
+    define('BASE_URL', $protocol . $_SERVER['HTTP_HOST'] . '/');
 }
 
 // 3. Proteção contra índices inexistentes (evita os Warnings na tela)

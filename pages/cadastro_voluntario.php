@@ -1,14 +1,17 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // 1. Conecta no banco
-require_once '../includes/db.php'; 
 
-// 2. Carrega as funções de foto (A LINHA QUE FALTA!)
-require_once '../includes/helpers.php'; 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// 3. Só agora carrega o cabeçalho
-include '../includes/header.php';
 
+require_once __DIR__ .'../../includes/db.php';
+require_once __DIR__ .'../../includes/helpers.php';
+include_once __DIR__ .'../../includes/header.php';  
 // ... resto do seu código ...
 ?>
 
