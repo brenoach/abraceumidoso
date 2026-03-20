@@ -1,7 +1,7 @@
 <?php
 
-$host = 'sql100.infinityfree.com ';
-$db   = 'if0_41247895_bd_abraceumidoso ';
+$host = 'sql100.infinityfree.com';
+$db   = 'if0_41247895_bd_abraceumidoso';
 $user = 'if0_41247895';
 $pass = 'WNnKXcjoHjsDHjN';
 
