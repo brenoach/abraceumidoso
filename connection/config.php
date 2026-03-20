@@ -5,10 +5,10 @@ $isLocal = ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] =
 if ($isLocal) {
     // CONFIGURAÇÃO PARA XAMPP (LOCAL)
     return [
-        'host' => 'localhost',
-        'user' => 'root',
-        'pass' => '',
-        'db'   => 'abraceumidoso', // phpMyAdmin
+        'host' => 'sql100.infinityfree.com',
+        'user' => 'if0_41247895',
+        'pass' => 'WNnKXcjoHjsDHjN',
+        'db'   => 'if0_41247895_bd_abraceumidoso ', // phpMyAdmin
         'charset' => 'utf8mb4',
     ];
 } else {
