@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-    require_once __DIR__ . '/vendor/autoload.php';
+    // require_once __DIR__ . '/vendor/autoload.php';
     require_once 'includes/helpers.php'; 
     include 'includes/header.php';
 
@@ -28,9 +28,9 @@ if (session_status() === PHP_SESSION_NONE) {
         $client->addScope("profile");
 
                 // Gerar a URL para o botão de login
-        $loginUrl = $client->createAuthUrl();
+        // $loginUrl = $client->createAuthUrl();
 
-        echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+        // echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
         // Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
 
 ?>
@@ -38,7 +38,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <html lang="pt-BR">
 
 <body>
-<?php include 'includes/header.php'; 
+
 
 ?>
 <section class="hero-container">
