@@ -33,7 +33,7 @@ if (session_status() === PHP_SESSION_NONE) {
         // echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
         // Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
 
-?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
