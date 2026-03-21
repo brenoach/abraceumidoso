@@ -5,19 +5,19 @@ $isLocal = ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] =
 if ($isLocal) {
     // CONFIGURAÇÃO PARA XAMPP (LOCAL)
     return [
-        'host' => 'sql100.infinityfree.com',
+        'host' => 'sql100.infinityfree.com1',
         'user' => 'if0_41247895',
         'pass' => 'WNnKXcjoHjsDHjN',
-        'db'   => 'if0_41247895_bd_abraceumidoso ', // phpMyAdmin
+        'db'   => 'if0_41247895_bd_abraceumidoso', // phpMyAdmin
         'charset' => 'utf8mb4',
     ];
 } else {
     // CONFIGURAÇÃO PARA INFINITYFREE (ONLINE)
     return [
-        'host' => 'sql211.infinityfree.com',
-        'user' => 'if0_41248576',
-        'pass' => '305079Mo',
-        'db'   => 'if0_41248576_bd_abraceumidoso',
+        'host' => 'localhost',
+        'user' => 'root',
+        'pass' => '',
+        'db'   => 'if0_41247895_bd_abraceumidoso',
         'charset' => 'utf8mb4',
     ];
 }
