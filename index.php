@@ -41,7 +41,7 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
   //              Gerar a URL para o botão de login
         $loginUrl = $client->createAuthUrl();
 
-        echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+       
   //      Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
 
 ?>
