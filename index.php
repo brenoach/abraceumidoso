@@ -1,32 +1,26 @@
 <?php
 
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
     require __DIR__ .'/connection/config.php';
     // require_once __DIR__ . '/vendor/autoload.php';
     require_once ROOT_PATH .'includes/helpers.php'; 
     include ROOT_PATH .'includes/header.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
-    // Caminho no seu computador
-    define('BASE_URL', 'http://localhost/abraceumidoso/');
+// 3. Chama o motor das bibliotecas (Google, etc)
+// Verifique se este arquivo existe no servidor!
+if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
+    require_once ROOT_PATH . 'vendor/autoload.php';
 } else {
-    // Caminho no InfinityFree (ajuste para o seu link real)
-    define('BASE_URL', 'http://abraceumidoso.infinityfreeapp.com/');
+    die("Erro Crítico: A pasta 'vendor' não foi encontrada. O login com Google não vai funcionar.");
 }
-
-// 2. Caminho absoluto para os arquivos (PHP raiz)
-// O __DIR__ sempre sabe onde o arquivo está, não importa o nome da pasta
-define('ROOT_PATH', __DIR__ . '/');
-
-//3. Opcional: Já puxa o banco de dados aqui
-require_once ROOT_PATH . 'includes/db.php';  
 
     
     $clientID = '542179864570-vf7jgq7cqtq8snk5udevo5dubbkkshsr.apps.googleusercontent.com';
