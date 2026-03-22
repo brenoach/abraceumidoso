@@ -33,15 +33,7 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 <body>
 
-<header class="cabecalho">
-   
-    <div class="logo"></div>
-    <div>
-        <span>Olá, <?= $_SESSION['usuario_nome'] ?></span>
-        <a href="<?php echo BASE_URL; ?>actions/logout.php" class="btn-sair">Sair</a>
-    </div>
-</header>
-<div class="container">
+    <div class="container">
     <h1 style="color: #5b3a26;">Painel Administrativo</h1>
     
     <div class="atalhos-grid">
@@ -51,7 +43,7 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <p>Cadastre novos idosos na sua unidade.</p>
             <a href="cadastrar_idoso.php" class="btn-principal">Cadastrar Novo</a>
         </div>
-        
+
         <div class="card-atalho">
             <span>📋</span>
             <h3>Lista de Residentes</h3>
@@ -75,6 +67,7 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php foreach ($visitas as $v): ?>
                 <tr>
+                    <td><img src="<?php echo exibirFoto($idoso['fotoPerfil'], $idoso['nomePessoa'], 'idoso');?>"></td>
                     <td><strong><?= date('d/m/Y', strtotime($v['dataAgendamento'])) ?></strong><br><small><?= $v['horaAgendamento'] ?></small></td>
                     <td><?= htmlspecialchars($v['nome_voluntario']) ?></td>
                     <td><?= htmlspecialchars($v['nome_idoso']) ?></td>

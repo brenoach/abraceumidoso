@@ -81,8 +81,8 @@ try {
                     <?php foreach ($listaIdosos as $idoso): ?>
                         <tr>
                             <td style="text-align: center;">
-                                <?= exibirFotoIdoso($idoso['fotoPerfil'], $idoso['nomePessoa']) ?>
-                            </td>
+                                <img src="<?php echo exibirFoto($idoso['fotoPerfil'], $idoso['nomePessoa'], 'idoso');?>" alt="Foto do Resident ">
+                                
                             
                             <td><strong><?= htmlspecialchars($idoso['nomePessoa']) ?></strong></td>
                             <td><?= htmlspecialchars($idoso['cpf']) ?></td>

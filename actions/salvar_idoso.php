@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sobre = trim($_POST['historia']); 
         
         // 3. Recebendo as opções de Visita/Carta e Necessidades
-        $necessidades = trim($_POST['necessidades']);
+        $sobre = trim($_POST['sobre']);
         $aceitaVisita = $_POST['aceitaVisita']; 
         $aceitaCarta = $_POST['aceitaCarta'];   
 
@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $idPessoa = $pdo->lastInsertId();
 
         // B. Inserir na tabela IDOSO (Agora enviando o $idInstituicao!)
-        $sqlIdoso = "INSERT INTO idoso (idPessoa, necessidades, aceitaVisita, aceitaCarta, idInstituicao) VALUES (?, ?, ?, ?, ?)";
+        $sqlIdoso = "INSERT INTO idoso (idPessoa, aceitaVisita, aceitaCarta, idInstituicao) VALUES ( ?, ?, ?, ?)";
         $stmtIdoso = $pdo->prepare($sqlIdoso);
-        $stmtIdoso->execute([$idPessoa, $necessidades, $aceitaVisita, $aceitaCarta, $idInstituicao]);
+        $stmtIdoso->execute([$idPessoa, $aceitaVisita, $aceitaCarta, $idInstituicao]);
 
         $pdo->commit();
         

@@ -1,6 +1,16 @@
 <?php
-include './connection/config.php';
+$config = require 'config.php';
 
+try {
+    $pdo = new PDO(
+        "mysql:host={$config['host']};dbname={$config['db']};charset={$config['charset']}",
+        $config['user'],
+        $config['pass']
+    );
+    // ... restante da conexão
+} catch (PDOException $e) {
+    echo "Erro na conexão: " . $e->getMessage();
+}
 
 // $host = 'sql100.infinityfree.com';
 // $db   = 'if0_41247895_bd_abraceumidoso';

@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once '../includes/db.php';
+require_once __DIR__ . '/../connection/config.php';
+// require_once '../includes/db.php';
 require_once '../includes/auth.php';
 verificarAcesso('funcionario');
 require_once '../includes/helpers.php'; 
@@ -51,14 +52,14 @@ include '../includes/header.php';
                     </div>
                     <div class="grupo-input">
                         <label>Grau de Dependência / Necessidades Médicas:</label>
-                        <input type="text" name="necessidades" placeholder="Ex: Cadeirante, Alzheimer leve..." required>
+                        <input type="text" name="sobre" placeholder="Ex: Cadeirante, Alzheimer leve..." required>
                     </div>
                 </div>
 
-                <div class="grupo-input">
+                <!-- <div class="grupo-input">
                     <label>História de Vida (Breve resumo para o voluntário ler):</label>
                     <textarea name="historia" rows="4" class="campo-texto" placeholder="Gosta de jogar xadrez, foi professor..." required></textarea>
-                </div>
+                </div>  -->
                 <div class="grupo-input">
                     
                 <div class="radio-group">

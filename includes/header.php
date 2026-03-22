@@ -3,12 +3,12 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+require_once __DIR__ . '../../connection/config.php';
 // 2. Definição da BASE_URL
-if (!defined('BASE_URL')) {
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
-    define('BASE_URL', $protocol . $_SERVER['HTTP_HOST'] . '/');
-}
+// if (!defined('BASE_URL')) {
+//     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+//     define('BASE_URL', $protocol . $_SERVER['HTTP_HOST'] . '/');
+// }    limpar se o config der certo
 
 // 3. Proteção contra índices inexistentes (evita os Warnings na tela)
 $tipo = $_SESSION['usuario_tipo'] ?? null;
@@ -26,17 +26,13 @@ $nome_usuario = $_SESSION['usuario_nome'] ?? '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
-
-    
-
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css?v=1.2">
+    <link rel="stylesheet" href="<?php echo BASE_URL;?>/assets/css/style.css?v=1.2">
 </head>
 <body>
 
 <header class="cabecalho">
-    <a href="<?php echo BASE_URL; ?>index.php" class="logo">
-        <img src="<?php echo BASE_URL; ?>assets/img/logo.jpg" alt="Logo">
+    <a href="<?php echo BASE_URL;?>index.php" class="logo">
+        <img src="<?php echo BASE_URL;?>/assets/img/logo.jpg" alt="Logo">
     </a>
 
     <nav class="nav-menu">
@@ -50,8 +46,9 @@ $nome_usuario = $_SESSION['usuario_nome'] ?? '';
 
             <?php if ($inst_id || $tipo === 'funcionario'): ?>
                 <li class="perfil-cabecalho">
-                    <?= exibirFotoUsuario(null, $nome_usuario) ?>
-                    <span>Olá, <?php echo htmlspecialchars($nome_usuario); ?></span>
+                    
+                    <? echo exibirFoto($usuario['fotoPerfil'], $usuario['nomePessoa'], 'usuario');?>
+                    <span>Olá, <?php echo htmlspecialchars($nome_usuario); ?></span>                    
                 </li>
                 <li><a href="<?php echo BASE_URL; ?>pages/painel_funcionario.php">🏠 Voltar ao Painel</a></li>
                 <li><a href="<?php echo BASE_URL; ?>actions/logout.php" class="btn-sair">Sair</a></li>

@@ -1,4 +1,10 @@
 <?php
+
+    require __DIR__ .'/connection/config.php';
+    // require_once __DIR__ . '/vendor/autoload.php';
+    require_once ROOT_PATH .'includes/helpers.php'; 
+    include ROOT_PATH .'includes/header.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -7,25 +13,36 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-    // require_once __DIR__ . '/vendor/autoload.php';
-    require_once 'includes/helpers.php'; 
-    include 'includes/header.php';
+// if ($_SERVER['HTTP_HOST'] == 'localhost') {
+//     // Caminho no seu computador
+//     define('BASE_URL', 'http://localhost/abraceumidoso/');
+// } else {
+//     // Caminho no InfinityFree (ajuste para o seu link real)
+//     define('BASE_URL', 'http://abraceumidoso.infinityfreeapp.com/');
+// }
+
+// // 2. Caminho absoluto para os arquivos (PHP raiz)
+// // O __DIR__ sempre sabe onde o arquivo está, não importa o nome da pasta
+// define('ROOT_PATH', __DIR__ . '/');
+
+// 3. Opcional: Já puxa o banco de dados aqui
+// require_once ROOT_PATH . 'includes/db.php';  
 
     
-    $clientID = '542179864570-vf7jgq7cqtq8snk5udevo5dubbkkshsr.apps.googleusercontent.com';
-    $clientSecret = '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';
-    $redirectUri = 'http://localhost/abraceumidoso/actions/callback_google.php';
+    // $clientID = '542179864570-vf7jgq7cqtq8snk5udevo5dubbkkshsr.apps.googleusercontent.com';
+    // $clientSecret = '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';
+    // $redirectUri = 'http://localhost/abraceumidoso/actions/callback_google.php';
 
     // Gerar a URL para o botão de login
         // echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
 
     // Criar o cliente do Google
-        $client = new Google_Client();
-        $client->setClientId($clientID);
-        $client->setClientSecret($clientSecret);
-        $client->setRedirectUri($redirectUri);
-        $client->addScope("email");
-        $client->addScope("profile");
+        // $client = new Google_Client();
+        // $client->setClientId($clientID);
+        // $client->setClientSecret($clientSecret);
+        // $client->setRedirectUri($redirectUri);
+        // $client->addScope("email");
+        // $client->addScope("profile");    
 
                 // Gerar a URL para o botão de login
         // $loginUrl = $client->createAuthUrl();
@@ -39,7 +56,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
 
-<h1>Abrace um Idoso TESTE</h1>
+<!-- <h1>Abrace um Idoso TESTE</h1> -->
 
 
 <section class="hero-container">

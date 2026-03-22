@@ -1,4 +1,13 @@
 <?php
+//Diagnóstico de erro
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/../connection/config.php';
+require_once __DIR__ . '/../includes/helpers.php';
+
+
 // O PHP verifica: "A sessão está desligada?" Se sim, ele liga! Se não, ele fica quieto.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -26,6 +35,7 @@ if (isset($_SESSION['usuario_tipo'])) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -79,6 +89,12 @@ if (isset($_SESSION['usuario_tipo'])) {
                 <p style="text-align: center; margin-top: 5px; font-size: 0.85em;">
                     <a href="esqueci_senha.php"
                         style="color: #666; text-decoration: none;">Esqueci minha senha</a>
+                </p>
+                <p> 🎉 Todos os dados foram inseridos com sucesso!
+
+                        Email Funcionário: breno@abraceumidoso.com | Senha: 123456
+
+                        Email Voluntária: aline.voluntaria@teste.com | Senha: 123456
                 </p>
             </form>
         </div>

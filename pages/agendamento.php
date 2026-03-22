@@ -1,5 +1,8 @@
 <?php
-require_once 'includes/db.php';
+
+
+require_once __DIR__ . '../../connection/config.php';
+require_once __DIR__ . '/../includes/helpers.php';
 
 $mensagem = "";
 
@@ -36,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-    <?php include 'hearder.php';?>
+    <?php include __DIR__ .'/../includes/header.php';?>
 
     <main class="container-principal">
         <div class="card-formulario">

@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // Puxa a sua conexão com o banco (ajuste o caminho se necessário)
-require_once 'includes/db.php'; 
+require_once './includes/db.php'; 
 
 try {
     // Inicia a transação (se der erro no meio, ele desfaz tudo para não sujar o banco)
