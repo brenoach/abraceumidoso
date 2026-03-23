@@ -8,7 +8,7 @@ require_once '../includes/header.php';
 
 
 $idInst = $_SESSION['instituicao_id'];
-
+// $visitas = [];
 // SQL robusto para buscar visitas
 // 1. Pegamos o ID da instituição da sessão (para o funcionário ver só os idosos dele)
 $idInst = $_SESSION['usuario_id_instituicao']; 
@@ -34,6 +34,22 @@ $sql = "SELECT
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['idInst' => $idInst]);
 $listaIdosos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$visitas = []; 
+$idInst = $_SESSION['usuario_id_instituicao'] ?? null;
+
+// 2. Só busca no banco se tivermos o ID da instituição
+if ($idInst) {
+    $sql = "SELECT a.idAgendamento, a.dataAgendamento, p_idoso.nomePessoa AS nome_idoso 
+            FROM agendamento a 
+            JOIN idoso i ON a.idIdoso = i.idIdoso
+            JOIN pessoa p_idoso ON i.idPessoa = p_idoso.idPessoa
+            WHERE i.idInstituicao = ?";
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$idInst]);
+    $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>

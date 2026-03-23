@@ -43,16 +43,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verifica se achou o usuário E se a senha bate
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             
-            // Login Sucesso: Salva dados na Sessão
-            $_SESSION['usuario_id'] = $usuario['id'];
-            $_SESSION['usuario_nome'] = $usuario['nome'];
-            $_SESSION['usuario_tipo'] = $tipo;
+echo "<pre>";
+print_r($usuario); // Mostra tudo o que veio do banco
+echo "</pre>";
+exit;
 
             // Redireciona
             if ($tipo == 'voluntario') {
                 header("Location: ../pages/painel_voluntario.php");
             } else {
-                $_SESSION['instituicao_id'] = $usuario['idInstituicao'];
+                $_SESSION['usuario_id'] = $usuario['idFuncionario'];
+                $_SESSION['usuario_tipo'] = 'funcionario';
+                $_SESSION['nome'] = $usuario['nomePessoa'];
+            // PADRONIZANDO A CHAVE:
+                $_SESSION['idInstituicao'] = $usuario['idInstituicao']; 
+
+            header("Location: ../pages/painel_funcionario.php");
+            exit;
                 header("Location: ../pages/painel_funcionario.php");
             }
             exit;
