@@ -4,25 +4,36 @@ require_once '../includes/auth.php';
 verificarAcesso('funcionario');
 require_once '../includes/db.php';
 require_once '../includes/helpers.php'; 
-include '../includes/header.php';
+require_once '../includes/header.php';
 
 
 $idInst = $_SESSION['instituicao_id'];
 
 // SQL robusto para buscar visitas
-$sql = "SELECT a.idAgendamento, a.dataAgendamento, a.horaAgendamento, a.status, 
-               p_idoso.nomePessoa AS nome_idoso, p_vol.nomePessoa AS nome_voluntario
-        FROM agendamento a
-        JOIN idoso i ON a.idIdoso = i.idIdoso
-        JOIN pessoa p_idoso ON i.idPessoa = p_idoso.idPessoa
-        JOIN voluntario v ON a.idVoluntario = v.idVoluntario
-        JOIN pessoa p_vol ON v.idPessoa = p_vol.idPessoa
-        WHERE i.idInstituicao = ?
-        ORDER BY a.dataAgendamento ASC";
+// 1. Pegamos o ID da instituição da sessão (para o funcionário ver só os idosos dele)
+$idInst = $_SESSION['usuario_id_instituicao']; 
+
+// 2. A Query Mestra
+$sql = "SELECT 
+            i.idIdoso,
+            p.nomePessoa,
+            p.fotoPerfil,
+            p.sobre,
+            i.aceitaVisita,
+            GROUP_CONCAT(
+                CONCAT(d.dia_semana, ' (', TIME_FORMAT(d.hora_inicio, '%H:%i'), '-', TIME_FORMAT(d.hora_fim, '%H:%i'), ')') 
+                SEPARATOR ' | '
+            ) AS agenda_completa
+        FROM idoso i
+        JOIN pessoa p ON i.idPessoa = p.idPessoa
+        LEFT JOIN disponibilidade d ON i.idIdoso = d.idoso_idIdoso
+        WHERE i.idInstituicao = :idInst
+        GROUP BY i.idIdoso
+        ORDER BY p.nomePessoa ASC";
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$idInst]);
-$visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute(['idInst' => $idInst]);
+$listaIdosos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -88,5 +99,30 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
 </div>
+
+<div class="grid-idosos">
+    <?php foreach ($listaIdosos as $idoso): ?>
+        <div class="card-residente">
+            <div class="foto">
+                <?php echo exibirFoto($idoso['fotoPerfil'], $idoso['nomePessoa'], 'idoso'); ?>
+            </div>
+
+            <div class="info">
+                <h3><?php echo $idoso['nomePessoa']; ?></h3>
+                <p class="sobre"><?php echo $idoso['sobre']; ?></p>
+                
+                <div class="agenda-bloco">
+                    <strong>Horários de Visita:</strong><br>
+                    <small>
+                        <?php echo $idoso['agenda_completa'] ?: 'Nenhum horário cadastrado.'; ?>
+                    </small>
+                </div>
+            </div>
+            
+            <div class="acoes">
+                <a href="editar_idoso.php?id=<?php echo $idoso['idIdoso']; ?>" class="btn-edit">Editar</a>
+            </div>
+        </div>
+    <?php endforeach; ?>
 </body>
 </html>

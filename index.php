@@ -28,7 +28,7 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
     $redirectUri = 'http://localhost/abraceumidoso/actions/callback_google.php';
 
  //   Gerar a URL para o botão de login
-        echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+        //echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
 
  //   Criar o cliente do Google
         $client = new Google_Client();

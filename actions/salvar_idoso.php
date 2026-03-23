@@ -1,83 +1,50 @@
 <?php
 session_start();
-require_once '../includes/db.php';
-
-// Proteção dupla
-if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
-    die("Acesso negado.");
-}
+require_once __DIR__ . '/../connection/config.php';
+require_once ROOT_PATH . 'connection/db.php'; // Sua conexão PDO
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
     try {
-        // === A MÁGICA ACONTECE AQUI ===
-        // 1. Descobrir qual é a instituição do funcionário logado
-        $idFuncionarioLogado = $_SESSION['usuario_id'];
-        
-        $sqlBuscaInst = "SELECT idInstituicao FROM funcionario WHERE idFuncionario = ?";
-        $stmtBuscaInst = $pdo->prepare($sqlBuscaInst);
-        $stmtBuscaInst->execute([$idFuncionarioLogado]);
-        $dadosFuncionario = $stmtBuscaInst->fetch(PDO::FETCH_ASSOC);
-        
-        // Guarda o ID da instituição na variável
-        $idInstituicao = $dadosFuncionario['idInstituicao'];
-        // ===============================
+        $pdo->beginTransaction();
 
-        // 2. Recebendo os dados básicos
-        $nome = mb_strtoupper(trim($_POST['nome']));
-        $cpf = preg_replace('/\D/', '', $_POST['cpf']); 
-        $dataNascimento = $_POST['dataNascimento'];
-        $sobre = trim($_POST['historia']); 
-        
-        // 3. Recebendo as opções de Visita/Carta e Necessidades
-        $sobre = trim($_POST['sobre']);
-        $aceitaVisita = $_POST['aceitaVisita']; 
-        $aceitaCarta = $_POST['aceitaCarta'];   
-
-        // 4. Upload da Foto
-        $caminhoFoto = null; 
-
-        if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-            $arquivo = $_FILES['foto'];
-            $pastaDestino = '../assets/img/uploads/';
-            
-            if (!is_dir($pastaDestino)) {
-                mkdir($pastaDestino, 0777, true);
-            }
-
-            $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
-            $novoNome = "foto_idoso_" . md5(time() . uniqid()) . "." . $extensao;
-            
-            if (move_uploaded_file($arquivo['tmp_name'], $pastaDestino . $novoNome)) {
-                $caminhoFoto = 'assets/img/uploads/' . $novoNome;
+        // 1. Upload da Foto
+        $fotoCaminho = 'assets/img/uploads/default.png';
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+            $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+            $nomeArquivo = uniqid() . "." . $ext;
+            $destino = ROOT_PATH . 'assets/img/uploads/' . $nomeArquivo;
+            if (move_uploaded_file($_FILES['foto']['tmp_name'], $destino)) {
+                $fotoCaminho = 'assets/img/uploads/' . $nomeArquivo;
             }
         }
 
-        // 5. Inserção no Banco de Dados
-        $pdo->beginTransaction();
-
-        // A. Inserir na tabela PESSOA
-        $sqlPessoa = "INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, sobre, fotoPerfil) VALUES (?, ?, ?, ?, ?)";
-        $stmtPes = $pdo->prepare($sqlPessoa);
-        $stmtPes->execute([$nome, $cpf, $dataNascimento, $sobre, $caminhoFoto]);
-        
+        // 2. Inserir na tabela PESSOA
+        $stmt = $pdo->prepare("INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$_POST['nome'], $_POST['cpf'], $_POST['dataNascimento'], $fotoCaminho, $_POST['historia']]);
         $idPessoa = $pdo->lastInsertId();
 
-        // B. Inserir na tabela IDOSO (Agora enviando o $idInstituicao!)
-        $sqlIdoso = "INSERT INTO idoso (idPessoa, aceitaVisita, aceitaCarta, idInstituicao) VALUES ( ?, ?, ?, ?)";
-        $stmtIdoso = $pdo->prepare($sqlIdoso);
-        $stmtIdoso->execute([$idPessoa, $aceitaVisita, $aceitaCarta, $idInstituicao]);
+        // 3. Inserir na tabela IDOSO (Puxando a instituição da sessão do funcionário)
+        $idInstituicao = $_SESSION['usuario_id_instituicao']; 
+        $stmt = $pdo->prepare("INSERT INTO idoso (idPessoa, idInstituicao, aceitaVisita, aceitaCarta) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$idPessoa, $idInstituicao, $_POST['aceitaVisita'], $_POST['aceitaCarta'] ?? 1]);
+        $idIdoso = $pdo->lastInsertId();
+
+        // 4. Inserir DISPONIBILIDADE (Loop nos dias marcados)
+        if (isset($_POST['dias'])) {
+            $stmtDisp = $pdo->prepare("INSERT INTO disponibilidade (idoso_idIdoso, dia_semana, hora_inicio, hora_fim) VALUES (?, ?, ?, ?)");
+            foreach ($_POST['dias'] as $dia) {
+                $inicio = $_POST['horario_inicio'][$dia];
+                $fim = $_POST['horario_fim'][$dia];
+                if (!empty($inicio) && !empty($fim)) {
+                    $stmtDisp->execute([$idIdoso, $dia, $inicio, $fim]);
+                }
+            }
+        }
 
         $pdo->commit();
-        
-        echo "<script>
-                alert('Residente cadastrado com sucesso!');
-                window.location.href = '../pages/painel_funcionario.php';
-              </script>";
-
+        header("Location: ../pages/listar_idosos.php?sucesso=1");
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "<div style='color:red; padding: 20px;'>Erro no Banco de Dados: " . $e->getMessage() . "</div>";
+        die("Erro ao salvar: " . $e->getMessage());
     }
 }
-?>

@@ -1,133 +1,69 @@
 <?php
 session_start();
 require_once __DIR__ . '/../connection/config.php';
-// require_once '../includes/db.php';
-require_once '../includes/auth.php';
+require_once ROOT_PATH . 'includes/auth.php';
 verificarAcesso('funcionario');
-require_once '../includes/helpers.php'; 
-include '../includes/header.php';
-
-
+require_once ROOT_PATH . 'includes/helpers.php'; 
+include ROOT_PATH . 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Cadastrar Idoso - Painel do Funcionário</title>
-    
-</head>
-<body>
-    
 
-    <main class="container-principal">
-        <div class="card-formulario">
-            <h2>Cadastrar Novo Residente</h2>
-            <p>Preencha os dados do idoso e defina os horários disponíveis para visitas.</p>
+<main class="container-principal">
+    <div class="card-formulario">
+        <h2>Cadastrar Novo Residente</h2>
+        <form action="../includes/salvar_idoso.php" method="POST" enctype="multipart/form-data">
+            
+            <div class="perfil-upload-container">
+                <div id="preview-foto" class="area-preview"><span>Sem foto</span></div>
+                <label for="foto" class="label-upload">📷 Enviar Foto</label>
+                <input type="file" name="foto" id="foto" accept="image/*" style="display:none">
+            </div>
 
-            <form method="POST" action="<?php echo BASE_URL; ?>actions/salvar_idoso.php" enctype="multipart/form-data">
-                
-                <div class="area-upload">
-                    <label for="foto" id="foto-label">
-                        Clique para enviar a foto do idoso
-                        <span>(Formatos: JPG ou PNG)</span>
-                    </label>
-                    <input type="file" name="foto" id="foto" accept="image/*" >
-                   <!-- <p onclick='document.getElementById("foto-label").innerHTML = "foto enviadaa!"'>Envie sua foto</p>-->
-                </div>
+            <div class="grupo-input">
+                <label>Nome Completo</label>
+                <input type="text" name="nome" required>
+            </div>
+            <div class="grupo-input">
+                <label>CPF</label>
+                <input type="text" name="cpf" required>
+            </div>
+            <div class="grupo-input">
+                <label>Data de Nascimento</label>
+                <input type="date" name="dataNascimento" required>
+            </div>
 
-                <h3>Dados Pessoais</h3>
-                <div class="grupo-input">
-                    <label>Nome Completo do Idoso:</label>
-                    <input type="text" name="nome" required>
-                </div>
-                <div class="grupo-input">
-                        <label>CPF:</label>
-                        <input type="text" name="cpf" maxlength="14" required>
+            <div class="grupo-radio">
+                <label>Aceita Visitas? <input type="radio" name="aceitaVisita" value="1" checked> Sim</label>
+                <label><input type="radio" name="aceitaVisita" value="0"> Não</label>
+            </div>
+
+            <div class="grupo-input">
+                <label>Sobre ele</label>
+                <textarea name="historia" rows="3"></textarea>
+            </div>
+
+            <h3>Horários de Visita</h3>
+            <div class="container-disponibilidade">
+                <?php
+                $dias = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'];
+                foreach ($dias as $dia): ?>
+                    <div class="linha-disponibilidade">
+                        <label><input type="checkbox" name="dias[]" value="<?= $dia ?>"> <?= $dia ?></label>
+                        <input type="time" name="horario_inicio[<?= $dia ?>]"> até 
+                        <input type="time" name="horario_fim[<?= $dia ?>]">
                     </div>
+                <?php endforeach; ?>
+            </div>
 
-                <div class="linha-dupla">
-                    <div class="grupo-input">
-                        <label>Data de Nascimento:</label>
-                        <input type="date" name="dataNascimento" required>
-                    </div>
-                    <div class="grupo-input">
-                        <label>Grau de Dependência / Necessidades Médicas:</label>
-                        <input type="text" name="sobre" placeholder="Ex: Cadeirante, Alzheimer leve..." required>
-                    </div>
-                </div>
+            <button type="submit" class="btn-principal">Salvar Residente</button>
+        </form>
+    </div>
+</main>
 
-                <!-- <div class="grupo-input">
-                    <label>História de Vida (Breve resumo para o voluntário ler):</label>
-                    <textarea name="historia" rows="4" class="campo-texto" placeholder="Gosta de jogar xadrez, foi professor..." required></textarea>
-                </div>  -->
-                <div class="grupo-input">
-                    
-                <div class="radio-group">
-                    <input type="radio" id="visita" name="aceitaVisita" value="1">
-                    <label for="visita">Gostaria muito de ser visitado.</label>
-                </div>
-
-                <div class="radio-group">
-                     <input type="radio" id="carta" name="aceitaCarta" value="1">
-                     <label for="carta">Gostaria de receber uma carta.</label>
-                </div>
-                       
-                </div>
-
-                <div class="grupo-input///
-                
-                <h3>Disponibilidade para Visitas</h3>
-                <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">Selecione os dias da semana e informe o horário (Ex: 14:00 às 16:00)</p>
-                
-                
-                <div class="linha-dias-semana">
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Segunda"> Segunda-feira</label>
-                        <input type="time" name="horario_inicio_Segunda" title="Horário de Início"> até 
-                        <input type="time" name="horario_fim_Segunda" title="Horário de Fim">
-                    </div>
-
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Terça"> Terça-feira</label>
-                        <input type="time" name="horario_inicio_Terça"> até 
-                        <input type="time" name="horario_fim_Terça">
-                    </div>
-
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Quarta"> Quarta-feira</label>
-                        <input type="time" name="horario_inicio_Quarta"> até 
-                        <input type="time" name="horario_fim_Quarta">
-                    </div>
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Quarta"> Quinta-feira</label>
-                        <input type="time" name="horario_inicio_Quarta"> até 
-                        <input type="time" name="horario_fim_Quarta">
-                    </div>
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Quarta"> Sexta-feira</label>
-                        <input type="time" name="horario_inicio_Quarta"> até 
-                        <input type="time" name="horario_fim_Quarta">
-                    </div>
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Quarta"> Sabado-feira</label>
-                        <input type="time" name="horario_inicio_Quarta"> até 
-                        <input type="time" name="horario_fim_Quarta">
-                    </div>
-                    <div class="grupo-checkbox">
-                        <label><input type="checkbox" name="dias[]" value="Quarta"> Domingo</label>
-                        <input type="time" name="horario_inicio_Quarta"> até 
-                        <input type="time" name="horario_fim_Quarta">
-                    </div>
-
-                </div>
-
-                <div class="banner" style="margin-top: 20px;">
-                    <button type="submit" class="btn-marrom">Cadastrar Idoso e Horários</button>
-                </div>
-            </form>
-        </div>
-    </main>
-
-    <?php include '../includes/footer.php'; ?>
-</body>
-</html>
+<script>
+document.getElementById('foto').addEventListener('change', function() {
+    const preview = document.getElementById('preview-foto');
+    const reader = new FileReader();
+    reader.onload = e => preview.innerHTML = `<img src="${e.target.result}" class="foto-perfil-idoso">`;
+    reader.readAsDataURL(this.files[0]);
+});
+</script>
