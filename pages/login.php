@@ -1,8 +1,23 @@
 <?php
-//Diagnóstico de erro
+
+session_start();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+
+if (isset($_SESSION['idPessoa'])) {
+    if ($_SESSION['usuario_tipo'] == 'voluntario') {
+        header("Location: painel_voluntario.php");
+        exit;
+    } else if ($_SESSION['usuario_tipo'] == 'funcionario') {
+        header("Location: painel_funcionario.php");
+        exit;
+    }
+}
+
+
 
 require_once __DIR__ . '/../connection/config.php';
 require_once __DIR__ . '/../includes/helpers.php';

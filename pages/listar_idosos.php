@@ -1,24 +1,27 @@
 <?php
 session_start();
-require_once '../includes/helpers.php';
-require_once '../includes/db.php'; 
-include '../includes/header.php';
+require_once '../includes/auth.php';
+verificarAcesso('funcionario');
+require_once '../includes/db.php';
+require_once '../includes/helpers.php'; 
+require_once ROOT_PATH .'/includes/header.php';
+
+// 2. Identificação de quem está logado
+// $id_logado = $_SESSION['idPessoa']; 
+$id_inst = $_SESSION['idInstituicao']; 
 
 // PROTEÇÃO: Bloqueia quem não for funcionário
-if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
-    header("Location: login.php");
-    exit;
-}
+// if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
+//     header("Location: login.php");
+//     exit;
+// }
 
 try {
     // 1. Descobrir de qual instituição é este funcionário
-    $idFuncionarioLogado = $_SESSION['usuario_id'];
-    $sqlInst = "SELECT idInstituicao FROM funcionario WHERE idFuncionario = ?";
-    $stmtInst = $pdo->prepare($sqlInst);
-    $stmtInst->execute([$idFuncionarioLogado]);
-    $idInstituicao = $stmtInst->fetchColumn();
+     $id_logado = $_SESSION['idPessoa']; 
+    $idInstituicao = $_SESSION['idInstituicao']; 
 
-    // 2. Buscar todos os idosos que pertencem a esta instituição (AGORA BUSCANDO A FOTO!)
+    // 2. Buscar todos os idosos que pertencem a esta instituição (Com FOTO!)
     $sqlIdosos = "
         SELECT 
             i.idIdoso, 
@@ -34,8 +37,10 @@ try {
         WHERE i.idInstituicao = ?
         ORDER BY p.nomePessoa ASC
     ";
+    
     $stmtIdosos = $pdo->prepare($sqlIdosos);
-    $stmtIdosos->execute([$idInstituicao]);
+    // Aqui usamos a variável que já veio preenchida da sessão
+    $stmtIdosos->execute([$idInstituicao]); 
     $listaIdosos = $stmtIdosos->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (Exception $e) {
@@ -80,9 +85,9 @@ try {
                 <tbody>
                     <?php foreach ($listaIdosos as $idoso): ?>
                         <tr>
-                            <td style="text-align: center;">
-                                <img src="<?php echo exibirFoto($idoso['fotoPerfil'], $idoso['nomePessoa'], 'idoso');?>" alt="Foto do Resident ">
-                                
+                            <td>
+                             <?php echo exibirFoto($idoso['fotoPerfil'], $idoso['nomePessoa'], 'idoso'); ?>
+                            </td>
                             
                             <td><strong><?= htmlspecialchars($idoso['nomePessoa']) ?></strong></td>
                             <td><?= htmlspecialchars($idoso['cpf']) ?></td>

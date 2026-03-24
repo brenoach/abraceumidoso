@@ -651,3 +651,74 @@ td {
     margin-bottom: 15px;
     border: 3px solid #6a1b9a;
 }
+/* Container principal da foto */
+.secao-foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    max-width: 150px;
+}
+
+/* O container circular */
+.perfil-upload-container {
+    display: inline-block;
+    position: relative;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid #673AB7; /* Nossa cor roxa */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.perfil-upload-container:hover {
+    border-color: #5b3a26; /* Cor marrom no hover */
+    box-shadow: 0 6px 15px rgba(106, 27, 154, 0.2);
+}
+
+/* A imagem dentro do círculo */
+#preview-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a foto não fique esticada */
+    display: block;
+}
+
+/* A sobreposição "Enviar Foto" (escondida por padrão) */
+.perfil-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(106, 27, 154, 0.7); /* Roxo semitransparente */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Escondido */
+    transition: opacity 0.3s ease;
+    text-align: center;
+}
+
+/* Mostra a sobreposição ao passar o mouse */
+.perfil-upload-container:hover .perfil-overlay {
+    opacity: 1;
+}
+
+.emoji-camera { font-size: 2rem; margin-bottom: 5px; }
+.texto-upload { font-weight: bold; font-size: 0.85rem; text-transform: uppercase; }
+
+/* Esconde o input original feio */
+#fotoPerfil {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}

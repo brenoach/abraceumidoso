@@ -1,13 +1,12 @@
 <?php
-// 1. Conecta com o Banco de Dados (O ../ faz voltar para a pasta PI)
-require_once '../includes/db.php'; 
+// 1. CONFIGURAÇÕES E BANCO
+require_once __DIR__ . '/../connection/config.php'; 
+require_once __DIR__ . '/../includes/db.php'; 
 
-// 2. Chama os arquivos do PHPMailer que estão na sua pasta Bibliotecas
-require '../Bibliotecas/PHPMailer/Exception.php';
-require '../Bibliotecas/PHPMailer/PHPMailer.php';
-require '../Bibliotecas/PHPMailer/SMTP.php';
-require '../Bibliotecas/PHPMailer/OAuth.php';
-require '../Bibliotecas/PHPMailer/POP3.php';
+// 2. PHPMAILER (Pasta 'bibliotecas' com "b" minúsculo)
+require_once __DIR__ . '/../bibliotecas/PHPMailer/Exception.php';
+require_once __DIR__ . '/../bibliotecas/PHPMailer/PHPMailer.php';
+require_once __DIR__ . '/../bibliotecas/PHPMailer/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -19,11 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tipo = $_POST['tipo_usuario'];
 
     try {
-        // --- PARTE 1: VERIFICA O BANCO E GERA O TOKEN ---
+        // --- PARTE 1: BUSCA O USUÁRIO (Ajustado para idContato conforme seu CREATE TABLE) ---
         if ($tipo == 'voluntario') {
-            $sqlBusca = "SELECT v.idVoluntario as id FROM voluntario v JOIN contato c ON v.idContato = c.idcontatos WHERE c.email = ?";
+            // v.idContato (chave estrangeira) liga com c.idContato (chave primária)
+            $sqlBusca = "SELECT v.idVoluntario as id FROM voluntario v 
+                         JOIN contato c ON v.idContato = c.idContato 
+                         WHERE c.email = ?";
         } else {
-            $sqlBusca = "SELECT f.idFuncionario as id FROM funcionario f JOIN contato c ON f.idContato = c.idcontatos WHERE c.email = ?";
+            $sqlBusca = "SELECT f.idFuncionario as id FROM funcionario f 
+                         JOIN contato c ON f.idContato = c.idContato 
+                         WHERE c.email = ?";
         }
 
         $stmtBusca = $pdo->prepare($sqlBusca);
@@ -32,66 +36,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($usuario) {
             $idUsuario = $usuario['id'];
-            $token = bin2hex(random_bytes(25)); // Gera o código secreto
+            $token = bin2hex(random_bytes(25)); 
             $expira = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-            // Salva o token no banco
-            if ($tipo == 'voluntario') {
-                $sqlUpdate = "UPDATE voluntario SET resetToken = ?, tokenExpira = ? WHERE idVoluntario = ?";
-            } else {
-                $sqlUpdate = "UPDATE funcionario SET resetToken = ?, tokenExpira = ? WHERE idFuncionario = ?";
-            }
-            $stmtUpdate = $pdo->prepare($sqlUpdate);
+            // SALVA O TOKEN NO BANCO
+            $tabela = ($tipo == 'voluntario') ? 'voluntario' : 'funcionario';
+            $idCampo = ($tipo == 'voluntario') ? 'idVoluntario' : 'idFuncionario';
+            
+            $stmtUpdate = $pdo->prepare("UPDATE $tabela SET resetToken = ?, tokenExpira = ? WHERE $idCampo = ?");
             $stmtUpdate->execute([$token, $expira, $idUsuario]);
 
-            // Link que vai no e-mail
-            $linkRecuperacao = "http://" . $_SERVER['HTTP_HOST'] . "/abraceumidoso/PI/redefinir_senha.php?token=" . $token . "&tipo=" . $tipo;
+            // LINK PARA O E-MAIL
+            $linkRecuperacao = BASE_URL . "pages/redefinir_senha.php?token=" . $token . "&tipo=" . $tipo;
 
-            // --- PARTE 2: PREPARA E ENVIA O E-MAIL COM PHPMAILER ---
+            // --- PARTE 2: ENVIO COM GMAIL ---
             $mail = new PHPMailer(true);
-
-            // Configurações do Servidor
             $mail->isSMTP();                                            
             $mail->Host       = 'smtp.gmail.com';                     
             $mail->SMTPAuth   = true;                                   
-            
-            // COLOQUE SEUS DADOS REAIS AQUI ABAIXO:
             $mail->Username   = 'brenoach@gmail.com'; 
             $mail->Password   = 'brgs qiew zpmq zdrx'; 
-            
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         
             $mail->Port       = 587;                                    
 
             $mail->setFrom('brenoach@gmail.com', 'Abrace um Idoso');
             $mail->addAddress($email); 
 
-            // Corpo do E-mail
             $mail->isHTML(true);                                  
             $mail->Subject = 'Recuperacao de Senha - Abrace um Idoso';
             $mail->Body    = "
-                <h2>Olá!</h2>
-                <p>Você solicitou a recuperação da sua senha no sistema <b>Abrace um Idoso</b>.</p>
-                <p>Clique no link abaixo para criar uma nova senha. Este link é válido por 1 hora.</p>
-                <br>
-                <a href='{$linkRecuperacao}' style='background: #5b3a26; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Criar Nova Senha</a>
-                <br><br>
-                <p>Se você não solicitou isso, apenas ignore este e-mail.</p>
+                <div style='font-family: sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
+                    <h2 style='color: #673AB7;'>Recuperação de Senha</h2>
+                    <p>Olá! Recebemos seu pedido de nova senha.</p>
+                    <p>Clique no botão abaixo para prosseguir:</p>
+                    <br>
+                    <a href='{$linkRecuperacao}' style='background: #673AB7; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold;'>REDEFINIR SENHA</a>
+                    <p style='font-size: 0.8rem; color: #888; margin-top: 20px;'>Link válido por 1 hora.</p>
+                </div>
             ";
 
             $mail->send();
-            
-            echo "<script>
-                    alert('Link de recuperação enviado com sucesso! Verifique seu e-mail.'); 
-                    window.location.href='../login.php';
-                  </script>";
+            echo "<script>alert('Sucesso! Link enviado para o seu e-mail.'); window.location.href='../pages/login.php';</script>";
 
         } else {
-            // Se o e-mail não existir no banco, finge que enviou por segurança contra hackers
-            echo "<script>alert('Se o e-mail estiver cadastrado, você receberá um link de recuperação.'); window.location.href='../login.php';</script>";
+            echo "<script>alert('Se o e-mail estiver correto, você receberá as instruções.'); window.location.href='../pages/login.php';</script>";
         }
 
     } catch (Exception $e) {
-        echo "Erro: A mensagem não pôde ser enviada. Detalhe: {$e->getMessage()}";
+        echo "Erro no envio: {$mail->ErrorInfo}";
     }
 }
-?>

@@ -44,13 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             
             // Aqui está a mágica: Salvando os dados exatos para o Header funcionar
-            $_SESSION['idPessoa'] = $usuario['idPessoa']; 
-            $_SESSION['nome'] = $usuario['nome'];
+          
+            // Dentro do seu autenticar.php, na parte do sucesso do login:
+            $_SESSION['idPessoa'] = $usuario['idPessoa'];
+            $_SESSION['nome'] = $usuario['nomePessoa'];
+            $_SESSION['usuario_tipo'] = 'voluntario'; // IMPORTANTE: Tem que ser exatamente 'voluntario'
             
             // Redireciona e salva os dados específicos de cada tipo
             if ($tipo == 'voluntario') {
                 $_SESSION['usuario_tipo'] = 'voluntario';
-                header("Location: ../pages/painel_voluntario.php");
+                header("Location: BASE_URL ./pages/painel_voluntario.php");
                 exit;
             } else {
                 $_SESSION['usuario_tipo'] = 'funcionario';

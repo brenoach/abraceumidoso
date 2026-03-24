@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once '../includes/auth.php';
 verificarAcesso('funcionario');
 require_once '../includes/db.php';
@@ -7,7 +7,7 @@ require_once '../includes/helpers.php';
 require_once ROOT_PATH .'/includes/header.php';
 
 // 2. Identificação de quem está logado
-$id_logado = $_SESSION['idPessoa']; 
+// $id_logado = $_SESSION['idPessoa']; 
 $id_inst = $_SESSION['idInstituicao']; 
 
 // =========================================================================

@@ -6,25 +6,25 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 /**
- * Função para proteger páginas
- * @param string|null $tipoPermitido 'funcionario', 'voluntario' ou null (para qualquer um)
+ * Função para proteger as páginas do sistema
+ * @param string|null $tipoPermitido 'funcionario', 'voluntario' ou null
  */
 function verificarAcesso($tipoPermitido = null) {
     
-    // 1. A MUDANÇA ESTÁ AQUI: Procurar por 'idPessoa' e não mais nomes antigos
+    // 1. Verifica se existe o crachá básico (idPessoa)
     if (!isset($_SESSION['idPessoa'])) {
-        // Se não tiver o crachá novo, manda pro login
-        header("Location: ../pages/login.php"); 
+        // Se não está logado, manda para o login usando o BASE_URL para não errar o caminho
+        header("Location: " . BASE_URL . "pages/login.php"); 
         exit;
     }
 
-    // 2. Verifica se o usuário tem o cargo correto (se exigido)
+    // 2. Se a página exige um tipo específico (ex: voluntario)
     if ($tipoPermitido !== null) {
+        // Se o tipo do usuário for diferente do que a página exige
         if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== $tipoPermitido) {
-            echo "<script>
-                    alert('Acesso Negado! Você não tem permissão para acessar esta página.');
-                    window.location.href = '../pages/login.php';
-                  </script>";
+            
+            // Em vez de só dar erro, vamos mandar para o login com uma mensagem
+            header("Location: " . BASE_URL . "pages/login.php?erro=acesso_negado");
             exit;
         }
     }

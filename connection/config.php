@@ -1,17 +1,20 @@
 <?php
 
+
 // 1. Definição do ROOT_PATH (Protegido para não repetir)
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__) . '/');
 }
 
-// 2. Definição do BASE_URL (AQUI ESTÁ O IF DENTRO DO IF!)
+// Detecta se o site está usando HTTPS ou HTTP
+$protocolo = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
+
 if (!defined('BASE_URL')) {
-    // Se a constante não existe, o PHP entra aqui e faz a segunda pergunta:
     if ($_SERVER['HTTP_HOST'] == 'localhost') {
         define('BASE_URL', 'http://localhost/abraceumidoso/');
     } else {
-        define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
+        // Na internet, ele usa o protocolo detectado automaticamente
+        define('BASE_URL', $protocolo . $_SERVER['HTTP_HOST'] . '/');
     }
 }
 

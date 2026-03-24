@@ -12,7 +12,7 @@ $id_logado = $_SESSION['idPessoa'] ?? null;
 $tipo = $_SESSION['usuario_tipo'] ?? null;
 
 $nome_exibir = '';
-$foto_exibir = '';
+$foto_exibir = '';  
 $unidade_exibir = '';
 
 if ($id_logado) {

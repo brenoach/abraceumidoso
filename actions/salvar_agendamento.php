@@ -1,43 +1,56 @@
 <?php
 session_start();
-require_once '../includes/db.php';
+require_once __DIR__ . '/../connection/config.php';
+require_once __DIR__ . '/../includes/db.php';
 
-if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'voluntario') {
-    header("Location: ../login.php");
+// 1. VERIFICAÇÃO DE SEGURANÇA
+if (!isset($_SESSION['idPessoa']) || $_SESSION['usuario_tipo'] !== 'voluntario') {
+    header("Location: " . BASE_URL . "pages/login.php?erro=sessao_expirada");
     exit;
 }
 
-$idVoluntario = $_SESSION['usuario_id'];
-$idIdoso = $_POST['idoso_id'];
-$dataAgendamento = $_POST['data_visita'];
-$horaAgendamento = $_POST['hora_visita'];
+// 2. RECUPERAÇÃO DOS DADOS DO FORMULÁRIO (Sincronizado com os names do agendar_visita.php)
+// Verificamos se os dados existem antes de usar para evitar o erro de "Undefined key"
+$id_pessoa_logada = $_SESSION['idPessoa'];
+$id_idoso         = $_POST['idIdoso'] ?? null;
+$data_visita      = $_POST['data_visita'] ?? null;
+$hora_visita      = $_POST['hora_visita'] ?? null;
 
-// === NOVA TRAVA DE HORÁRIO ===
-$horaInt = (int)substr($horaAgendamento, 0, 2); // Pega as primeiras duas letras (a hora)
-
-if ($horaInt < 7 || $horaInt >= 20) {
-    echo "<script>
-        alert('Erro: A instituição só aceita visitas entre 07:00 e 20:00.');
-        window.history.back();
-    </script>";
+// Validação básica: se faltar algo, volta com erro
+if (!$id_idoso || !$data_visita || !$hora_visita) {
+    header("Location: " . BASE_URL . "pages/painel_voluntario.php?erro=dados_incompletos");
     exit;
 }
-// =============================
-
-$status = 'Pendente';
 
 try {
-    $sql = "INSERT INTO agendamento (dataAgendamento, horaAgendamento, status, idVoluntario, idIdoso) 
-            VALUES (?, ?, ?, ?, ?)";
+    // 3. A QUERY DE OURO: 
+    // Como na tabela 'agendamento' usamos 'idVoluntario' e na sessão temos 'idPessoa',
+    // vamos usar um sub-select para descobrir o ID de voluntário automaticamente.
+    
+    $sql = "INSERT INTO agendamento (idVoluntario, idIdoso, dataAgendamento, horaAgendamento, status) 
+            VALUES (
+                (SELECT idVoluntario FROM voluntario WHERE idPessoa = ?), 
+                ?, 
+                ?, 
+                ?, 
+                'Pendente'
+            )";
+
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$dataAgendamento, $horaAgendamento, $status, $idVoluntario, $idIdoso]);
+    $sucesso = $stmt->execute([
+        $id_pessoa_logada,
+        $id_idoso,
+        $data_visita,
+        $hora_visita
+    ]);
 
-    echo "<script>
-        alert('Agendamento solicitado! Aguarde a aprovação da instituição.');
-        window.location.href = '../pages/painel_voluntario.php';
-    </script>";
+    if ($sucesso) {
+        // Deu tudo certo! Volta para o painel com mensagem de sucesso
+        header("Location: " . BASE_URL . "pages/painel_voluntario.php?status=agendado");
+        exit;
+    }
+
 } catch (PDOException $e) {
-    echo "Erro: " . $e->getMessage();
+    // Se der erro de banco (ex: coluna errada), ele cai aqui
+    die("Erro ao salvar agendamento: " . $e->getMessage());
 }
-
-?>
