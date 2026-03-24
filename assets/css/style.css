@@ -584,3 +584,70 @@ td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
 .link-cancelar { color: #888; text-decoration: none; font-size: 0.9em; border: 1px solid #ddd; padding: 3px 8px; border-radius: 4px; }
 .link-cancelar:hover { background: #f5f5f5; color: var(--erro); border-color: var(--erro); }
 
+/* --- Agenda de Visitas (Tabela) --- */
+.tabela-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    background-color: #fdf8f4;
+    color: #5b3a26;
+    padding: 12px;
+    border-bottom: 2px solid #eee;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.badge-pendente { background: #fff3cd; color: #856404; }
+.badge-aprovado { background: #d4edda; color: #155724; }
+
+/* --- Grid de Residentes (Cards) --- */
+.grid-idosos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card-residente {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    border: 1px solid #eee;
+}
+
+.card-residente:hover { transform: translateY(-5px); }
+
+.foto-perfil-idoso {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #6a1b9a;
+}
