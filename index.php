@@ -4,10 +4,11 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    require __DIR__ .'/connection/config.php';
+    require_once __DIR__ .'/connection/config.php';
     // require_once __DIR__ . '/vendor/autoload.php';
     require_once ROOT_PATH .'includes/helpers.php'; 
     include ROOT_PATH .'includes/header.php';
+    include ROOT_PATH .'/includes/db.php';
 
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -41,22 +42,25 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
   //              Gerar a URL para o botão de login
         $loginUrl = $client->createAuthUrl();
 
-       
-  //      Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<body>
-
-<!-- <h1>Abrace um Idoso TESTE</h1> -->
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php BASE_URL;?>assets/css/estilo.css">
+    <link rel="stylesheet" href="<?php BASE_URL;?>assets/css/inicio.css">
+    <title>Abrace um Idoso</title>
+    <style> .hero-container {display: none !important;}
+</style>
+</head>
 
 <section class="hero-container">
     
     <div class="hero-image">
-        <img src="assets/img/imagemBanner.png" alt="Idoso e neta lendo">
+        <!-- <img src="<?php echo BASE_URL;?>assets/img/imagemBanner.png" alt="Idoso e neta lendo"> -->
     </div>
 
     <div class="hero-content">
@@ -66,7 +70,20 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
     </div>
 
 </section>
-  
+  <div class="banner">
+    <div>
+        <h1>Seja um farol de carinho.</h1>
+        <p>Conecte-se a quem mais precisa</p>
+    </div>
+
+    <div>
+        <a href= '<?php echo BASE_URL;?>pages/cadastro_voluntario.php'><button class="btn btn-marrom">Quero visitar</button></a>
+        <a href='<?php echo BASE_URL;?>pages/cadastro_Instituicao.html'><button  class="btn btn-amarelo">Quero Receber Visitas</button></a>
+    </div>
+   
+</div>
+
+</section>
 <?php include 'includes/footer.php';?>
 </body>
 </html>

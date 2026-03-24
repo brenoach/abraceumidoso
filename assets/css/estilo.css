@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    /* Fontes sugeridas anteriormente para o site, use qualquer uma delas */
+    font-family: 'Open Sans', 'Lato', sans-serif; 
+    color: #f8f5ea; 
+    background-color: #f8f5ea
+}
+
+/* 1. CABEÇALHO (Layout Geral e Fundo) */
+.cabecalho {
+    background-color: #f0ebdc;
+    padding: 15px 5%;
+    display: flex;
+    /* Alinha logo e nav-menu na mesma linha (topo) */
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    flex-wrap: wrap; 
+    height: 90px; /* Altura para acomodar as duas linhas */
+    position: relative; /* Essencial para centralizar o menu de baixo */
+} 
+
+/* 2. LOGO */
+.cabecalho .logo {
+    display: block;
+    margin-right: auto;
+}
+
+.cabecalho .logo img {
+    height: 100px; /* Ajuste o tamanho da sua imagem de logo */
+}
+
+/* 3. MENU DE NAVEGAÇÃO GERAL (Contém ambos os ULs) */
+.nav-menu {
+    display: flex;
+    flex-direction: column; /* Coloca os dois ULs um em cima do outro */
+    align-items: flex-end; /* Alinha o menu de ações (topo) à direita */
+}
+
+/* MENU DE AÇÕES (Cadastrar/Login) - Fica no topo à direita */
+.nav-menu > ul:first-child {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilo dos BOTÕES (Cadastrar e Login) */
+.nav-menu > ul:first-child a {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 30px;
+    font-weight: bold;
+    color: #3b2212; 
+    background-color: #ebb860; /* Dourado Suave */
+    border: 1px solid #ebb860; 
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.nav-menu > ul:first-child a:hover {
+    border: 1px solid #eca0a2; 
+    background-color: #eca0a2;
+}
+
+/* MENU PRINCIPAL (Início, Agendamento, Cartas, Fale Conosco) */
+.nav-menu > ul:last-child {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Centraliza o menu principal no centro da tela abaixo do topo */
+    position: absolute;
+    bottom: 15px; /* Distância da borda inferior do cabeçalho */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza perfeitamente */
+}
+
+.nav-menu > ul:last-child li {
+    padding: 0 30px;
+    position: relative;
+}
+/* Separador "|" */
+.nav-menu > ul:last-child li:not(:last-child)::after {
+    content: "|";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3b2212;
+}
+/* Estilo dos links do Menu Principal */
+.nav-menu > ul:last-child a {
+    text-decoration: none;
+    color: #3b2212;
+    font-weight: 500;
+    transition: color 0.3s;
+    font-weight: bold;
+    font-size: 18px;
+}
+.nav-menu > ul:last-child a:hover {
+    color: #eca0a2; /* Rosa Suave */
+}
+.rodape {
+    /* Fundo escuro e reconfortante */
+    background-color: #f0ebdc; 
+    color: #3b2212; /* Cor de texto clara para contraste */
+    padding: 30px 5%; /* Espaçamento interno */
+    /* Configuração Flexbox para organizar o conteúdo em colunas */
+    display: flex;
+    justify-content: center; /* Distribui os blocos de conteúdo */
+    align-items: flex-start; /* Alinha o conteúdo no topo */
+    flex-wrap: wrap; /* Garante que os itens quebrem a linha em telas menores */
+    font-size: 14px;
+    line-height: 1.6; 
+}
+
+\\BUTTON
+.banner button{
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px; 
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+.btn-marrom {
+    background-color: #5b3a26; /* Marrom Escuro */
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px; 
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+.btn-amarelo {
+    background-color: #ebb860; /* Ocre/Amarelo */
+    color: #3b2212; /* Texto marrom escuro */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px; 
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+.btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
