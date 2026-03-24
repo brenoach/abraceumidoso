@@ -1,5 +1,9 @@
 <?php
-require_once 'includes/db.php';
+require_once __DIR__ . '/../connection/config.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/header.php';
+
 date_default_timezone_set('America/Sao_Paulo');
 
 // Verifica se a URL tem o token e o tipo
@@ -37,7 +41,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Criar Nova Senha - Abrace um Idoso</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    
 </head>
 <body>
     <header class="cabecalho">
