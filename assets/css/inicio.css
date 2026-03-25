@@ -1,0 +1,175 @@
+.banner{
+    background-image: url('../img/imagemBanner.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 700px; /* Altura ajustada para o novo contexto */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinha o conteúdo na parte de baixo do banner */
+    align-items: flex-start;
+    padding: 40px; /* Padding maior nas bordas */
+    position: relative;
+    overflow: hidden;
+    color: white;
+    width: 1750px;
+    border-radius: 30px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente que escurece suavemente da esquerda para o centro */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0) 70%);
+    z-index: 1;
+}
+
+/* Move todo o conteúdo (texto e botões) para a frente da sobreposição */
+.banner > * {
+    z-index: 2;
+    margin-bottom: 5px; /* Espaçamento entre texto e botões */
+}
+
+/* Estilos de Texto do Banner */
+.banner h2 {
+    font-size: 2.8em; 
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    line-height: 1.1; /* Ajusta a altura da linha para o texto grande */
+}
+
+.banner h1 {
+    font-size: 3.8em;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    line-height: 1.1; /* Ajusta a altura da linha para o texto grande */
+    font-family: 'Asap', sans-serif;
+    text-shadow: 7px 7px 8px rgba(0, 0, 0, 0.6); 
+}
+
+.banner p {
+    font-size: 1.1em;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    color: #bfe5ef;
+}
+
+/* Estilos dos Botões e seu Container */
+.banner div:last-child { /* Seleciona o container dos botões */
+    display: flex; 
+    gap: 15px; 
+    /* Estilo da barra flutuante que envolve os botões */
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 25px; 
+    padding: 8px 15px;
+    backdrop-filter: blur(5px); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.missao-section {
+    background-color: #fffef6; 
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 30px;
+    margin-top: 20px;
+    width: 1790px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.missao-section h1 {
+    color: #5f3a24;
+    font-size: 2em;
+    margin-bottom: 50px;
+    font-size: 40px;
+    font-family: 'Asap', sans-serif;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+}
+
+.missao-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Linha de fundo que conecta os ícones */
+.missao-content::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 50px;
+    width: 1830px;
+    background-color: #b0d8e4; /* Cor azul/verde-água da linha */
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Estilo para cada item do ícone */
+.missao-item {
+    position: relative;
+    z-index: 2; /* Garante que os ícones fiquem acima da linha */
+}
+
+/* Estilo do círculo/bolha do ícone */
+.missao-item .icone-circulo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px auto;
+}
+
+/* Cores específicas para cada ícone (simulando a cor do fundo do ícone) */
+/* 1º Ícone (Rosa) */
+.missao-item:nth-child(1) .icone-circulo {
+    width: 110px; 
+    height: 110px;
+    background-color: #f1b3b3;
+    border: 6px solid #fffef6;
+}
+/* 2º Ícone (Ocre/Amarelo) */
+.missao-item:nth-child(2) .icone-circulo {
+    width: 110px; 
+    height: 110px;
+    background-color: #f5d49a; 
+    border: 6px solid #fffef6;
+}
+/* 3º Ícone (Marrom) */
+.missao-item:nth-child(3) .icone-circulo {
+    width: 110px; 
+    height: 110px;
+    background-color: #6d4c41;
+    border: 6px solid #fffef6;
+}
+
+/* Estilos dos ícones (se forem imagens, SVGs ou fontes de ícone) */
+.missao-item img {
+    width: 70%; /* Ajuste o tamanho da imagem do ícone */
+    height: 70%;
+    filter: brightness(0.5);
+    color: #ffffff; /* Escurece os ícones se forem brancos, ajuste conforme seu ícone */
+}
+
+/* Linha marrom abaixo da seção Missão */
+.linha-inferior {
+    height: 15px;
+    background-color: #5d4037; /* Marrom escuro */
+    max-width: 2000px; /* Largura para simular a barra mais curta */
+    margin: 0 auto;
+}
