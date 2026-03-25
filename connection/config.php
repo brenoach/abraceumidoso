@@ -6,15 +6,18 @@ if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__) . '/');
 }
 
-// Detecta se o site está usando HTTPS ou HTTP
+// 1. Detecta se é HTTP ou HTTPS automaticamente
 $protocolo = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
 
+// 2. Define o BASE_URL sem a barra no final para evitar o erro de "//"
 if (!defined('BASE_URL')) {
     if ($_SERVER['HTTP_HOST'] == 'localhost') {
-        define('BASE_URL', 'http://localhost/abraceumidoso/');
+        // No seu PC
+        define('BASE_URL', 'http://localhost/abraceumidoso'); 
     } else {
-        // Na internet, ele usa o protocolo detectado automaticamente
-        define('BASE_URL', $protocolo . $_SERVER['HTTP_HOST'] . '/');
+        // Na internet (InfinityFree)
+        // O $_SERVER['HTTP_HOST'] já pega 'abraceumidoso.infinityfreeapp.com'
+        define('BASE_URL', $protocolo . $_SERVER['HTTP_HOST']);
     }
 }
 
