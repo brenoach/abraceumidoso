@@ -1,7 +1,3 @@
-O Gemini disse
-Um README.md é o cartão de visitas do seu código no GitHub. Para um projeto com um propósito tão nobre quanto o Abrace um Idoso, ele precisa equilibrar a seriedade técnica com o impacto social.
-
-Aqui está uma estrutura de alto nível, focada no ineditismo e no potencial de crescimento que discutimos:
 
 💜 Abrace um Idoso: Conectando Gerações com Carinho
 Status do Projeto: 🚀 Em desenvolvimento (MVP concluído)
