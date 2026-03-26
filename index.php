@@ -6,8 +6,8 @@
 
     require_once __DIR__ .'/connection/config.php';
     // require_once __DIR__ . '/vendor/autoload.php';
-    require_once ROOT_PATH .'includes/helpers.php'; 
-    include ROOT_PATH .'includes/header.php';
+    require_once ROOT_PATH .'/includes/helpers.php'; 
+    include ROOT_PATH .'/includes/header.php';
     include ROOT_PATH .'/includes/db.php';
 
 
@@ -29,7 +29,7 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
     $redirectUri = 'http://localhost/abraceumidoso/actions/callback_google.php';
 
  //   Gerar a URL para o botão de login
-        //echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
+        echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
 
  //   Criar o cliente do Google
         $client = new Google_Client();
@@ -60,7 +60,7 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
 <section class="hero-container">
     
     <div class="hero-image">
-        <!-- <img src="<?php echo BASE_URL;?>assets/img/imagemBanner.png" alt="Idoso e neta lendo"> -->
+        <!-- <img src="<?php echo BASE_URL;?>/assets/img/imagemBanner.png" alt="Idoso e neta lendo"> -->
     </div>
 
     <div class="hero-content">
@@ -77,8 +77,8 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
     </div>
 
     <div>
-        <a href= '<?php echo BASE_URL;?>pages/cadastro_voluntario.php'><button class="btn btn-marrom">Quero visitar</button></a>
-        <a href='<?php echo BASE_URL;?>pages/cadastro_Instituicao.html'><button  class="btn btn-amarelo">Quero Receber Visitas</button></a>
+        <a href= '<?php echo BASE_URL;?>/pages/cadastro_voluntario.html'><button class="btn btn-marrom">Quero visitar</button></a>
+        <a href='<?php echo BASE_URL;?>/pages/cadastro_instituicao.html'><button  class="btn btn-amarelo">Quero Receber Visitas</button></a>
     </div>
    
 </div>
