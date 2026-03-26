@@ -36,7 +36,7 @@ try {
     echo "<h3>✅ Sucesso! O Voluntário 'João' está pronto para doar amor!</h3>";
     echo "<p><strong>E-mail (Login):</strong> $emailVoluntario</p>";
     echo "<p><strong>Senha:</strong> $senhaLimpa</p>";
-    echo "<br><a href='login.php' style='background: #5b3a26; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block;'>Ir para o Login</a>";
+    echo "<br><a href='" . BASE_URL . "/pages/login.php' style='background: #5b3a26; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block;'>Ir para o Login</a>";
     echo "</div>";
 
 } catch (Exception $e) {

@@ -27,23 +27,23 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
     $clientSecret = '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';
     $redirectUri = 'http://localhost/abraceumidoso/actions/callback_google.php';
 
- //   Gerar a URL para o botão de login
-        echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
-
- //   Criar o cliente do Google
-        $client = new Google_Client();
-        $client->setClientId($clientID);
-        $client->setClientSecret($clientSecret);
-        $client->setRedirectUri($redirectUri);
-        $client->addScope("email");
-        $client->addScope("profile");    
-
-  //              Gerar a URL para o botão de login
-        $loginUrl = $client->createAuthUrl();
-
-       
-  //      Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
-
+    
+    //   Criar o cliente do Google
+    $client = new Google_Client();
+    $client->setClientId($clientID);
+    $client->setClientSecret($clientSecret);
+    $client->setRedirectUri($redirectUri);
+    $client->addScope("email");
+    $client->addScope("profile");    
+    
+    //              Gerar a URL para o botão de login
+    $loginUrl = $client->createAuthUrl();
+    
+    
+    //      Se o usuário já estiver logado, não deixa ele ver a tela de login de novo
+    
+    //   Gerar a URL para o botão de login
+           echo "<a href='$loginUrl' style='padding:10px; background:#4285f4; color:white; text-decoration:none;'>Fazer Login com Google</a>";
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 // 2. VALIDAÇÃO DE ENTRADA
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: " . BASE_URL . "pages/painel_voluntario.php");
+    header("Location: " . BASE_URL . "/pages/painel_voluntario.php");
     exit;
 }
 
@@ -156,7 +156,7 @@ try {
             <?php endif; ?>
         </div>
 
-        <form action="<?= BASE_URL ?>actions/salvar_agendamento.php" method="POST">
+        <form action="<?= BASE_URL ?>/actions/salvar_agendamento.php" method="POST">
             <input type="hidden" name="idIdoso" value="<?= $idIdoso ?>">
 
             <div class="form-grupo">

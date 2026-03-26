@@ -108,9 +108,9 @@ $visitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
             <h3><?= htmlspecialchars($idoso['nomePessoa']) ?></h3>
             <p class="sobre-resumo"><?= htmlspecialchars($idoso['sobre']) ?></p>
             
-            <div class="agenda-bloco">
-                <small><?= $idoso['agenda_completa'] ?: 'Sem horários' ?></small>
-            </div>
+            <!-- <div class="agenda-bloco">
+                <small><?=$idoso['agenda_completa'] ?: 'Sem horários' ?></small>
+            </div> -->
             
             <a href="editar_idoso.php?id=<?= $idoso['idIdoso'] ?>" class="btn-detalhes">Ver Detalhes</a>
         </div>

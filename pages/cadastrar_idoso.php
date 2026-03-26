@@ -19,7 +19,7 @@ include ROOT_PATH . 'includes/header.php';
             </div> -->
             <div class="secao-foto">
         <label for="fotoPerfil" class="perfil-upload-container" title="Clique para escolher uma foto">
-        <img id="preview-foto" src="<?php echo BASE_URL; ?>assets/img/perfil_placeholder.png" alt="Pré-visualização da foto">
+        <img id="preview-foto" src="<?php echo BASE_URL; ?>/assets/img/perfil_placeholder.png" alt="Pré-visualização da foto">
         
         <div class="perfil-overlay">
             <span class="emoji-camera">📷</span>
@@ -107,7 +107,7 @@ function previewImage(input) {
         reader.readAsDataURL(input.files[0]);
     } else {
         // Se cancelou a seleção, volta ao placeholder
-        preview.src = "<?php echo BASE_URL; ?>assets/img/perfil_placeholder.png";
+        preview.src = "<?php echo BASE_URL; ?>/assets/img/perfil_placeholder.png";
         btnRemover.style.display = 'none';
         inputFoto.value = ''; // Limpa o input
     }
@@ -119,7 +119,7 @@ function removeImage() {
     const inputFoto = document.getElementById('fotoPerfil');
     const btnRemover = document.getElementById('btn-remover-foto');
 
-    preview.src = "<?php echo BASE_URL; ?>assets/img/perfil_placeholder.png"; // Placeholder padrão
+    preview.src = "<?php echo BASE_URL; ?>/assets/img/perfil_placeholder.png"; // Placeholder padrão
     inputFoto.value = ''; // Limpa o arquivo selecionado no input
     btnRemover.style.display = 'none'; // Esconde o botão de remover
 }

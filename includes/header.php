@@ -80,10 +80,10 @@ if ($id_logado) {
                 </li>
 
                 <li>
-                    <a href="<?php echo BASE_URL; ?>pages/painel_<?= $tipo ?>.php">🏠 Painel</a>
+                    <a href="<?php echo BASE_URL; ?>/pages/painel_<?= $tipo ?>.php">🏠 Painel<?= " " . $tipo ?></a>
                 </li>
                 
-                <li><a href="<?php echo BASE_URL; ?>actions/logout.php" style="color: #e11d48; font-weight: bold;">Sair</a></li>
+                <li><a href="<?php echo BASE_URL; ?>/actions/logout.php" style="color: #e11d48; font-weight: bold;">Sair</a></li>
             <?php endif; ?>
         </ul>
     </nav>

@@ -47,7 +47,7 @@ try {
     echo "<p><strong>Instituição Criada:</strong> Lar Esperança de Santos</p>";
     echo "<p><strong>E-mail de Login (Funcionário):</strong> $emailTeste</p>";
     echo "<p><strong>Senha:</strong> $senhaLimpa</p>";
-    echo "<br><a href='login.php' style='background: #5b3a26; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block;'>Ir para o Login</a>";
+    echo "<br><a href='" . BASE_URL . "login.php' style='background: #5b3a26; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block;'>Ir para o Login</a>";
     echo "</div>";
 
 } catch (Exception $e) {
