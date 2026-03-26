@@ -44,7 +44,7 @@ if ($id_logado) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abrace um Idoso</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL;?>assets/css/style.css?v=1.6">
+    <link rel="stylesheet" href="<?php echo BASE_URL;?>/assets/css/style.css?v=1.6">
     <style>
         .perfil-cabecalho { display: flex; align-items: center; gap: 10px; padding: 5px 15px; border-right: 1px solid #ddd; }
         .user-avatar img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #673AB7; }
@@ -56,8 +56,8 @@ if ($id_logado) {
 <body>
 
 <header class="cabecalho">
-    <a href="<?php echo BASE_URL;?>index.php" class="logo">
-        <img src="<?php echo BASE_URL;?>assets/img/logo.jpg" alt="Logo">
+    <a href="<?php echo BASE_URL;?>/index.php" class="logo">
+        <img src="<?php echo BASE_URL;?>/assets/img/logo.jpg" alt="Logo">
     </a>
 
     <nav class="nav-menu">

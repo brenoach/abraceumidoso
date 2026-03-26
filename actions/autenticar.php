@@ -53,12 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Redireciona e salva os dados específicos de cada tipo
             if ($tipo == 'voluntario') {
                 $_SESSION['usuario_tipo'] = 'voluntario';
-                header("Location: BASE_URL ./pages/painel_voluntario.php");
+                header("Location: /../pages/painel_voluntario.php");
                 exit;
             } else {
                 $_SESSION['usuario_tipo'] = 'funcionario';
                 $_SESSION['idInstituicao'] = $usuario['idInstituicao'];
-                header("Location: ../pages/painel_funcionario.php");
+                header("Location: /../pages/painel_funcionario.php");
                 exit;
             }
 

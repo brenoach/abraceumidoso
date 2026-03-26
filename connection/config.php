@@ -11,7 +11,7 @@ $protocolo = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https:/
 
 if (!defined('BASE_URL')) {
     if ($_SERVER['HTTP_HOST'] == 'localhost') {
-        define('BASE_URL', 'http://localhost/abraceumidoso/');
+        define('BASE_URL', 'http://localhost/abraceumidoso');
     } else {
         // Na internet, ele usa o protocolo detectado automaticamente
         define('BASE_URL', $protocolo . $_SERVER['HTTP_HOST'] . '/');
