@@ -44,10 +44,10 @@ if ($id_logado) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abrace um Idoso</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL;?>assets/css/style.css?v=1.6">
+    <link rel="stylesheet" href="<?php echo BASE_URL;?>/assets/css/style.css?v=1.6">
 
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>assets/img/favicon.png">
-    <link rel="apple-touch-icon" href="<?php echo BASE_URL; ?>assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
+    <link rel="apple-touch-icon" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
 
 
     <style>
@@ -61,15 +61,15 @@ if ($id_logado) {
 <body>
 
 <header class="cabecalho">
-    <a href="<?php echo BASE_URL;?>index.php" class="logo">
-        <img src="<?php echo BASE_URL;?>assets/img/logo.jpg" alt="Logo">
+    <a href="<?php echo BASE_URL;?>/index.php" class="logo">
+        <img src="<?php echo BASE_URL;?>/assets/img/logo.jpg" alt="Logo">
     </a>
 
     <nav class="nav-menu">
         <ul>
             <?php if (!$id_logado): ?>
-                <li><a href="<?php echo BASE_URL; ?>pages/cadastro_voluntario.php">Cadastro Voluntário</a></li>
-                <li><a href="<?php echo BASE_URL; ?>pages/login.php" class="btn-login">Login</a></li>
+                <li><a href="<?php echo BASE_URL; ?>/pages/cadastro_voluntario.html" class="btn-login">Cadastro Voluntário</a></li>
+                <li><a href="<?php echo BASE_URL; ?>/pages/login.php" class="btn-login">Login</a></li>
                 
             <?php else: ?>
                 <li class="perfil-cabecalho">

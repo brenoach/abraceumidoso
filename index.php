@@ -6,8 +6,8 @@
 
     require_once __DIR__ .'/connection/config.php';
     // require_once __DIR__ . '/vendor/autoload.php';
-    require_once ROOT_PATH .'includes/helpers.php'; 
-    include ROOT_PATH .'includes/header.php';
+    require_once ROOT_PATH .'/includes/helpers.php'; 
+    include ROOT_PATH .'/includes/header.php';
     include ROOT_PATH .'/includes/db.php';
 
 
@@ -50,8 +50,8 @@ if (file_exists(ROOT_PATH . 'vendor/autoload.php')) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php BASE_URL;?>/assets/css/estilo.css">
-    <link rel="stylesheet" href="<?php BASE_URL;?>/assets/css/inicio.css">
+    <link rel="stylesheet" href="<?php BASE_URL;?>assets/css/estilo.css">
+    <link rel="stylesheet" href="<?php BASE_URL;?>assets/css/inicio.css">
     <title>Abrace um Idoso</title>
     <style> .hero-container {display: none !important;}
 </style>

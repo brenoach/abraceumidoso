@@ -93,7 +93,7 @@ if (isset($_SESSION['usuario_tipo'])) {
                     <input type="password" name="senha" required placeholder="Sua senha">
                 </div>
 
-                <div class="banner">
+                <div class="banner-login">
                     <button type="submit" class="btn-marrom" style="width: 100%;">Entrar</button>
                 </div>
 
