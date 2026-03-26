@@ -105,7 +105,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
         if($validar->temErros()){
                         $erros = $validar->getErros();
-                        header("Location: cadastroVoluntario.html");
+                        header("Location: cadastro_voluntario.html");
         }else{
                 try{
                 /*======================================================PESSOAS======================================================*/

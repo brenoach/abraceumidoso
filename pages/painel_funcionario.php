@@ -108,9 +108,9 @@ $visitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
             <h3><?= htmlspecialchars($idoso['nomePessoa']) ?></h3>
             <p class="sobre-resumo"><?= htmlspecialchars($idoso['sobre']) ?></p>
             
-            <div class="agenda-bloco">
+            <!-- <div class="agenda-bloco">
                 <small><?= $idoso['agenda_completa'] ?: 'Sem horários' ?></small>
-            </div>
+            </div> -->
             
             <a href="editar_idoso.php?id=<?= $idoso['idIdoso'] ?>" class="btn-detalhes">Ver Detalhes</a>
         </div>
@@ -177,7 +177,7 @@ $visitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
 
     .btn-detalhes {
         margin-top: auto; /* Empurra o botão para o final do card */
-        background-color: #6a1b9a; /* Roxo */
+        background-color: #e65100; /* Roxo */
         color: white;
         padding: 8px 20px;
         border-radius: 20px;
