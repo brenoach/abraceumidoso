@@ -105,12 +105,24 @@ if (isset($_SESSION['usuario_tipo'])) {
                     <a href="esqueci_senha.php"
                         style="color: #666; text-decoration: none;">Esqueci minha senha</a>
                 </p>
-                <p> 🎉 Todos os dados foram inseridos com sucesso!
+                <pre> Tipo: Voluntário
 
-                        Email Funcionário: breno@abraceumidoso.com | Senha: 123456
+    E-mail: voluntario@email.com
 
-                        Email Voluntária: aline.voluntaria@teste.com | Senha: 123456
-                </p>
+    Senha: 123456
+
+    Resultado Esperado: Redirecionar para painel_voluntario.php.
+
+Teste 2 (O Funcionário):
+
+    Tipo: Funcionário (Gestor da Instituição)
+
+    E-mail: funcionario@email.com
+
+    Senha: 123456
+
+    Resultado Esperado: Redirecionar para painel_funcionario.php.
+                </pre>
             </form>
         </div>
     </main>

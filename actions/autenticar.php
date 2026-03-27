@@ -14,6 +14,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// --- MODO RAIO-X ATIVADO ---
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    echo "<div style='background: #222; color: #0f0; padding: 20px; font-family: monospace;'>";
+    echo "<h3>🕵️ Dados recebidos do Formulário:</h3>";
+    echo "<pre>";
+    var_dump($_POST);
+    echo "</pre>";
+    echo "</div>";
+    exit; // O 'exit' mata o processo aqui. Ele impede o redirecionamento e os alertas!
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $senha = trim($_POST['senha']);
