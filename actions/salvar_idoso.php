@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../connection/config.php';
-require_once ROOT_PATH . 'connection/db.php'; // Sua conexão PDO
+require_once ROOT_PATH . '/connection/db.php'; // Sua conexão PDO
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
