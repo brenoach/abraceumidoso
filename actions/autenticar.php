@@ -25,22 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit; // O 'exit' mata o processo aqui. Ele impede o redirecionamento e os alertas!
 }
 
-// --- NOVO RAIO-X: O QUE VEIO DO BANCO? ---
-        echo "<div style='background: #000; color: #ff0; padding: 20px; font-family: monospace;'>";
-        echo "<h3>🕵️ Dados que o PHP achou no Banco:</h3>";
-        var_dump($usuario);
-        
-        if ($usuario) {
-            echo "<br>Teste de Senha: ";
-            var_dump(password_verify($senha, $usuario['senha']));
-        }
-        echo "</div>";
-        exit;
-        // ------------------------------------------
 
-        // Verifica se achou o usuário E se a senha bate
-        if ($usuario && password_verify($senha, $usuario['senha'])) {
-            
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $senha = trim($_POST['senha']);
@@ -74,6 +60,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // --- NOVO RAIO-X: O QUE VEIO DO BANCO? ---
+        echo "<div style='background: #000; color: #ff0; padding: 20px; font-family: monospace;'>";
+        echo "<h3>🕵️ Dados que o PHP achou no Banco:</h3>";
+        var_dump($usuario);
+        
+        if ($usuario) {
+            echo "<br>Teste de Senha: ";
+            var_dump(password_verify($senha, $usuario['senha']));
+        }
+        echo "</div>";
+        exit;
+        // ------------------------------------------
+
+        // Verifica se achou o usuário E se a senha bate
+        if ($usuario && password_verify($senha, $usuario['senha'])) {
 
         // Verifica se achou o usuário E se a senha bate
         if ($usuario && password_verify($senha, $usuario['senha'])) {

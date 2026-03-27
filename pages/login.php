@@ -69,7 +69,7 @@ if (isset($_SESSION['usuario_tipo'])) {
             <h2>Acesse sua conta</h2>
             <p>Bem-vindo de volta!</p>
 
-            <form method="POST" action="<?php echo BASE_URL; ?>/actions/autenticar.php">
+            <form action="<?= BASE_URL ?>actions/autenticar.php" method="POST">
 
                 <div class="grupo-input">
                     <label>Você é:</label>
