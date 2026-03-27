@@ -3,6 +3,10 @@ session_start();
 require_once __DIR__ . '/../connection/config.php';
 require_once __DIR__ . '/../includes/db.php';
 
+if (!isset($pdo)) {
+    die("Erro crítico: A conexão \$pdo não foi criada. Verifique o arquivo db.php.");
+}
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
