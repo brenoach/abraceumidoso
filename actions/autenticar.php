@@ -25,6 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit; // O 'exit' mata o processo aqui. Ele impede o redirecionamento e os alertas!
 }
 
+// --- NOVO RAIO-X: O QUE VEIO DO BANCO? ---
+        echo "<div style='background: #000; color: #ff0; padding: 20px; font-family: monospace;'>";
+        echo "<h3>🕵️ Dados que o PHP achou no Banco:</h3>";
+        var_dump($usuario);
+        
+        if ($usuario) {
+            echo "<br>Teste de Senha: ";
+            var_dump(password_verify($senha, $usuario['senha']));
+        }
+        echo "</div>";
+        exit;
+        // ------------------------------------------
+
+        // Verifica se achou o usuário E se a senha bate
+        if ($usuario && password_verify($senha, $usuario['senha'])) {
+            
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $senha = trim($_POST['senha']);
@@ -68,11 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             // Redireciona de acordo com o tipo
             if ($tipo == 'voluntario') {
-                $_SESSION['usuario_tipo'] = 'voluntario';
+                $_SESSION['tipo_usuario'] = 'voluntario';
                 header("Location: " . BASE_URL . "/pages/painel_voluntario.php");
                 exit;
             } else {
-                $_SESSION['usuario_tipo'] = 'funcionario';
+                $_SESSION['tipo_usuario'] = 'funcionario';
                 $_SESSION['idInstituicao'] = $usuario['idInstituicao'];
                 header("Location: " . BASE_URL . "/pages/painel_funcionario.php");
                 exit;
