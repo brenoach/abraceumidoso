@@ -32,10 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     WHERE c.email = ?";
         } else if ($tipo == 'funcionario') {
             // Buscando o idPessoa do Funcionário e a Instituição
+            // CORREÇÃO: Trocamos o 'v' por 'f' no JOIN da pessoa
             $sql = "SELECT f.idFuncionario as id, f.senha, p.nomePessoa as nome, p.idPessoa, f.idInstituicao 
                     FROM funcionario f
                     JOIN contato c ON f.idContato = c.idContato
-                    JOIN pessoa p ON v.idPessoa = p.idPessoa
+                    JOIN pessoa p ON f.idPessoa = p.idPessoa 
                     WHERE c.email = ?";
         } else {
             die("Tipo de usuário inválido.");
