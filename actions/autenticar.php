@@ -1,12 +1,15 @@
 <?php
 session_start();
-require_once __DIR__ . '/../connection/config.php';
+
+// ATENÇÃO: Verifique se o nome do seu arquivo é config.php ou conf.php
+require_once __DIR__ . '/../connection/config.php'; 
 require_once __DIR__ . '/../includes/db.php';
 
 if (!isset($pdo)) {
     die("Erro crítico: A conexão \$pdo não foi criada. Verifique o arquivo db.php.");
 }
 
+// Exibição de erros (Pode remover ou comentar quando o site for para produção)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -24,19 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($tipo == 'voluntario') {
-            // Buscando o idPessoa do Voluntário
+            // Query do Voluntário (Correta)
             $sql = "SELECT v.idVoluntario as id, v.senha, p.nomePessoa as nome, p.idPessoa 
                     FROM voluntario v
                     JOIN contato c ON v.idContato = c.idContato
                     JOIN pessoa p ON v.idPessoa = p.idPessoa
                     WHERE c.email = ?";
         } else if ($tipo == 'funcionario') {
-            // Buscando o idPessoa do Funcionário e a Instituição
-            // CORREÇÃO: Trocamos o 'v' por 'f' no JOIN da pessoa
+            // Query do Funcionário (Corrigida: p.idPessoa = f.idPessoa)
             $sql = "SELECT f.idFuncionario as id, f.senha, p.nomePessoa as nome, p.idPessoa, f.idInstituicao 
                     FROM funcionario f
                     JOIN contato c ON f.idContato = c.idContato
-                    JOIN pessoa p ON f.idPessoa = p.idPessoa 
+                    JOIN pessoa p ON f.idPessoa = p.idPessoa
                     WHERE c.email = ?";
         } else {
             die("Tipo de usuário inválido.");
@@ -49,27 +51,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verifica se achou o usuário E se a senha bate
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             
-            // Salvando os dados exatos para o Header funcionar
-            // Correção: Usar 'nome' porque foi o apelido (AS) dado no SELECT
+            // Grava as informações na Sessão para usar no Painel
             $_SESSION['idPessoa'] = $usuario['idPessoa'];
             $_SESSION['nome'] = $usuario['nome']; 
             
-            // Redireciona e salva os dados específicos de cada tipo
+            // Redireciona de acordo com o tipo
             if ($tipo == 'voluntario') {
                 $_SESSION['usuario_tipo'] = 'voluntario';
-                // Correção: O header no PHP se concatena com ponto, não com tag de echo
                 header("Location: " . BASE_URL . "/pages/painel_voluntario.php");
                 exit;
             } else {
                 $_SESSION['usuario_tipo'] = 'funcionario';
                 $_SESSION['idInstituicao'] = $usuario['idInstituicao'];
-                // Correção de sintaxe aqui também
                 header("Location: " . BASE_URL . "/pages/painel_funcionario.php");
                 exit;
             }
 
         } else {
-            // Login Falhou
+            // Se a senha estiver errada ou o e-mail não existir
             echo "<script>
                     alert('E-mail ou senha incorretos! Ou você ainda não está cadastrado.'); 
                     window.location.href='../pages/login.php';
@@ -80,6 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<div style='color:red; padding: 20px;'>Erro no sistema: " . $e->getMessage() . "</div>";
     }
 } else {
-    echo "Acesso inválido.";
+    echo "Acesso direto não permitido.";
 }
 ?>
