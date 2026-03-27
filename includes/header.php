@@ -56,7 +56,7 @@ if ($id_logado) {
 <body>
 
 <header class="cabecalho">
-    <a href="<?php echo BASE_URL;?>/index.php" class="logo">
+    <a href="<?php echo BASE_URL;?>index.php" class="logo">
         <img src="<?php echo BASE_URL;?>/assets/img/logo.jpg" alt="Logo">
     </a>
 
@@ -64,7 +64,7 @@ if ($id_logado) {
         <ul>
             <?php if (!$id_logado): ?>
                 <li><a href="<?php echo BASE_URL; ?>/pages/cadastro_voluntario.php">Cadastro Voluntário</a></li>
-                <li><a href="<?php echo BASE_URL; ?>/pages/login.php" class="btn-login">Login</a></li>
+                <li><a href="<?php echo BASE_URL; ?>pages/login.php" class="btn-login">Login</a></li>
 
             <?php else: ?>
                 <li class="perfil-cabecalho">
