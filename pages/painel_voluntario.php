@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../connection/config.php';
 require_once __DIR__ . '/../includes/auth.php';
-verificarAcesso('voluntario'); 
+// verificarAcesso('voluntario'); 
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php'; // Aqui está a sua função exibirFoto!
