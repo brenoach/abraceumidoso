@@ -55,7 +55,7 @@ if ($usuario && password_verify($senha, $usuario['senha'])) {
 
 } else {
     // Falhou (E-mail não achou ou senha não bateu)
-    echo "<script>alert('E-mail ou senha incorretos!'); window.location.href='/../pages/login.php';</script>";
+    echo "<script>alert('E-mail ou senha incorretos!'); window.location.href='/login.php';</script>";
     exit;
 }
 ?>

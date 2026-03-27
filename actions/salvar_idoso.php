@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // 2. Inserir na tabela PESSOA
         $stmt = $pdo->prepare("INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$_POST['nome'], $_POST['cpf'], $_POST['dataNascimento'], $fotoCaminho, $_POST['historia']]);
+        $stmt->execute([$_POST['nome'], $_POST['cpf'], $_POST['dataNascimento'], $fotoCaminho, $_POST['sobre']]);
         $idPessoa = $pdo->lastInsertId();
 
         // 3. Inserir na tabela IDOSO (Puxando a instituição da sessão do funcionário)

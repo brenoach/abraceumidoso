@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../includes/auth.php';
-verificarAcesso('funcionario');
+
 require_once '../includes/db.php';
 require_once '../includes/helpers.php'; 
 require_once ROOT_PATH .'/includes/header.php';

@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/../connection/config.php';
 require_once ROOT_PATH . 'includes/auth.php';
-verificarAcesso('funcionario');
+
 require_once ROOT_PATH . 'includes/helpers.php'; 
 include ROOT_PATH . 'includes/header.php';
 ?>
@@ -10,7 +10,7 @@ include ROOT_PATH . 'includes/header.php';
 <main class="container-principal">
     <div class="card-formulario">
         <h2>Cadastrar Novo Residente</h2>
-        <form action="../includes/salvar_idoso.php" method="POST" enctype="multipart/form-data">
+        <form action="<?php echo BASE_URL; ?>/actions/salvar_idoso.php" method="POST" enctype="multipart/form-data">
             
             <!-- <div class="perfil-upload-container">
                 <div id="preview-foto" class="area-preview"><span>Sem foto</span></div>
