@@ -5,6 +5,8 @@ require_once ROOT_PATH . 'includes/auth.php';
 
 require_once ROOT_PATH . 'includes/helpers.php'; 
 include ROOT_PATH . 'includes/header.php';
+
+   
 ?>
 
 <main class="container-principal">
@@ -18,29 +20,33 @@ include ROOT_PATH . 'includes/header.php';
                 <input type="file" name="foto" id="foto" accept="image/*" style="display:none">
             </div> -->
             <div class="secao-foto">
-        <label for="fotoPerfil" class="perfil-upload-container" title="Clique para escolher uma foto">
-        <img id="preview-foto" src="<?php echo BASE_URL; ?>/assets/img/perfil_placeholder.png" alt="Pré-visualização da foto">
+                <label for="fotoPerfil" class="perfil-upload-container" title="Clique para escolher uma foto">
+                    <img id="preview-foto" src="<?php echo BASE_URL; ?>/assets/img/perfil_placeholder.png" alt="Pré-visualização da foto">
         
-        <div class="perfil-overlay">
-            <span class="emoji-camera">📷</span>
-            <span class="texto-upload">Enviar Foto</span>
-        </div>
-    </label>
+                <div class="perfil-overlay">
+                    <span class="emoji-camera">📷</span>
+                    <span class="texto-upload">Enviar Foto</span>
+                </div>
+           
+                </label>
     
-    <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/*" onchange="previewImage(this);">
+                <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/*" onchange="previewImage(this);">
     
-    <button type="button" id="btn-remover-foto" class="btn-secundario" onclick="removeImage();" style="display: none; margin-top: 10px;">
-        ❌ Remover Foto
-    </button>
-</div>
+                <button type="button" id="btn-remover-foto" class="btn-secundario" onclick="removeImage();" style="display: none; margin-top: 10px;">
+                ❌ Remover Foto
+                </button>
+            </div>
+
             <div class="grupo-input">
                 <label>Nome Completo</label>
                 <input type="text" name="nome" required>
             </div>
+
             <div class="grupo-input">
                 <label>CPF</label>
                 <input type="text" name="cpf" required>
             </div>
+
             <div class="grupo-input">
                 <label>Data de Nascimento</label>
                 <input type="date" name="dataNascimento" required>
@@ -57,7 +63,7 @@ include ROOT_PATH . 'includes/header.php';
 
             <div class="grupo-input">
                 <label>Sobre ele</label>
-                <textarea name="historia" rows="3"></textarea>
+                <textarea name="sobre" rows="3"></textarea>
             </div>
 
             <h3>Horários de Visita</h3>
@@ -71,7 +77,7 @@ include ROOT_PATH . 'includes/header.php';
                         <input type="time" name="horario_fim[<?= $dia ?>]">
                     </div>
                 <?php endforeach; ?>
-         
+                
          
                 <button type="submit" class="btn-principal">Salvar Residente</button>
         </form> 

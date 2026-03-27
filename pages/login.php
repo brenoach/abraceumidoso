@@ -14,6 +14,8 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
     $tipo = $_SESSION['usuario_tipo'];
     $painel = ($tipo == 'voluntario') ? "painel_voluntario.php" : "painel_funcionario.php";
     $nomeTipo = ($tipo == 'voluntario') ? "Voluntário" : "Funcionário";
+    $idDaMinhaInstituicao = $_SESSION['idInstituicao'];
+
 
     // Exibe a mensagem amigável e depois joga para o painel
     echo "<script>
