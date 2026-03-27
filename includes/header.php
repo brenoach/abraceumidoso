@@ -60,7 +60,7 @@ if ($id_logado) {
 <body>
 
 <header class="cabecalho">
-    <a href="<?php echo BASE_URL;?>index.php" class="logo">
+    <a href="<?php echo BASE_URL;?>/index.php" class="logo">
         <img src="<?php echo BASE_URL;?>/assets/img/logo.jpg" alt="Logo">
     </a>
 
@@ -83,11 +83,23 @@ if ($id_logado) {
                     </div>
                 </li>
 
-                <li>
-                    <a href="<?php echo BASE_URL; ?>/pages/painel_<?= $tipo ?>.php">🏠 Painel<?= " " . $tipo ?></a>
-                </li>
-                
-                <li><a href="<?php echo BASE_URL; ?>/actions/logout.php" style="color: #e11d48; font-weight: bold;">Sair</a></li>
+                <?php 
+// 1. Primeiro, resgatamos o tipo de usuário da memória do servidor
+// Usamos as duas chaves possíveis caso você tenha salvo com nomes diferentes
+$tipoUser = $_SESSION['usuario_tipo'] ?? $_SESSION['tipo_usuario'] ?? ''; 
+?>
+
+<li>
+    <a href="<?= BASE_URL ?>/pages/painel_<?= $tipoUser ?>.php">
+        🏠 Painel <?= ucfirst($tipoUser) ?>
+    </a>
+</li>
+
+<li>
+    <a href="<?= BASE_URL ?>/actions/logout.php" style="color: #e11d48; font-weight: bold;">
+        Sair
+    </a>
+</li>
             <?php endif; ?>
         </ul>
     </nav>
