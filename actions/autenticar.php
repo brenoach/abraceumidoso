@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql = "SELECT f.idFuncionario as id, f.senha, p.nomePessoa as nome, p.idPessoa, f.idInstituicao 
                     FROM funcionario f
                     JOIN contato c ON f.idContato = c.idContato
-                    JOIN pessoa p ON f.idPessoa = p.idPessoa
+                    JOIN pessoa p ON v.idPessoa = p.idPessoa
                     WHERE c.email = ?";
         } else {
             die("Tipo de usuário inválido.");
@@ -48,21 +48,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verifica se achou o usuário E se a senha bate
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             
-            // Aqui está a mágica: Salvando os dados exatos para o Header funcionar
-          
-            // Dentro do seu autenticar.php, na parte do sucesso do login:
+            // Salvando os dados exatos para o Header funcionar
+            // Correção: Usar 'nome' porque foi o apelido (AS) dado no SELECT
             $_SESSION['idPessoa'] = $usuario['idPessoa'];
-            $_SESSION['nome'] = $usuario['nomePessoa'];
-            $_SESSION['usuario_tipo'] = 'voluntario'; // IMPORTANTE: Tem que ser exatamente 'voluntario'
+            $_SESSION['nome'] = $usuario['nome']; 
             
             // Redireciona e salva os dados específicos de cada tipo
             if ($tipo == 'voluntario') {
                 $_SESSION['usuario_tipo'] = 'voluntario';
+                // Correção: O header no PHP se concatena com ponto, não com tag de echo
                 header("Location: " . BASE_URL . "/pages/painel_voluntario.php");
                 exit;
             } else {
                 $_SESSION['usuario_tipo'] = 'funcionario';
                 $_SESSION['idInstituicao'] = $usuario['idInstituicao'];
+                // Correção de sintaxe aqui também
                 header("Location: " . BASE_URL . "/pages/painel_funcionario.php");
                 exit;
             }
