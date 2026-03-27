@@ -1,51 +1,24 @@
 <?php
-
 session_start();
+
+require_once __DIR__ . '/../connection/config.php';
+require_once __DIR__ . '/../includes/helpers.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
-if (isset($_SESSION['idPessoa'])) {
-    if ($_SESSION['usuario_tipo'] == 'voluntario') {
-        header("Location: painel_voluntario.php");
-        exit;
-    } else if ($_SESSION['usuario_tipo'] == 'funcionario') {
-        header("Location: painel_funcionario.php");
-        exit;
-    }
-}
-
-
-
-require_once __DIR__ . '/../connection/config.php';
-require_once __DIR__ . '/../includes/helpers.php';
-
-
-// O PHP verifica: "A sessão está desligada?" Se sim, ele liga! Se não, ele fica quieto.
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// PROTEÇÃO UNIFICADA: Se já estiver logado, mostra o ALERTA e redireciona
+if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
     
-
-
-// PROTEÇÃO MELHORADA: Avisa o usuário antes de redirecionar
-if (isset($_SESSION['usuario_tipo'])) {
-    
-    // Descobre para onde mandar e qual nome mostrar no alerta
-    if ($_SESSION['usuario_tipo'] == 'voluntario') {
-        $painel = "painel_voluntario.php";
-        $nomeTipo = "Voluntário";
-    } else {
-        $painel = "painel_funcionario.php";
-        $nomeTipo = "Funcionário";
-    }
+    $tipo = $_SESSION['usuario_tipo'];
+    $painel = ($tipo == 'voluntario') ? "painel_voluntario.php" : "painel_funcionario.php";
+    $nomeTipo = ($tipo == 'voluntario') ? "Voluntário" : "Funcionário";
 
     // Exibe a mensagem amigável e depois joga para o painel
     echo "<script>
-            alert('Você já está logado no sistema como $nomeTipo. Para entrar com outra conta, por favor, clique em Sair (Logout) primeiro.');
-            window.location.href = '$painel';
+            alert('Você já está logado no sistema como $nomeTipo. Para entrar com outra conta, clique em Sair primeiro.');
+            window.location.href = '" . BASE_URL . "/pages/$painel';
           </script>";
     exit;
 }
