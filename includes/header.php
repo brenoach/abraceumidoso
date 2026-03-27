@@ -45,6 +45,10 @@ if ($id_logado) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abrace um Idoso</title>
     <link rel="stylesheet" href="<?php echo BASE_URL;?>/assets/css/style.css?v=1.6">
+
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>assets/img/favicon.png">
+    <link rel="apple-touch-icon" href="<?php echo BASE_URL; ?>assets/img/favicon-apple.png">
+
     <style>
         .perfil-cabecalho { display: flex; align-items: center; gap: 10px; padding: 5px 15px; border-right: 1px solid #ddd; }
         .user-avatar img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #673AB7; }
@@ -64,7 +68,7 @@ if ($id_logado) {
         <ul>
             <?php if (!$id_logado): ?>
                 <li><a href="<?php echo BASE_URL; ?>/pages/cadastro_voluntario.php">Cadastro Voluntário</a></li>
-                <li><a href="<?php echo BASE_URL; ?>pages/login.php" class="btn-login">Login</a></li>
+                <li><a href="<?php echo BASE_URL; ?>/pages/login.php" class="btn-login">Login</a></li>
 
             <?php else: ?>
                 <li class="perfil-cabecalho">
