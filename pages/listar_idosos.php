@@ -1,10 +1,10 @@
 <?php
-session_start();
-require_once '../includes/auth.php';
+// session_start();
+// require_once '../includes/auth.php';
 
-require_once '../includes/db.php';
-require_once '../includes/helpers.php'; 
-require_once ROOT_PATH .'/includes/header.php';
+// require_once '../includes/db.php';
+// require_once '../includes/helpers.php'; 
+// require_once ROOT_PATH .'/includes/header.php';
 
 // 2. Identificação de quem está logado
 // $id_logado = $_SESSION['idPessoa']; 
@@ -109,9 +109,10 @@ try {
                             </td>
                             
                             <td>
-                                <a href="editar_idoso.php?id=<?= $idoso['idIdoso'] ?>" class="btn-acao btn-editar">✏️ Editar</a>
-                                <a href="actions/excluir_idoso.php?id=<?= $idoso['idIdoso'] ?>" class="btn-acao btn-excluir" onclick="return confirm('Tem certeza que deseja EXCLUIR o residente <?= htmlspecialchars($idoso['nomePessoa']) ?>? Isso não pode ser desfeito.');">🗑️ Excluir</a>
+                                <a href="<?= BASE_URL ?>/editar-idoso?id=<?= $idoso['idIdoso'] ?>" class="btn-acao btn-editar">✏️ Editar</a>
+                                <a href="<?= BASE_URL ?>/excluir-idoso?id=<?= $idoso['idIdoso'] ?>" class="btn-acao btn-excluir" onclick="return confirm('Tem certeza que deseja EXCLUIR o residente <?= htmlspecialchars($idoso['nomePessoa']) ?>? Isso não pode ser desfeito.');">🗑️ Excluir</a>
                             </td>
+                            
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

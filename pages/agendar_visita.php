@@ -1,8 +1,8 @@
 <?php
 // 1. NÚCLEO DO SISTEMA
 require_once __DIR__ . '/../connection/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-verificarAcesso('voluntario'); // Segurança em primeiro lugar
+// require_once __DIR__ . '/../includes/auth.php';
+// verificarAcesso('voluntario'); // Segurança em primeiro lugar
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php'; // Para usar sua função exibirFoto()
@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 // 2. VALIDAÇÃO DE ENTRADA
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: " . BASE_URL . "/pages/painel_voluntario.php");
+    header("Location: " . BASE_URL . "/painel-voluntario");
     exit;
 }
 
@@ -29,7 +29,7 @@ try {
     $idoso = $stmtIdoso->fetch(PDO::FETCH_ASSOC);
 
     if (!$idoso) {
-        echo "<script>alert('Atenção: Este residente não está disponível para novas visitas no momento.'); window.location.href='painel_voluntario.php';</script>";
+        echo "<script>alert('Atenção: Este residente não está disponível para novas visitas no momento.'); window.location.href='" . BASE_URL . "/painel-voluntario';</script>";
         exit;
     }
 
@@ -63,7 +63,7 @@ try {
     }
 
     .banner-idoso {
-        background: linear-gradient(135deg, #673AB7 0%, #4527a0 100%);
+        background: linear-gradient(135deg, #5b3a26 0%, #4527a0 100%);
         padding: 40px 20px;
         text-align: center;
         color: white;
@@ -88,10 +88,10 @@ try {
         border-radius: 20px;
         padding: 20px;
         margin-bottom: 30px;
-        border: 1px dashed #673AB7;
+        border: 1px dashed #5b3a26;
     }
 
-    .quadro-horarios h4 { color: #673AB7; margin-top: 0; display: flex; align-items: center; gap: 8px; }
+    .quadro-horarios h4 { color: #5b3a26; margin-top: 0; display: flex; align-items: center; gap: 8px; }
 
     .lista-permitida { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; color: #444; }
     .lista-permitida li { margin-bottom: 8px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(103, 58, 183, 0.1); padding-bottom: 4px; }
@@ -109,10 +109,10 @@ try {
         outline: none;
     }
 
-    input:focus { border-color: #673AB7; background: #fdfbff; }
+    input:focus { border-color: #5b3a26; background: #fdfbff; }
 
     .btn-agendar-final {
-        background: #673AB7;
+        background: #5b3a26;
         color: white;
         border: none;
         width: 100%;
@@ -156,7 +156,7 @@ try {
             <?php endif; ?>
         </div>
 
-        <form action="<?= BASE_URL ?>/actions/salvar_agendamento.php" method="POST">
+        <form action="<?= BASE_URL ?>/salvar-agendamento" method="POST">
             <input type="hidden" name="idIdoso" value="<?= $idIdoso ?>">
 
             <div class="form-grupo">
@@ -171,9 +171,8 @@ try {
 
             <button type="submit" class="btn-agendar-final">CONFIRMAR AGENDAMENTO 💜</button>
             
-            <a href="painel_voluntario.php" class="link-voltar">Cancelar e voltar ao painel</a>
+            <a href="<?= BASE_URL ?>/painel-voluntario" class="link-voltar">Cancelar e voltar ao painel</a>
         </form>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>

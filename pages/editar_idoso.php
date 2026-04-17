@@ -1,14 +1,14 @@
 <?php
-session_start();
-require_once '../includes/db.php'; 
-require_once '../includes/helpers.php';
-include '../includes/header.php';
+
+// require_once '../includes/db.php'; 
+// require_once '../includes/helpers.php';
+// include '../includes/header.php';
 
 // PROTEÇÃO: Bloqueia quem não for funcionário
-if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
-    header("Location: login.php");
-    exit;
-}
+// if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
+//     header("Location: login.php");
+//     exit;
+// }
 
 // 1. Verifica se o ID foi passado na URL (ex: editar_idoso.php?id=5)
 if (!isset($_GET['id'])) {
@@ -18,11 +18,13 @@ $idIdoso = $_GET['id'];
 
 try {
     // 2. Segurança: Descobrir a instituição do funcionário logado
-    $idFuncionarioLogado = $_SESSION['usuario_id'];
-    $sqlInst = "SELECT idInstituicao FROM funcionario WHERE idFuncionario = ?";
-    $stmtInst = $pdo->prepare($sqlInst);
-    $stmtInst->execute([$idFuncionarioLogado]);
-    $idInstituicao = $stmtInst->fetchColumn();
+    $idLogado = $_SESSION['idPessoa']; 
+    $idInstituicao = $_SESSION['idInstituicao'];
+
+    // $sqlInst = "SELECT idInstituicao FROM funcionario WHERE idFuncionario = ?";
+    // $stmtInst = $pdo->prepare($sqlInst);
+    // $stmtInst->execute([$idFuncionarioLogado]);
+    // $idInstituicao = $stmtInst->fetchColumn();
 
     // 3. Buscar os dados DESTE idoso específico, garantindo que ele é da mesma instituição
     $sqlIdoso = "
@@ -55,8 +57,8 @@ try {
 
     <style>
         body { background-color: #f9f7f3; color: #333; margin: 0; font-family: sans-serif; }
-        .cabecalho { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .cabecalho .logo { color: #5b3a26; font-weight: bold; font-size: 1.2em; text-transform: uppercase; }
+        .cabecalh { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #5b3a26; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .cabecalho .logo { color: #f9f7f3; font-weight: bold; font-size: 1.2em; text-transform: uppercase; } */
         .nav-menu ul { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-menu a { text-decoration: none; color: #5b3a26; font-weight: bold; padding: 10px 15px; border-radius: 6px; background: #fdfaf5; transition: 0.2s; }
         .painel-container { width: 95%; max-width: 1400px; margin: 30px auto; }
@@ -73,11 +75,11 @@ try {
     </style>
 </head>
 <body>
-    <header class="cabecalho">
+    <header class="cabecalh">
         <div class="logo">Edição de Residente</div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="<?php echo BASE_URL; ?>pages/listar_idosos.php">🔙 Cancelar e Voltar</a></li>
+                <li><a href="<?php echo BASE_URL; ?>/listar-idosos">🔙 Cancelar e Voltar</a></li>
             </ul>
         </nav>
     </header>
@@ -85,7 +87,7 @@ try {
     <main class="painel-container">
         <h2 style="color: #5b3a26;">Editando: <?= htmlspecialchars($idoso['nomePessoa']) ?></h2>
         
-        <form method="POST" action="<?php echo BASE_URL; ?>actions/atualizar_idoso.php" enctype="multipart/form-data">
+        <form method="POST" action="<?php echo BASE_URL; ?>/atualizar-idoso" enctype="multipart/form-data">
             
             <input type="hidden" name="idIdoso" value="<?= $idoso['idIdoso'] ?>">
             <input type="hidden" name="idPessoa" value="<?= $idoso['idPessoa'] ?>">

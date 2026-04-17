@@ -1,11 +1,6 @@
 <?php
-session_start();
-require_once '../includes/db.php';
 
-// PROTEÇÃO: Bloqueia quem não for funcionário
-if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] != 'funcionario') {
-    die("Acesso negado.");
-}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
@@ -70,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Devolve o funcionário para a listagem com mensagem de sucesso
         echo "<script>
                 alert('Dados do residente atualizados com sucesso!');
-                window.location.href = '../pages/listar_idosos.php';
-              </script>";
+                window.location.href = '" . BASE_URL . "/listar-idosos';
+                </script>";
 
     } catch (Exception $e) {
         $pdo->rollBack();

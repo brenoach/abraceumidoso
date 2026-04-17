@@ -90,7 +90,7 @@ $tipoUser = $_SESSION['usuario_tipo'] ?? $_SESSION['tipo_usuario'] ?? '';
 ?>
 
 <li>
-    <a href="<?= BASE_URL ?>/pages/painel_<?= $tipoUser ?>.php">
+    <a href="<?= BASE_URL ?>/painel-<?= $tipoUser ?>">
         🏠 Painel <?= ucfirst($tipoUser) ?>
     </a>
 </li>

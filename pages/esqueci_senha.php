@@ -19,7 +19,7 @@ require_once __DIR__ . '/../includes/header.php';
             <h2 style="color: #673AB7;">Esqueceu a senha? 🔒</h2>
             <p style="color: #666; font-size: 0.9em;">Digite seu e-mail cadastrado e nós enviaremos um link para você criar uma nova senha.</p>
 
-            <form action="<?php echo BASE_URL; ?>actions/processa_envio.php" method="POST">
+            <form action="<?php echo BASE_URL; ?>/processa-envio" method="POST">
 
                 <div class="grupo-input" style="margin-bottom: 15px;">
                     <label style="font-weight: bold; display: block;">Eu sou um:</label>
@@ -46,7 +46,7 @@ require_once __DIR__ . '/../includes/header.php';
             </form>
 
             <p style="text-align: center; margin-top: 20px; font-size: 0.9em;">
-                Lembrou a senha? <a href="login.php" style="color: #673AB7; font-weight: bold; text-decoration: none;">Voltar ao Login</a>
+                Lembrou a senha? <a href="<?= BASE_URL ?>/login" style="color: #673AB7; font-weight: bold; text-decoration: none;">Voltar ao Login</a>
             </p>
         </div>
     </main>

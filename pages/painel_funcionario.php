@@ -1,14 +1,14 @@
 <?php
 
-require_once '../includes/auth.php';
+// require_once '../includes/auth.php';
 
-require_once '../includes/db.php';
-require_once '../includes/helpers.php'; 
-require_once ROOT_PATH .'/includes/header.php';
+
+
+// require_once ROOT_PATH .'/includes/header.php';
 
 // 2. Identificação de quem está logado
 // $id_logado = $_SESSION['idPessoa']; 
-$id_inst = $_SESSION['idInstituicao']; 
+    $id_inst = $_SESSION['idInstituicao']; 
 
 // =========================================================================
 // 3. BUSCA DOS RESIDENTES (Aqui está o código que você perguntou!)
@@ -70,22 +70,27 @@ $visitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
             <span>👴👵</span>
             <h3>Nossos Residentes</h3>
             <p>Cadastre novos idosos na sua unidade.</p>
-            <a href="cadastrar_idoso.php" class="btn-principal">Cadastrar Novo</a>
+            <a href="<?= BASE_URL ?>/cadastrar-idoso" class="btn-principal">Cadastrar Novo</a>
         </div>
 
         <div class="card-atalho">
             <span>📋</span>
             <h3>Lista de Residentes</h3>
             <p>Gerencie quem já está cadastrado.</p>
-            <a href="listar_idosos.php" class="btn-principal">Ver Lista Completa</a>
+            <a href="<?= BASE_URL ?>/listar-idosos" class="btn-principal">Ver Lista Completa</a>
         </div>
     </div>
     
     <div class="tabela-container">
     <h2>📅 Agenda de Visitas</h2>
+
     <table>
         <thead>
-            <tr><th>Residente</th><th>Data</th><th>Status</th></tr>
+            <tr>
+                <th>Residente</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ações</th> </tr>
         </thead>
         <tbody>
             <?php foreach ($visitas as $v): ?>
@@ -93,11 +98,26 @@ $visitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= $v['nome_idoso'] ?></td>
                     <td><?= date('d/m/Y', strtotime($v['dataAgendamento'])) ?></td>
                     <td><span class="badge badge-<?= strtolower($v['status']) ?>"><?= $v['status'] ?></span></td>
+                    
+                    <td>
+                        <?php if (strtolower($v['status']) === 'pendente'): ?>
+                            <a href="<?= BASE_URL ?>/processar-visita?id=<?= $v['idAgendamento'] ?>&acao=aprovar" 
+                               class="btn-aprovar" 
+                               onclick="return confirm('Confirmar esta visita?');">✅ Aprovar</a>
+                               
+                            <a href="<?= BASE_URL ?>/processar-visita?id=<?= $v['idAgendamento'] ?>&acao=recusar" 
+                               class="btn-recusar"
+                               onclick="return confirm('Recusar esta visita?');">❌ Recusar</a>
+                        <?php else: ?>
+                            <span style="color: #999; font-size: 0.9em;">Já respondido</span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
+
+  
 <h2 style="color: #5b3a26; margin-top: 40px; margin-bottom: 20px;">👴 Nossos Residentes</h2>
 
 <div class="grid-idosos">
@@ -112,7 +132,7 @@ $visitas = $stmtVisitas->fetchAll(PDO::FETCH_ASSOC);
                 <small><?=$idoso['agenda_completa'] ?: 'Sem horários' ?></small>
             </div> -->
             
-            <a href="editar_idoso.php?id=<?= $idoso['idIdoso'] ?>" class="btn-detalhes">Ver Detalhes</a>
+            <a href="<?= BASE_URL ?>editar-idoso?id=<?= $idoso['idIdoso'] ?>" class="btn-detalhes">Ver Detalhes</a>
         </div>
     <?php endforeach; ?>
 </div>

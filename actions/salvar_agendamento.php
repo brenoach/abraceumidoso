@@ -1,13 +1,13 @@
 <?php
-session_start();
-require_once __DIR__ . '/../connection/config.php';
-require_once __DIR__ . '/../includes/db.php';
+// session_start();
+// require_once __DIR__ . '/../connection/config.php';
+// require_once __DIR__ . '/../includes/db.php';
 
-// 1. VERIFICAÇÃO DE SEGURANÇA
-if (!isset($_SESSION['idPessoa']) || $_SESSION['usuario_tipo'] !== 'voluntario') {
-    header("Location: " . BASE_URL . "pages/login.php?erro=sessao_expirada");
-    exit;
-}
+// // 1. VERIFICAÇÃO DE SEGURANÇA
+// if (!isset($_SESSION['idPessoa']) || $_SESSION['usuario_tipo'] !== 'voluntario') {
+//     header("Location: " . BASE_URL . "/login?erro=sessao_expirada");
+//     exit;
+// }
 
 // 2. RECUPERAÇÃO DOS DADOS DO FORMULÁRIO (Sincronizado com os names do agendar_visita.php)
 // Verificamos se os dados existem antes de usar para evitar o erro de "Undefined key"
@@ -18,7 +18,7 @@ $hora_visita      = $_POST['hora_visita'] ?? null;
 
 // Validação básica: se faltar algo, volta com erro
 if (!$id_idoso || !$data_visita || !$hora_visita) {
-    header("Location: " . BASE_URL . "pages/painel_voluntario.php?erro=dados_incompletos");
+    header("Location: " . BASE_URL . "/painel-voluntario?erro=dados_incompletos");
     exit;
 }
 
@@ -46,7 +46,7 @@ try {
 
     if ($sucesso) {
         // Deu tudo certo! Volta para o painel com mensagem de sucesso
-        header("Location: " . BASE_URL . "pages/painel_voluntario.php?status=agendado");
+        header("Location: " . BASE_URL . "/painel-voluntario?status=agendado");
         exit;
     }
 

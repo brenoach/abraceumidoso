@@ -44,7 +44,7 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
             <h2>Acesse sua conta</h2>
             <p>Bem-vindo de volta!</p>
 
-            <form action="<?= BASE_URL ?>/actions/autenticar.php" method="POST">
+            <form action="<?= BASE_URL ?>/processar-login" method="POST">
 
                 <div class="grupo-input">
                     <label>Você é:</label>
@@ -73,45 +73,25 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
                 </div>
 
                 <p style="text-align: center; margin-top: 15px; font-size: 0.9em;">
-                    Não tem conta? <a href="cadastro_voluntario.php"
+                    Não tem conta? <a href="<?= BASE_URL ?>/cadastro-voluntario"
                         style="color: #ebb860; font-weight: bold;">Cadastre-se</a>
                 </p>
                 <p style="text-align: center; margin-top: 5px; font-size: 0.85em;">
-                    <a href="esqueci_senha.php"
+                    <a href="<?= BASE_URL ?>/esqueci-senha"
                         style="color: #666; text-decoration: none;">Esqueci minha senha</a>
                 </p>
+                
                 <pre> 
-                    
-                <p style="text-align: center; margin-top: 5px; font-size: 0.85em;">
-                Tipo: Voluntário
 
-    E-mail: voluntario@email.com
-
-    Senha: 123456
-
-    Resultado Esperado: Redirecionar para painel_voluntario.php.
-
-Teste 2 (O Funcionário):
-
-    Tipo: Funcionário (Gestor da Instituição)
-
-    E-mail: funcionario@email.com
-
-    Senha: 123456
-
-    Resultado Esperado: Redirecionar para painel_funcionario.php.
-</p>
-
-    <p><strong>Email Funcionário:</strong> breno@abraceumidoso.com | <strong>Senha:</strong> 123456</p>";
-    echo "<p><strong>Email Voluntária:</strong> aline.voluntaria@teste.com | <strong>Senha:</strong> 123456</p>"
-
+                <p><strong>Funcionário:</strong> breno@abraceumidoso.com | <strong>Senha:</strong> 123456</p>";
+                <p><strong>Voluntária:</strong> aline.voluntaria@teste.com | <strong>Senha:</strong> 123456</p>"
 
                 </pre>
             </form>
         </div>
     </main>
 
-    <?php include '../includes/footer.php';?>
+    
 </body>
 
 </html>

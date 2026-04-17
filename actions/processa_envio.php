@@ -1,9 +1,9 @@
 <?php
-// 1. CONFIGURAÇÕES E BANCO
+// 1. CONFIGURAÇÕES E BANCO (O index.php já traz o pdo se configurado, mas mantemos por segurança)
 require_once __DIR__ . '/../connection/config.php'; 
 require_once __DIR__ . '/../includes/db.php'; 
 
-// 2. PHPMAILER (Pasta 'bibliotecas' com "b" minúsculo)
+// 2. PHPMAILER - Ajustado para caminhos seguros
 require_once __DIR__ . '/../bibliotecas/PHPMailer/Exception.php';
 require_once __DIR__ . '/../bibliotecas/PHPMailer/PHPMailer.php';
 require_once __DIR__ . '/../bibliotecas/PHPMailer/SMTP.php';
@@ -18,44 +18,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tipo = $_POST['tipo_usuario'];
 
     try {
-        // --- PARTE 1: BUSCA O USUÁRIO (Ajustado para idContato conforme seu CREATE TABLE) ---
-        if ($tipo == 'voluntario') {
-            // v.idContato (chave estrangeira) liga com c.idContato (chave primária)
-            $sqlBusca = "SELECT v.idVoluntario as id FROM voluntario v 
-                         JOIN contato c ON v.idContato = c.idContato 
-                         WHERE c.email = ?";
-        } else {
-            $sqlBusca = "SELECT f.idFuncionario as id FROM funcionario f 
-                         JOIN contato c ON f.idContato = c.idContato 
-                         WHERE c.email = ?";
-        }
-
+        // --- BUSCA O USUÁRIO PELO E-MAIL NA TABELA CONTATO ---
+        $sqlBusca = "SELECT idcontato FROM contato WHERE email = ?";
         $stmtBusca = $pdo->prepare($sqlBusca);
         $stmtBusca->execute([$email]);
-        $usuario = $stmtBusca->fetch(PDO::FETCH_ASSOC);
+        $contato = $stmtBusca->fetch(PDO::FETCH_ASSOC);
 
-        if ($usuario) {
-            $idUsuario = $usuario['id'];
+        if ($contato) {
+            $idContato = $contato['idcontato'];
             $token = bin2hex(random_bytes(25)); 
             $expira = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-            // SALVA O TOKEN NO BANCO
-            $tabela = ($tipo == 'voluntario') ? 'voluntario' : 'funcionario';
-            $idCampo = ($tipo == 'voluntario') ? 'idVoluntario' : 'idFuncionario';
-            
-            $stmtUpdate = $pdo->prepare("UPDATE $tabela SET resetToken = ?, tokenExpira = ? WHERE $idCampo = ?");
-            $stmtUpdate->execute([$token, $expira, $idUsuario]);
+            // SALVA O TOKEN NA TABELA CONTATOS (Conforme o ALTER TABLE que fizemos)
+            // Note que usei os nomes das colunas que sugeri no passo anterior
+            $stmtUpdate = $pdo->prepare("UPDATE contato SET resetToken = ?, data_expiracao = ? WHERE idcontato = ?");
+            $stmtUpdate->execute([$token, $expira, $idContato]);
 
-            // LINK PARA O E-MAIL
-            $linkRecuperacao = BASE_URL . "pages/redefinir_senha.php?token=" . $token . "&tipo=" . $tipo;
+            // LINK PARA O E-MAIL (Usando a ROTA AMIGÁVEL)
+            $linkRecuperacao = BASE_URL . "/redefinir-senha?token=" . $token . "&tipo=" . $tipo;
 
-            // --- PARTE 2: ENVIO COM GMAIL ---
+            // --- ENVIO COM GMAIL ---
             $mail = new PHPMailer(true);
             $mail->isSMTP();                                            
             $mail->Host       = 'smtp.gmail.com';                     
             $mail->SMTPAuth   = true;                                   
             $mail->Username   = 'brenoach@gmail.com'; 
-            $mail->Password   = 'brgs qiew zpmq zdrx'; 
+            $mail->Password   = 'brgs qiew zpmq zdrx'; // Senha de App do Google
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         
             $mail->Port       = 587;                                    
 
@@ -76,10 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ";
 
             $mail->send();
-            echo "<script>alert('Sucesso! Link enviado para o seu e-mail.'); window.location.href='../pages/login.php';</script>";
+            echo "<script>alert('Sucesso! Link enviado para o seu e-mail.'); window.location.href='" . BASE_URL . "/login';</script>";
 
         } else {
-            echo "<script>alert('Se o e-mail estiver correto, você receberá as instruções.'); window.location.href='../pages/login.php';</script>";
+            // Mesmo que não ache, damos a mesma mensagem por segurança (evita descobrir e-mails válidos)
+            echo "<script>alert('Se o e-mail estiver correto, você receberá as instruções.'); window.location.href='" . BASE_URL . "/login';</script>";
         }
 
     } catch (Exception $e) {

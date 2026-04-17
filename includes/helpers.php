@@ -31,3 +31,22 @@ function exibirFoto($caminho, $nome) {
 
     return '<img src="' . $urlFinal . '" alt="' . htmlspecialchars($nome) . '" class="foto-perfil-idoso">';
 }
+
+function validarSessao($tipo_exigido = null) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Usando a sua variável correta: idPessoa
+    if (!isset($_SESSION['idPessoa'])) {
+        header("Location: " . BASE_URL . "/login");
+        exit;
+    }
+
+    if ($tipo_exigido !== null) {
+        if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== $tipo_exigido) {
+            header("Location: " . BASE_URL . "/acesso-negado"); 
+            exit;
+        }
+    }
+}

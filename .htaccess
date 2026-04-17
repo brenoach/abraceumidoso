@@ -1,4 +1,8 @@
 RewriteEngine On
+
+# Não redireciona se for um arquivo ou diretório real (importante para CSS/JS)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
+# Manda o restante para o index.php via parâmetro 'url'
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

@@ -12,8 +12,11 @@ $nome_voluntario = $_SESSION['nome'];
 try {
     // 1. HISTÓRICO (Estilo lista Netflix)
     $sqlMinhasVisitas = "SELECT 
-                            a.dataAgendamento, a.horaAgendamento, a.status,
-                            p.nomePessoa AS nome_idoso, p.fotoPerfil AS foto_idoso
+                            a.dataAgendamento, 
+                            a.horaAgendamento, 
+                            a.status,
+                            p.nomePessoa 
+                         AS nome_idoso, p.fotoPerfil AS foto_idoso
                          FROM agendamento a
                          JOIN idoso i ON a.idIdoso = i.idIdoso
                          JOIN pessoa p ON i.idPessoa = p.idPessoa
@@ -22,16 +25,24 @@ try {
                          ORDER BY a.dataAgendamento ASC";
     
     $stmtMinhas = $pdo->prepare($sqlMinhasVisitas);
+
     $stmtMinhas->execute([$id_logado]);
+
     $minhasVisitas = $stmtMinhas->fetchAll(PDO::FETCH_ASSOC);
 
     // 2. VITRINE (Cards de Idosos)
     $sqlIdosos = "SELECT 
-                    i.idIdoso, p.nomePessoa, p.fotoPerfil, p.sobre, p.dataNascimento,
+                    i.idIdoso, 
+                    p.nomePessoa, 
+                    p.fotoPerfil, 
+                    p.sobre, 
+                    p.dataNascimento,
                     inst.nomeInstituicao 
                   FROM idoso i
-                  JOIN pessoa p ON i.idPessoa = p.idPessoa
-                  JOIN instituicao inst ON i.idInstituicao = inst.idInstituicao
+                  JOIN pessoa p 
+                  ON i.idPessoa = p.idPessoa
+                  JOIN instituicao inst 
+                  ON i.idInstituicao = inst.idInstituicao
                   WHERE i.aceitaVisita = 1
                   ORDER BY p.nomePessoa ASC";
                   
@@ -69,10 +80,10 @@ try {
     }
     .card-vovo:hover { transform: scale(1.03); }
     .img-container-card { height: 150px; width: 100%; background: #f0f0f0; display: flex; justify-content: center; padding: 15px; }
-    .img-container-card .foto-perfil-idoso { width: 120px; height: 120px; border: 4px solid #673AB7; }
+    .img-container-card .foto-perfil-idoso { width: 120px; height: 120px; border: 4px solid #5b3a26; }
 </style>
 
-<div style="padding: 30px 20px; background: #673AB7; color: white; border-radius: 0 0 25px 25px;">
+<div style="padding: 30px 20px; background: #5b3a26; color: white; border-radius: 0 0 25px 25px;">
     <h2 style="margin:0;">Olá, <?= htmlspecialchars($nome_voluntario) ?>!</h2>
     <p style="margin:5px 0 0; opacity: 0.8;">Sua próxima visita pode mudar um dia inteiro.</p>
 </div>
@@ -82,6 +93,7 @@ try {
     <?php if (empty($minhasVisitas)): ?>
         <p style="color: #999; margin-left: 5px;">Nenhuma visita marcada ainda.</p>
     <?php else: ?>
+
         <?php foreach ($minhasVisitas as $v): ?>
         <div class="netflix-item">
             <div class="img-container-mini">
@@ -91,11 +103,11 @@ try {
                 <strong style="color: #333;"><?= htmlspecialchars($v['nome_idoso']) ?></strong><br>
                 <small style="color: #666;"><?= date('d/m/Y', strtotime($v['dataAgendamento'])) ?> às <?= date('H:i', strtotime($v['horaAgendamento'])) ?></small>
             </div>
-            <span style="font-size: 0.8rem; font-weight: bold; color: #673AB7; text-transform: uppercase;">
+            <span style="font-size: 0.8rem; font-weight: bold; color: #5b3a26; text-transform: uppercase;">
                 <?= $v['status'] ?>
             </span>
         </div>
-        <?php endforeach; ?>
+        <?php endforeach; ?>    
     <?php endif; ?>
 </div>
 
@@ -109,17 +121,15 @@ try {
         
         <div style="padding: 15px; text-align: center;">
             <h4 style="margin: 0; color: #5A3821;"><?= htmlspecialchars($idoso['nomePessoa']) ?></h4>
-            <small style="color: #673AB7;"><?= htmlspecialchars($idoso['nomeInstituicao']) ?></small>
+            <small style="color: #5b3a26;"><?= htmlspecialchars($idoso['nomeInstituicao']) ?></small>
             <p style="font-size: 0.8rem; color: #777; margin: 10px 0;">
                 <?= htmlspecialchars(mb_strimwidth($idoso['sobre'], 0, 80, "...")) ?>
             </p>
-            <a href="/agendar_visita.php?id=<?= $idoso['idIdoso'] ?>" 
-               style="background: #673AB7; color: white; text-decoration: none; padding: 8px 15px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: inline-block;">
+            <a href="<?= BASE_URL ?>/agendar-visita?id=<?= $idoso['idIdoso'] ?>" 
+               style="background: #5b3a26; color: white; text-decoration: none; padding: 8px 15px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: inline-block;">
                 AGENDAR
             </a>
         </div>
     </div>
     <?php endforeach; ?>
 </div>
-
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>

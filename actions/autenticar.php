@@ -1,7 +1,8 @@
 <?php
-session_start();
+// O session_start() foi removido porque o index.php já faz isso!
 
-// 1. Puxa as conexões essenciais
+// 1. Puxa as conexões essenciais 
+// (Mantive com require_once, o que é super seguro para evitar duplicatas)
 require_once __DIR__ . '/../connection/config.php'; 
 require_once __DIR__ . '/../includes/db.php';
 
@@ -10,9 +11,12 @@ $email = trim($_POST['email'] ?? '');
 $senha = trim($_POST['senha'] ?? '');
 $tipo  = trim($_POST['tipo_usuario'] ?? '');
 
-// 3. Trava de segurança simples para campos vazios
+// 3. Trava de segurança simples para campos vazios (AJUSTADO PARA A ROTA)
 if (empty($email) || empty($senha) || empty($tipo)) {
-    echo "<script>alert('Por favor, preencha todos os campos.'); window.location.href='../pages/login.php';</script>";
+    echo "<script>
+            alert('Por favor, preencha todos os campos.'); 
+            window.location.href='" . BASE_URL . "/login';
+          </script>";
     exit;
 }
 
@@ -39,23 +43,26 @@ $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 // 6. Confirma a senha e faz o redirecionamento
 if ($usuario && password_verify($senha, $usuario['senha'])) {
     
-    // Grava a Sessão
+    // Grava a Sessão (Variável usuario_tipo corrigida para bater com o helpers.php)
     $_SESSION['idPessoa'] = $usuario['idPessoa'];
     $_SESSION['nome'] = $usuario['nome']; 
-    $_SESSION['tipo_usuario'] = $tipo;
+    $_SESSION['usuario_tipo'] = $tipo; 
 
-    // Redireciona para o painel certo
+    // Redireciona para o painel certo usando a ROTA (sem .php e sem a pasta /pages/)
     if ($tipo == 'voluntario') {
-        header("Location: " . BASE_URL . "/pages/painel_voluntario.php");
-    } else {
+        header("Location: " . BASE_URL . "/painel-voluntario");
+        } else {
         $_SESSION['idInstituicao'] = $usuario['idInstituicao'];
-        header("Location: " . BASE_URL . "/pages/painel_funcionario.php");
-    }
-    exit;
+        header("Location: " . BASE_URL . "/painel-funcionario");
+        }
+        exit;
 
 } else {
-    // Falhou (E-mail não achou ou senha não bateu)
-    echo "<script>alert('E-mail ou senha incorretos!'); window.location.href='./../pages/login.php';</script>";
+    // Falhou (E-mail não achou ou senha não bateu) - AJUSTADO PARA A ROTA
+    echo "<script>
+            alert('E-mail ou senha incorretos!'); 
+            window.location.href='" . BASE_URL . "/login';
+          </script>";
     exit;
 }
 ?>
