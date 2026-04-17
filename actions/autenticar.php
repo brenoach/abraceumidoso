@@ -51,8 +51,8 @@ $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 // 6. Confirma a senha e faz o redirecionamento
-if ($usuario && password_verify($senha, $usuario['senha'])) {
-    
+// if ($usuario && password_verify($senha, $usuario['senha'])) {
+if ($usuario && $senha === $usuario['senha']) {
     // Grava a Sessão (Variável usuario_tipo corrigida para bater com o helpers.php)
     $_SESSION['idPessoa'] = $usuario['idPessoa'];
     $_SESSION['nome'] = $usuario['nome']; 

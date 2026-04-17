@@ -1,7 +1,7 @@
 <?php
 
-session_start();
 ob_start();
+session_start();
 
 // 1. Configurações iniciais
 ini_set('display_errors', 1);
@@ -129,7 +129,7 @@ switch ($url) {
 // ==========================================
     // 4. AÇÕES PÚBLICAS (Login, Cadastros e Senhas)
     // ==========================================
-    case 'processar-login':
+    case 'autenticar':
         // Não precisa validar sessão porque o usuário está tentando entrar
         require __DIR__ . '/actions/autenticar.php'; 
         break;
@@ -220,3 +220,6 @@ switch ($url) {
         include ROOT_PATH .'includes/footer.php';
         break;
 }
+
+ob_end_flush();
+?>
