@@ -1,15 +1,23 @@
 <?php
+
+session_start();
+ob_start();
+
 // 1. Configurações iniciais
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require __DIR__ .'/connection/config.php';
-require_once ROOT_PATH .'/includes/db.php';
-require_once ROOT_PATH .'includes/helpers.php'; 
+// require __DIR__ .'connection/config.php';
+// require_once ROOT_PATH .'/includes/db.php';
+// require_once ROOT_PATH .'includes/helpers.php'; 
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'connection/config.php';
+require_once 'includes/db.php';
+require_once 'includes/helpers.php';
+
+// if (session_status() === PHP_SESSION_NONE) {
+//     session_start();
+// }
 
 // 2. Captura a URL
 $url = $_GET['url'] ?? 'home'; 
