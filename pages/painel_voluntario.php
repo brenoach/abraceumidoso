@@ -113,7 +113,7 @@ try {
             <p style="font-size: 0.8rem; color: #777; margin: 10px 0;">
                 <?= htmlspecialchars(mb_strimwidth($idoso['sobre'], 0, 80, "...")) ?>
             </p>
-            <a href="agendar_visita.php?id=<?= $idoso['idIdoso'] ?>" 
+            <a href="/agendar_visita.php?id=<?= $idoso['idIdoso'] ?>" 
                style="background: #673AB7; color: white; text-decoration: none; padding: 8px 15px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: inline-block;">
                 AGENDAR
             </a>

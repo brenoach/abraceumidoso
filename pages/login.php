@@ -1,8 +1,9 @@
 <?php
-session_start();
+
 
 require_once __DIR__ . '/../connection/config.php';
 require_once __DIR__ . '/../includes/helpers.php';
+require_once __DIR__ . '/../includes/header.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -37,8 +38,7 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
 
 <body>
 
-    <?php include '../includes/header.php';?>
-
+    
     <main class="container-principal">
         <div class="card-formulario" style="max-width: 400px;">
             <h2>Acesse sua conta</h2>
@@ -80,7 +80,10 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
                     <a href="esqueci_senha.php"
                         style="color: #666; text-decoration: none;">Esqueci minha senha</a>
                 </p>
-                <pre> Tipo: Voluntário
+                <pre> 
+                    
+                <p style="text-align: center; margin-top: 5px; font-size: 0.85em;">
+                Tipo: Voluntário
 
     E-mail: voluntario@email.com
 
@@ -97,6 +100,12 @@ Teste 2 (O Funcionário):
     Senha: 123456
 
     Resultado Esperado: Redirecionar para painel_funcionario.php.
+</p>
+
+    <p><strong>Email Funcionário:</strong> breno@abraceumidoso.com | <strong>Senha:</strong> 123456</p>";
+    echo "<p><strong>Email Voluntária:</strong> aline.voluntaria@teste.com | <strong>Senha:</strong> 123456</p>"
+
+
                 </pre>
             </form>
         </div>

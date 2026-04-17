@@ -7,7 +7,7 @@ if (!defined('ROOT_PATH')) {
 // 2. Detecta o protocolo de forma robusta (Importante para o InfinityFree)
 $protocolo = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
 
-// 3. BASE_URL: O segredo é NÃO colocar a barra no final aqui
+
 if (!defined('BASE_URL')) {
     if ($_SERVER['HTTP_HOST'] == 'localhost') {
         define('BASE_URL', 'http://localhost/abraceumidoso'); // Sem barra no fim

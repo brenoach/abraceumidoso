@@ -28,14 +28,14 @@ try {
     $idContatoInst = $pdo->lastInsertId();
 
     // Cria Instituição
-    $stmt = $pdo->prepare("INSERT INTO instituicao (nomeInstituicao, fotoInstituicao, cnpj, senha, idContato, idEndereco) VALUES ('Lar dos Avós', 'https://images.unsplash.com/photo-1538356111053-748a48e1acb8?auto=format&fit=crop&w=300&q=80', '11222333000199', :senha, :idContato, :idEndereco)");
+    $stmt = $pdo->prepare("INSERT INTO instituicao (nomeInstituicao, fotoInstituicao, cnpj, senha, idContato, idEndereco) VALUES ('Lar dos Avós', 'https://images.unsplash.com/photo-1538356111053-748a48e1acb8?auto=format&fit=crop&w=300&q=80', '11222333000198', :senha, :idContato, :idEndereco)");
     $stmt->execute([':senha' => $senhaPadrao, ':idContato' => $idContatoInst, ':idEndereco' => $idEnderecoInst]);
     $idInstituicao = $pdo->lastInsertId();
 
     // ==========================================================
     // 2. CRIAR FUNCIONÁRIO TESTE (Breno Cunha)
     // ==========================================================
-    $stmt = $pdo->prepare("INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre) VALUES ('Breno Cunha', '12345678901', '1983-05-15', 'https://randomuser.me/api/portraits/men/32.jpg', 'Desenvolvedor do sistema e gestor do Lar.')");
+    $stmt = $pdo->prepare("INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre) VALUES ('Breno Cunha', '12345678900', '1983-05-15', 'https://randomuser.me/api/portraits/men/32.jpg', 'Desenvolvedor do sistema e gestor do Lar.')");
     $stmt->execute();
     $idPessoaBreno = $pdo->lastInsertId();
 
@@ -50,7 +50,7 @@ try {
     // ==========================================================
     // 3. CRIAR VOLUNTÁRIO TESTE
     // ==========================================================
-    $stmt = $pdo->prepare("INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre) VALUES ('Aline Silva', '98765432100', '1990-10-20', 'https://randomuser.me/api/portraits/women/44.jpg', 'Adoro ouvir histórias antigas e tomar café da tarde.')");
+    $stmt = $pdo->prepare("INSERT INTO pessoa (nomePessoa, cpf, dataNascimento, fotoPerfil, sobre) VALUES ('Aline Silva', '98765432101', '1990-10-20', 'https://randomuser.me/api/portraits/women/44.jpg', 'Adoro ouvir histórias antigas e tomar café da tarde.')");
     $stmt->execute();
     $idPessoaVolun = $pdo->lastInsertId();
 
@@ -66,16 +66,16 @@ try {
     // 4. CRIAR 10 IDOSOS (Loop)
     // ==========================================================
     $idosos = [
-        ['Seu Joaquim', '11111111111', '1945-03-12', 'https://randomuser.me/api/portraits/men/78.jpg', 'Trabalhou a vida toda no porto. Adora conversar sobre os navios antigos e jogar dominó.'],
-        ['Dona Maria Helena', '22222222222', '1939-08-25', 'https://randomuser.me/api/portraits/women/68.jpg', 'Foi professora do ensino fundamental. Perdeu parte da visão e procura alguém para ler poesias para ela.'],
-        ['Senhor Antônio', '33333333333', '1935-11-03', 'https://randomuser.me/api/portraits/men/65.jpg', 'Ex-músico, tocava sanfona nos bailes da região. Gosta de ouvir rádio e cantarolar velhas melodias.'],
-        ['Dona Odete', '44444444444', '1942-02-18', 'https://randomuser.me/api/portraits/women/72.jpg', 'Dedicou a vida aos quatro filhos. Hoje sonha com visitas para tomar um chá e aprender a usar o WhatsApp.'],
-        ['Seu Benedito', '55555555555', '1940-07-09', 'https://randomuser.me/api/portraits/men/80.jpg', 'Pescador caiçara aposentado. Tem as melhores histórias de pescaria e ensina a fazer nós de marinheiro.'],
-        ['Dona Lourdes', '66666666666', '1938-12-30', 'https://randomuser.me/api/portraits/women/89.jpg', 'Uma cozinheira de mão cheia. Infelizmente não pode mais cozinhar, mas adora passar suas receitas secretas adiante.'],
-        ['Professor Carlos', '77777777777', '1941-05-22', 'https://randomuser.me/api/portraits/men/55.jpg', 'Apaixonado por história do Brasil. Procura jovens com quem possa debater sobre o mundo e jogar xadrez.'],
-        ['Dona Zilda', '88888888888', '1946-09-14', 'https://randomuser.me/api/portraits/women/50.jpg', 'Super vaidosa, adora pintar as unhas e arrumar os cabelos. Quer companhia para tardes de "salão de beleza" e fofocas.'],
-        ['Seu Francisco', '99999999999', '1933-01-05', 'https://randomuser.me/api/portraits/men/90.jpg', 'O mais velhinho da turma. Fala pouco, mas seu sorriso ilumina a sala quando alguém simplesmente senta ao lado dele.'],
-        ['Dona Carmem', '10101010101', '1948-04-11', 'https://randomuser.me/api/portraits/women/40.jpg', 'Ama plantas e suculentas. Precisa de ajuda para cuidar de sua pequena horta na janela e adora música clássica.']
+        ['Seu Joaquim', '11111111112', '1945-03-12', 'https://randomuser.me/api/portraits/men/78.jpg', 'Trabalhou a vida toda no porto. Adora conversar sobre os navios antigos e jogar dominó.'],
+        ['Dona Maria Helena', '22222222221', '1939-08-25', 'https://randomuser.me/api/portraits/women/68.jpg', 'Foi professora do ensino fundamental. Perdeu parte da visão e procura alguém para ler poesias para ela.'],
+        ['Senhor Antônio', '33333333331', '1935-11-03', 'https://randomuser.me/api/portraits/men/65.jpg', 'Ex-músico, tocava sanfona nos bailes da região. Gosta de ouvir rádio e cantarolar velhas melodias.'],
+        ['Dona Odete', '44444444441', '1942-02-18', 'https://randomuser.me/api/portraits/women/72.jpg', 'Dedicou a vida aos quatro filhos. Hoje sonha com visitas para tomar um chá e aprender a usar o WhatsApp.'],
+        ['Seu Benedito', '55555555551', '1940-07-09', 'https://randomuser.me/api/portraits/men/80.jpg', 'Pescador caiçara aposentado. Tem as melhores histórias de pescaria e ensina a fazer nós de marinheiro.'],
+        ['Dona Lourdes', '66666666661', '1938-12-30', 'https://randomuser.me/api/portraits/women/89.jpg', 'Uma cozinheira de mão cheia. Infelizmente não pode mais cozinhar, mas adora passar suas receitas secretas adiante.'],
+        ['Professor Carlos', '77777777779', '1941-05-22', 'https://randomuser.me/api/portraits/men/55.jpg', 'Apaixonado por história do Brasil. Procura jovens com quem possa debater sobre o mundo e jogar xadrez.'],
+        ['Dona Zilda', '88888888882', '1946-09-14', 'https://randomuser.me/api/portraits/women/50.jpg', 'Super vaidosa, adora pintar as unhas e arrumar os cabelos. Quer companhia para tardes de "salão de beleza" e fofocas.'],
+        ['Seu Francisco', '99999999996', '1933-01-05', 'https://randomuser.me/api/portraits/men/90.jpg', 'O mais velhinho da turma. Fala pouco, mas seu sorriso ilumina a sala quando alguém simplesmente senta ao lado dele.'],
+        ['Dona Carmem', '10101010100', '1948-04-11', 'https://randomuser.me/api/portraits/women/40.jpg', 'Ama plantas e suculentas. Precisa de ajuda para cuidar de sua pequena horta na janela e adora música clássica.']
     ];
 
     foreach ($idosos as $i => $idoso) {
