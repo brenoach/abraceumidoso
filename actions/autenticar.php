@@ -3,8 +3,8 @@
 
 // 1. Puxa as conexões essenciais 
 // (Mantive com require_once, o que é super seguro para evitar duplicatas)
-require_once __DIR__ . '/../connection/config.php'; 
-require_once __DIR__ . '/../includes/db.php';
+// require_once __DIR__ . '/../connection/config.php'; 
+// require_once __DIR__ . '/../includes/db.php';
 
 // 2. Recebe os dados de forma limpa
 $email = trim($_POST['email'] ?? '');
