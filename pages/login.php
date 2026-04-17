@@ -83,15 +83,38 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
                 
                 <pre> 
 
-                <p><strong>Funcionário:</strong> breno@abraceumidoso.com | <strong>Senha:</strong> 123456</p>";
-                <p><strong>Voluntária:</strong> aline.voluntaria@teste.com | <strong>Senha:</strong> 123456</p>"
-
+               
                 </pre>
             </form>
         </div>
+
+        <aside class="helper-access">
+            <button class="helper-toggle" onclick="toggleHelper()">🔑 Acessos para Apresentação</button>
+            <div class="helper-content" id="helperContent">
+                <h4>👨‍💼 Funcionário</h4>
+                <p><strong>E-mail:</strong> brenoach@gmail.com</p>
+                <p><strong>Senha:</strong> 123456</p>
+                <hr>
+                <h4>🙋‍♂️ Voluntários (Senha: 123456)</h4>
+                <ul>
+                    <li>Aline: <span>aline.voluntaria@teste.com</span></li>
+                    <li>Lucas: <span>lucas@email.com</span></li>
+                    <li>Beatriz: <span>beatriz@email.com</span></li>
+                </ul>
+            </div>
+            </aside>
     </main>
 
-    
+    <script>
+function toggleHelper() {
+    const content = document.getElementById('helperContent');
+    if (content.style.display === 'block') {
+        content.style.display = 'none';
+    } else {
+        content.style.display = 'block';
+    }
+}
+</script>
 </body>
 
 </html>
