@@ -39,13 +39,17 @@ if ($tipo == 'voluntario') {
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$email]);
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
 // DEBUG TEMPORÁRIO - Remova após testar
-if (!$usuario) {
-    die("Erro: O e-mail {$email} não foi encontrado na tabela de contatos vinculada a um {$tipo}.");
-}
-if (!password_verify($senha, $usuario['senha'])) {
-    die("Erro: Usuário encontrado, mas a senha no banco não é um hash válido ou não confere.");
-}
+// if (!$usuario) {
+//     die("Erro: O e-mail {$email} não foi encontrado na tabela de contatos vinculada a um {$tipo}.");
+// }
+// if (!password_verify($senha, $usuario['senha'])) {
+//     die("Erro: Usuário encontrado, mas a senha no banco não é um hash válido ou não confere.");
+// }
+
+
 // 6. Confirma a senha e faz o redirecionamento
 if ($usuario && password_verify($senha, $usuario['senha'])) {
     
