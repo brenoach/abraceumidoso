@@ -1,13 +1,3 @@
-<?php
-session_start();
-require_once __DIR__ . '/../connection/config.php';
-require_once ROOT_PATH . 'includes/auth.php';
-
-require_once ROOT_PATH . 'includes/helpers.php'; 
-include ROOT_PATH . 'includes/header.php';
-
-   
-?>
 
 <main class="container-principal">
     <div class="card-formulario">
