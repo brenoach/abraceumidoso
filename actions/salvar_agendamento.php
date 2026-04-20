@@ -27,22 +27,15 @@ try {
     // Como na tabela 'agendamento' usamos 'idVoluntario' e na sessão temos 'idPessoa',
     // vamos usar um sub-select para descobrir o ID de voluntário automaticamente.
     
-    $sql = "INSERT INTO agendamento (idVoluntario, idIdoso, dataAgendamento, horaAgendamento, status) 
-            VALUES (
-                (SELECT idVoluntario FROM voluntario WHERE idPessoa = ?), 
-                ?, 
-                ?, 
-                ?, 
-                'Pendente'
-            )";
+  $stmt = $pdo->prepare("SELECT idVoluntario FROM voluntario v JOIN contato c ON v.idContato = c.idContato WHERE c.email = ?");
+$stmt->execute([$emailLogado]);
+$voluntario = $stmt->fetch();
+$idVoluntario = $voluntario['idVoluntario']; // Aqui você tem certeza de que pegou APENAS UM id
 
-    $stmt = $pdo->prepare($sql);
-    $sucesso = $stmt->execute([
-        $id_pessoa_logada,
-        $id_idoso,
-        $data_visita,
-        $hora_visita
-    ]);
+// Agora o insert fica limpo e sem erro de cardinalidade:
+$sql = "INSERT INTO agendamento (dataAgendamento, horaAgendamento, idVoluntario, idIdoso, status) 
+        VALUES (?, ?, ?, ?, 'Pendente')";
+$pdo->prepare($sql)->execute([$data, $hora, $idVoluntario, $idIdoso]);
 
     if ($sucesso) {
         // Deu tudo certo! Volta para o painel com mensagem de sucesso

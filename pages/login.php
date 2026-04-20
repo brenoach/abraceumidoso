@@ -93,9 +93,9 @@ if (isset($_SESSION['idPessoa']) && isset($_SESSION['usuario_tipo'])) {
             <div class="helper-content" id="helperContent">
                 <h4>👨‍💼 Funcionário</h4>
                 <p><strong>E-mail:</strong> brenoach@gmail.com</p>
-                <p><strong>Senha:</strong> 123456</p>
+                <p><strong>Senha:</strong> 123</p>
                 <hr>
-                <h4>🙋‍♂️ Voluntários (Senha: 123456)</h4>
+                <h4>🙋‍♂️ Voluntários (Senha: 123)</h4>
                 <ul>
                     <li>Aline: <span>aline.voluntaria@teste.com</span></li>
                     <li>Lucas: <span>lucas@email.com</span></li>

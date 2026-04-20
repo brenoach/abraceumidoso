@@ -9,3 +9,11 @@ echo "<p style='font-size: 24px; color: #5b3a26; background: #eee; padding: 10px
 echo "<strong>" . htmlspecialchars($url_digitada) . "</strong>";
 echo "</p>";
 echo "</div>";  
+
+// para relocar na parte de agendamento de visitas
+ foreach ($horariosPermitidos as $h): ?>
+                        <li>
+                            <span><strong><?= $h['diaSemana'] ?></strong></span>
+                            <span><?= date('H:i', strtotime($h['horaInicio'])) ?> - <?= date('H:i', strtotime($h['horaFim'])) ?></span>
+                        </li>
+                    <?php endforeach; ?>

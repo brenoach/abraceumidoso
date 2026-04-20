@@ -146,12 +146,7 @@ try {
                 <p style="font-size: 0.85rem; color: #666;">Não há horários específicos cadastrados. Verifique com a instituição.</p>
             <?php else: ?>
                 <ul class="lista-permitida">
-                    <?php foreach ($horariosPermitidos as $h): ?>
-                        <li>
-                            <span><strong><?= $h['diaSemana'] ?></strong></span>
-                            <span><?= date('H:i', strtotime($h['horaInicio'])) ?> - <?= date('H:i', strtotime($h['horaFim'])) ?></span>
-                        </li>
-                    <?php endforeach; ?>
+                   
                 </ul>
             <?php endif; ?>
         </div>

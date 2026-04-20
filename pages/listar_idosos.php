@@ -67,7 +67,7 @@ try {
         <?php elseif (empty($listaIdosos)): ?>
             <div style="background: #fff; padding: 30px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                 <p style="color: #666; font-size: 1.1em;">Nenhum residente cadastrado nesta instituição ainda.</p>
-                <a href="painel_funcionario.php" style="color: #5b3a26; font-weight: bold;">Clique aqui para cadastrar o primeiro!</a>
+                <a href="<?= BASE_URL ?>/painel-funcionario" style="color: #5b3a26; font-weight: bold;">Clique aqui para cadastrar o primeiro!</a>
             </div>
         <?php else: ?>
             <table class="tabela-gerenciamento">
